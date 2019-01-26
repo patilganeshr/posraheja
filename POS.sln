@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpiTech.POS.DataModel", "SharpiTech.POS.DataModel\SharpiTech.POS.DataModel.csproj", "{B6C89508-FB65-4C80-BF80-6F1C86FFD883}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpiTech.POS.Business", "SharpiTech.POS.Business\SharpiTech.POS.Business.csproj", "{A87C3466-BF5F-4D0A-80AF-C016A9902619}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpiTech.POS.Entities", "SharpiTech.POS.Entities\SharpiTech.POS.Entities.csproj", "{C8BA1D71-7521-4828-9A00-3FD8596706DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpiTech.POS.API", "SharpiTech.POS.API\SharpiTech.POS.API.csproj", "{3C196D46-7A2F-4A26-B170-E79537B71EE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POS", "POS\POS.csproj", "{37D13A9C-F4D1-4E0B-B577-2EA05A5BCABE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6C89508-FB65-4C80-BF80-6F1C86FFD883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6C89508-FB65-4C80-BF80-6F1C86FFD883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6C89508-FB65-4C80-BF80-6F1C86FFD883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6C89508-FB65-4C80-BF80-6F1C86FFD883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A87C3466-BF5F-4D0A-80AF-C016A9902619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A87C3466-BF5F-4D0A-80AF-C016A9902619}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A87C3466-BF5F-4D0A-80AF-C016A9902619}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A87C3466-BF5F-4D0A-80AF-C016A9902619}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8BA1D71-7521-4828-9A00-3FD8596706DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8BA1D71-7521-4828-9A00-3FD8596706DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8BA1D71-7521-4828-9A00-3FD8596706DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8BA1D71-7521-4828-9A00-3FD8596706DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C196D46-7A2F-4A26-B170-E79537B71EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C196D46-7A2F-4A26-B170-E79537B71EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C196D46-7A2F-4A26-B170-E79537B71EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C196D46-7A2F-4A26-B170-E79537B71EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D13A9C-F4D1-4E0B-B577-2EA05A5BCABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D13A9C-F4D1-4E0B-B577-2EA05A5BCABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D13A9C-F4D1-4E0B-B577-2EA05A5BCABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D13A9C-F4D1-4E0B-B577-2EA05A5BCABE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F86ED7F3-9282-46BE-BBCC-0CD6B49B5C63}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal

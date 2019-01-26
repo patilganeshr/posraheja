@@ -1,0 +1,8 @@
+[
+  {
+    "outputFileName": "Content/scripts/app/mis/purchase-bill-regiser.min.js",
+    "inputFiles": [
+      "Content/scripts/app/mis/purchase-bill-regiser.js"
+    ]
+  }
+]

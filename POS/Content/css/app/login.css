@@ -1,0 +1,55 @@
+﻿
+body,
+html {
+    margin: 0;
+    height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Asap', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    background-color: #6B91A7;
+}
+
+
+.left-side {
+    width: 60%;
+    height: 500px;
+    background: url(https://images.unsplash.com/photo-1507138451611-3001135909fa?w=750&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D);
+    /*background: url(https://images.unsplash.com/photo-1504968430878-8b4dc34be661?w=750&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D);*/
+    background-size: cover;
+    margin: 0;
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.right-side {
+    width: 35%;
+    height: 500px;
+    background-color: #FFFFFF;
+    margin: 0;
+    position: absolute;
+    top: 15%;
+    left: 60%;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.login-details {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+}
