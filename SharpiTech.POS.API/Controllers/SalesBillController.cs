@@ -93,10 +93,16 @@ namespace SharpiTech.POS.API.Controllers
             return _salesBill.CancelSalesBill(salesBill);
         }
 
-        [Route("GetItemNameAsPerBarcode/{goodsReceiptItemId}")]
-        public Entities.SalesBillItem GetItemNameAsPerBarcode(Int32 goodsReceiptItemId)
+        [Route("GetItemListByGoodsReceiptBarcode/{goodsReceiptItemId}")]
+        public Entities.SalesBillItem GetItemListByGoodsReceiptBarcode(Int32 goodsReceiptItemId)
         {
-            return _salesBill.GetItemNameAsPerBarcode(goodsReceiptItemId);
+            return _salesBill.GetItemsListByGoodsReceiptBarcode(goodsReceiptItemId);
+        }
+
+        [Route("GetItemsListByGoodsReceiptAndInwardGoodsBarcode/{goodsReceiptItemId}/{inwardGoodsId}")]
+        public Entities.SalesBillItem GetItemsListByGoodsReceiptAndInwardGoodsBarcode(Int32 goodsReceiptItemId, Int32 inwardGoodsId)
+        {
+            return _salesBill.GetItemsListByGoodsReceiptAndInwardGoodsBarcode(goodsReceiptItemId, inwardGoodsId);
         }
 
         [Route("GetItemDetailsByItemId/{itemId}")]

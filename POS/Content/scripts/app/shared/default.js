@@ -554,7 +554,7 @@ Shared.prototype = function () {
                 }
             }
         }
-    }
+    };
 
     var clearCheckbox = function (parentControl) {
 
@@ -571,7 +571,7 @@ Shared.prototype = function () {
                 }
             }
         }
-    }
+    };
 
     var clearTables = function (parentControl) {
 
@@ -589,7 +589,7 @@ Shared.prototype = function () {
 
                     if (tableBody.length) {
                         tables[t].tBodies[0].innerHTML = "";
-                    }   
+                    }
 
                     if (tableFooter.length) {
                         tables[t].tFoot.innerHTML = "";
@@ -597,7 +597,8 @@ Shared.prototype = function () {
                 }
             }
         }
-    }
+    };
+
     var clearTextAreas = function clearTextAreas(parentControl) {
 
         if (parentControl !== undefined) {
@@ -1234,13 +1235,13 @@ Shared.prototype = function () {
 
         /* Checking keypress as Delete, Tab, Enter */
         if (keyCode === 8 || keyCode === 9 || keyCode === 13 || keyCode === 19 || keyCode === 32 ||
-            (keyCode >= 33 && keyCode <= 47) || (keyCode >= 112 && keyCode <= 123)) {
+            keyCode >= 33 && keyCode <= 47 || keyCode >= 112 && keyCode <= 123) {
             return;
         }
         else {
             return false;
         }
-    }
+    };
 
     //Allow only numbers
     var acceptOnlyNumbers = function (event) {
@@ -1254,7 +1255,7 @@ Shared.prototype = function () {
             (keyCode >= 96 && keyCode <= 105) || (checkOtherKeyCodes(keyCode) === true);
 
         return isNumeric;
-    }
+    };
 
     var acceptDecimalNos = function (event) {
 
@@ -1267,7 +1268,7 @@ Shared.prototype = function () {
             (keyCode >= 96 && keyCode <= 105) || keyCode === 110 || (checkOtherKeyCodes(keyCode) === true);
 
         return isNumeric;
-    }
+    };
 
     //Allow Numbers, Dot
     var checkDecimalNos = function (textvalue) {
@@ -1288,7 +1289,7 @@ Shared.prototype = function () {
                 return false;
             }
         }
-    }
+    };
 
     var createHTMLTag = function (tagName, id, name, cssClass, textNode) {
 
@@ -1431,7 +1432,7 @@ Shared.prototype = function () {
 
         editModeElement.style.display = displayEditMode;
         viewModeElement.style.display = displayViewMode;
-    }
+    };
 
     var getParameterByName = function (name, url) {
 
@@ -1442,27 +1443,27 @@ Shared.prototype = function () {
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+    };
 
     var showLoader = function (element) {
 
         element.style.display = "block";
-    }
+    };
 
     var hideLoader = function (element) {
 
         element.style.display = "none";
-    }
+    };
 
     var showPanel = function (element) {
 
         element.style.display = "block";
-    }
+    };
 
     var hidePanel = function (element) {
 
         element.style.display = "none";
-    }
+    };
 
     var getMaxSrNo = function (data, maxSrNo) {
 
@@ -1479,7 +1480,7 @@ Shared.prototype = function () {
         }
 
         return _maxSrNo += 1;
-    }
+    };
 
     var openChildWindow = function (url, targetLocation, heightOfWindow, widthOfWindow, isToolbarRequired,
         isMenubarRequired, isScrollbarsRequired, isResizable, topLocation, leftLocation) {
@@ -1497,11 +1498,11 @@ Shared.prototype = function () {
         window.open(url, targetLocation, 'height=' + heightOfWindow, 'width=' + widthOfWindow, 'toolbar=' + isToolbarRequired,
             'menubar=' + isMenubarRequired, 'scrollbars=' + isScrollbarsRequired, 'resizable=' + isResizable,
             'top=50%', 'left=50%');
-    }
+    };
 
     var roundOff = function (value, decimals) {
         return Number(Math.round(parseFloat(value) + 'e' + decimals) + 'e-' + decimals);
-    }
+    };
 
     var createElement = function (elementName, inputType, inputClass, inputName, inputId) {
 
@@ -1521,72 +1522,149 @@ Shared.prototype = function () {
         }
 
         return element;
-    }
+    };
 
-    var showItemsList = function (e, element, url, callback) {
+    function showAutoCompleteItemsList(parameters, callback) {
+        //e, currentFocus, keyName, elementToBeAppend, arrayList, dataAttributes, url, callback) {
 
-        closeAutoCompleteList(element);
+        var event = parameters["Event"];
+        var currentFocus = parameters["CurrentFocus"];
+        var elementToBeAppend = parameters["ElementToBeAppend"];
+        //var dataAttributes = parameters["DataAttributes"];
+        var postParamObject = parameters["PostParamObject"];
+        var url = parameters["URL"];
+        //var displayName = parameters["DisplayName"];
 
-        var item = {};
+        if (event.target.value === "") {
+            currentFocus = -1;
+            closeAutoCompleteList(elementToBeAppend);
+            return;
+        }
 
-        item = {
-            ItemName: e.target.value
-        };
+        if (event.keyCode === 40) {
+            currentFocus++;
+            addActive(elementToBeAppend, currentFocus);
+        }
+        else if (event.keyCode === 38) {
+            currentFocus--;
+            addActive(elementToBeAppend, currentFocus);
+        }
+        else {
 
-        var postData = JSON.stringify(item);
+            var autoCompleteList = [];
 
-        sendRequest(url, "GET", true, "JSON", null, function (response) {
+            autoCompleteList.length = 0;
 
-            if (response.status === 200) {
+            closeAutoCompleteList(elementToBeAppend);
 
-                var items = JSON.parse(response.responseText);
+            currentFocus = -1;
 
-                var itemsCount = items.length;
+            var method = "GET";
 
-                if (itemsCount) {
+            var postData = null;
 
-                    var data = "";
+            if (postParamObject !== undefined) {
 
-                    var fragment = document.createDocumentFragment();
+                var data = {};
 
-                    var ul = document.createElement('ul');
+                data[postParamObject] = event.target.value;
 
-                    ul.classList.add('list-group');
+                postData = JSON.stringify(data);
 
-                    for (var s = 0; s < itemsCount; s++) {
-
-                        var li = document.createElement('li');
-
-                        li.classList.add('list-group-item');
-                        li.classList.add('clearfix');
-
-                        li.setAttribute('id', items[s].InwardId);
-                        
-                        li.style.cursor = "pointer";
-                        //li.onclick = setItem;
-                        li.textContent = items[s].InwardNo;
-
-                        fragment.appendChild(li);
-
-                        //data = data + "<li class='list-group-item clearfix'" +
-                        //    "data-item-id=" + itemsList[s].ItemId + " data-unit-of-measurement-id=" + itemsList[s].UnitOfMeasurementId +
-                        //    "style='padding:0px;'> <label class='label-tick'>" +
-                        //    "<input type='checkbox' class='label-checkbox' id=Item_" + itemsList[s].ItemId + " checked='false' />" +
-                        //    "<span class='label-text'></span> </label>" + itemsList[s].ItemName + "</li>";
-                    }
-
-                    ul.appendChild(fragment);
-
-                    callback(ul);
-                }
-
+                method = "POST";
             }
 
+            sendRequest(url, method, true, "JSON", postData, function (response) {
 
+                if (response.status === 200) {
 
-        });
+                    autoCompleteList = JSON.parse(response.responseText);
 
-    };
+                    callback(autoCompleteList);
+
+                }
+            });
+        }
+
+        callback(currentFocus);
+
+    } 
+
+    function addActive(element, currentFocus) {
+
+        removeActive(element);
+
+        var li = element.querySelectorAll('li');
+
+        var count = li.length;
+
+        if (currentFocus >= count) {
+            currentFocus = 0;
+        }
+
+        if (currentFocus < 0) {
+            currentFocus = count - 1;
+        }
+
+        li[currentFocus].classList.add('autocompleteListItem-active');
+
+        element.scrollTop = parseInt(li[currentFocus].offsetHeight * currentFocus ) - currentFocus;
+
+        return currentFocus;
+    }
+
+    function removeActive(element) {
+
+        var li = element.querySelectorAll('li');
+
+        var count = li.length;
+
+        if (count) {
+
+            for (var l = 0; l < count; l++) {
+
+                li[l].classList.remove('autocompleteListItem-active');
+            }
+        }
+
+    }
+
+     
+    // Will Implement later 
+
+    //function setItem(e, targetElement, elementToBeAppend, dataAttributes, isTargetElementShouldBeBlank, isCallBack, callback) {
+
+    //    FLAG = "NEW ITEM";
+
+    //    targetElement.value = e.target.textContent;
+
+    //    var data = {};
+
+    //    if (dataAttributes.length) {
+
+    //        for (var d = 0; d < dataAttributes.length; d++) {
+
+    //            var attributeName = dataAttributes[d].toLowerCase();
+    //            var keyName = dataAttributes[d].replace(/-/g, '');
+
+    //            targetElement.setAttribute('data-' + attributeName, dataAttributes[d][keyName]);
+
+    //            data[keyName.substring(0, 1).toLowerCase + keyName.substring(1)] = dataAttributes[d][keyName];
+    //        }
+    //    }
+
+    //    shared.closeAutoCompleteList(elementToBeAppend);
+
+    //    if (isCallBack) {
+
+    //        return callback(data);
+    //    }
+
+    //    if (isTargetElementShouldBeBlank) {
+    //        targetElement.value = "";
+    //    }
+
+    //}
 
     function closeAutoCompleteList(element) {
 
@@ -1651,9 +1729,8 @@ Shared.prototype = function () {
         openChildWindow: openChildWindow,
         getMaxSrNo: getMaxSrNo,
         roundOff: roundOff,
-        showItemsList: showItemsList,
+        showAutoCompleteItemsList: showAutoCompleteItemsList,
         closeAutoCompleteList: closeAutoCompleteList        
     };
 
 }();
-

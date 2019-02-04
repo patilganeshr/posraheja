@@ -362,7 +362,7 @@ SharpiTech.SalesBill = (function () {
         }
 
         return isDeleted;
-    }
+    };
 
     function showModeOfPayment(option) {
 
@@ -409,7 +409,7 @@ SharpiTech.SalesBill = (function () {
             var height = element.scrollHeight + 'px';
             element.style.display = '';
             return height;
-        }
+        };
 
         var height = getHeight();
 
@@ -782,8 +782,8 @@ SharpiTech.SalesBill = (function () {
                             val: item.ItemId, //vValue
                             GoodsReceiptItemId: item.GoodsReceiptItemId,
                             StockQty: item.StockQty
-                        }
-                    }))
+                        };
+                    }));
                     if (data.length === 0) {
                     //    DOM.scanBarcode.value = "";
                         DOM.scanBarcode.removeAttribute("data-item-id");
@@ -826,8 +826,8 @@ SharpiTech.SalesBill = (function () {
                         return {
                             label: item.ClientAddressName, //vLabel,
                             val: item.ClientAddressId //vValue                                                    }
-                        }
-                    }))
+                        };
+                    }));
                     if (data.length === 0) {
                         DOM.customerName.value = "";
                         DOM.customerName.removeAttribute("data-customer-address-id");
@@ -870,8 +870,8 @@ SharpiTech.SalesBill = (function () {
                         return {
                             label: item.ClientAddressName, //vLabel,
                             val: item.ClientAddressId //vValue                                                    }
-                        }
-                    }))
+                        };
+                    }));
                     if (data.length === 0) {
                         DOM.consigneeName.value = "";
                         DOM.consigneeName.removeAttribute("data-consingee-address-id");
@@ -992,7 +992,7 @@ SharpiTech.SalesBill = (function () {
         }
     }
 
-    var checkBillNoIsExists = function(callback) {
+    var checkBillNoIsExists = function (callback) {
 
         if (parseInt(DOM.billNo.getAttribute('data-sales-bill-id')) === 0) {
 
@@ -1029,9 +1029,9 @@ SharpiTech.SalesBill = (function () {
             }
         }
         else {
-                callback(false);
-            }
-    }
+            callback(false);
+        }
+    };
 
     function getGSTApplicable() {
 
@@ -1061,23 +1061,45 @@ SharpiTech.SalesBill = (function () {
         if (DOM.scanBarcode.value !== "") {
 
             var goodsReceiptItemId = 0;
+            var inwardGoodsId = 0;
             var itemId = 0;
+
+            var lastIndex = 0;
+            var url = "";
 
             if (DOM.scanBarcode.value.indexOf("/") > 0) {
 
-                DOM.scanBarcode.value = DOM.scanBarcode.value.substring(DOM.scanBarcode.value.lastIndexOf('/') + 1)
+                DOM.scanBarcode.value = DOM.scanBarcode.value.substring(DOM.scanBarcode.value.lastIndexOf('/') + 1);
             }
 
-            goodsReceiptItemId = parseInt(DOM.scanBarcode.value);            
-            
+            if (DOM.scanBarcode.value.indexOf("-") > 0) {
+                lastIndex = DOM.scanBarcode.value.indexOf("-");
+
+                if (lastIndex > 0) {
+                    inwardGoodsId = DOM.scanBarcode.value.substring(lastIndex + 1);
+                    goodsReceiptItemId = DOM.scanBarcode.value.substring(0, lastIndex);
+                }
+            }
+            else {
+                goodsReceiptItemId = parseInt(DOM.scanBarcode.value);
+            }
+
             itemId = parseInt(DOM.scanBarcode.getAttribute("data-item-id"));
             
             if (isNaN(goodsReceiptItemId)) { goodsReceiptItemId = parseInt(0); }
             if (isNaN(itemId)) { itemId = parseInt(0); }
+            if (isNaN(inwardGoodsId)) { inwardGoodsId = 0; }
+
+            if (inwardGoodsId > 0) {
+                url = SERVICE_PATH + "GetItemsListByGoodsReceiptAndInwardGoodsBarcode/" + goodsReceiptItemId + '/' + inwardGoodsId;
+            }
+            else {
+                url = SERVICE_PATH + "GetItemListByGoodsReceiptBarcode/" + goodsReceiptItemId;
+            }
 
             if (goodsReceiptItemId > 0) {
 
-                shared.sendRequest(SERVICE_PATH + "GetItemNameAsPerBarcode/" + goodsReceiptItemId, "GET", true, "JSON", null, function (response) {
+                shared.sendRequest(url, "GET", true, "JSON", null, function (response) {
 
                     if (response.status === 200) {
 
@@ -1181,7 +1203,7 @@ SharpiTech.SalesBill = (function () {
         }
 
         return isItemExists;
-    }
+    };
 
     function removeBillItem(e) {
 
@@ -1570,7 +1592,7 @@ SharpiTech.SalesBill = (function () {
                 DOM.cashDiscountAmt.disabled = true;
                 DOM.rateDifference.disabled = false;
 
-                DOM.rateDifference.focus()
+                DOM.rateDifference.focus();
             }
         }
 
@@ -2035,7 +2057,7 @@ SharpiTech.SalesBill = (function () {
         getSalesBills();
     }
 
-    var getSelectedRows = function(element) {
+    var getSelectedRows = function (element) {
 
         var selectedRows = [];
 
@@ -2057,7 +2079,7 @@ SharpiTech.SalesBill = (function () {
         }
 
         return selectedRows;
-    }
+    };
     
     function viewSalesBill() {
 
@@ -2065,7 +2087,7 @@ SharpiTech.SalesBill = (function () {
 
         //clear the modal control inputs        
         shared.clearInputs(DOM.editMode);
-        shared.clearInputs(DOM.editMode.children[0])
+        shared.clearInputs(DOM.editMode.children[0]);
         shared.clearTextAreas(DOM.editMode);
         shared.clearSelect(DOM.editMode);
         shared.clearTables(DOM.editMode);
@@ -2266,7 +2288,7 @@ SharpiTech.SalesBill = (function () {
                     confirmButtonText: "Yes, delete it!",
                     cancelButtonText: "No, cancel pls",
                     closeOnConfirm: false,
-                    closeOnCancel: true,
+                    closeOnCancel: true
                 },
                     function (isConfirm) {
 
@@ -3389,7 +3411,7 @@ SharpiTech.SalesBill = (function () {
             var gstRate = parseFloat(0);
             var gstAmount = parseFloat(0);
             var totalItemAmount = parseFloat(0);
-            var taxId = parseInt(0)
+            var taxId = parseInt(0);
             var gstRateId = parseInt(0);
             var srNo = parseInt(0);
 
@@ -3715,7 +3737,7 @@ SharpiTech.SalesBill = (function () {
                     confirmButtonText: "Yes, delete it!",
                     cancelButtonText: "No, cancel pls",
                     closeOnConfirm: false,
-                    closeOnCancel: true,
+                    closeOnCancel: true
                 },
                     function (isConfirm) {
 
@@ -3919,7 +3941,7 @@ SharpiTech.SalesBill = (function () {
             var billChargeGSTRate = parseFloat(0);
             var billChargeGSTAmount = parseFloat(0);
             var billChargeTotalAmount = parseFloat(0);
-            var taxId = parseInt(0)
+            var taxId = parseInt(0);
             var gstRateId = parseInt(0);
             var srNo = parseInt(0);
 

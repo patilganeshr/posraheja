@@ -1411,7 +1411,7 @@ SharpiTech.InwardDetails = (function () {
                 DOM.referenceNo,
                 DOM.referenceDate,
                 DOM.fromLocation
-            ]
+            ];
 
             shared.disableSpecificControls(controls, true);
             
@@ -1488,7 +1488,7 @@ SharpiTech.InwardDetails = (function () {
                     confirmButtonText: "Yes, delete it!",
                     cancelButtonText: "No, cancel pls",
                     closeOnConfirm: false,
-                    closeOnCancel: true,
+                    closeOnCancel: true
                 },
                     function (isConfirm) {
 
@@ -1889,7 +1889,7 @@ SharpiTech.InwardDetails = (function () {
                                         WorkingPeriodId: _response[r].WorkingPeriodId,
                                         IsDeleted: false,
                                         Guid: _response[r].guid,
-                                        SrNo: _response[r].SrNo,
+                                        SrNo: _response[r].SrNo
                                     };
 
                                     inwardDetails.push(inward);

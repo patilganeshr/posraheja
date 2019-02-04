@@ -557,7 +557,7 @@ namespace SharpiTech.POS.DataModel
             return typeOfSales;
         }
 
-        public Entities.SalesBillItem GetItemNameAsPerBarcode(Int32 goodsReceiptItemId)
+        public Entities.SalesBillItem GetItemsListByGoodsReceiptBarcode(Int32 goodsReceiptItemId)
         {
             var itemDetails = new Entities.SalesBillItem();
 
@@ -565,7 +565,7 @@ namespace SharpiTech.POS.DataModel
 
             try
             {
-                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetItemNameAsPerBarcode))
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetItemsListByGoodsReceiptBarcode))
                 {
                     database.AddInParameter(dbCommand, "@goods_receipt_item_id", DbType.Int32, goodsReceiptItemId);
 
@@ -576,6 +576,55 @@ namespace SharpiTech.POS.DataModel
                             var salesBillItem = new Entities.SalesBillItem()
                             {
                                 GoodsReceiptItemId = DRE.GetNullableInt32(reader, "goods_receipt_item_id", null),
+                                InwardGoodsId = 0,
+                                ItemId = DRE.GetNullableInt32(reader, "item_id", 0),
+                                ItemName = DRE.GetNullableString(reader, "item_name", null),
+                                HSNCode = DRE.GetNullableString(reader, "hsn_code", null),
+                                UnitCode = DRE.GetNullableString(reader, "unit_code", null),
+                                UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
+                                IsSet = DRE.GetNullableBoolean(reader, "is_set", null),
+                                IsSellAtNetRate = DRE.GetNullableBoolean(reader, "is_sell_at_net_rate", null),
+                                SaleRate = DRE.GetNullableDecimal(reader, "flat_rate", null)
+                            };
+
+                            itemDetails = salesBillItem;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                dbCommand = null;
+            }
+
+            return itemDetails;
+        }
+
+        public Entities.SalesBillItem GetItemsListByGoodsReceiptAndInwardGoodsBarcode (Int32 goodsReceiptItemId, Int32 inwardGoodsId)
+        {
+            var itemDetails = new Entities.SalesBillItem();
+
+            DbCommand dbCommand = null;
+
+            try
+            {
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetItemsListByGoodsReceiptAndInwardGoodsBarcode))
+                {
+                    database.AddInParameter(dbCommand, "@goods_receipt_item_id", DbType.Int32, goodsReceiptItemId);
+                    database.AddInParameter(dbCommand, "@inward_goods_id", DbType.Int32, inwardGoodsId);
+
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+                            var salesBillItem = new Entities.SalesBillItem()
+                            {
+                                GoodsReceiptItemId = DRE.GetNullableInt32(reader, "goods_receipt_item_id", null),
+                                InwardGoodsId = DRE.GetNullableInt32(reader, "inward_goods_id", null),
                                 ItemId = DRE.GetNullableInt32(reader, "item_id", 0),
                                 ItemName = DRE.GetNullableString(reader, "item_name", null),
                                 HSNCode = DRE.GetNullableString(reader, "hsn_code", null),

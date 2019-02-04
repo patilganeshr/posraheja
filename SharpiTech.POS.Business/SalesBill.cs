@@ -61,9 +61,14 @@ namespace SharpiTech.POS.Business
             return _salesBill.CheckSalesBillNoIsExists(salesBill);
         }
 
-        public Entities.SalesBillItem GetItemNameAsPerBarcode(Int32 goodsReceiptItemId)
+        public Entities.SalesBillItem GetItemsListByGoodsReceiptBarcode(Int32 goodsReceiptItemId)
         {
-            return _salesBill.GetItemNameAsPerBarcode(goodsReceiptItemId);
+            return _salesBill.GetItemsListByGoodsReceiptBarcode(goodsReceiptItemId);
+        }
+
+        public Entities.SalesBillItem GetItemsListByGoodsReceiptAndInwardGoodsBarcode (Int32 goodsReceiptItemId, Int32 inwardGoodsId)
+        {
+            return _salesBill.GetItemsListByGoodsReceiptAndInwardGoodsBarcode(goodsReceiptItemId, inwardGoodsId);
         }
 
         public bool CancelSalesBill(Entities.SalesBill salesBill)

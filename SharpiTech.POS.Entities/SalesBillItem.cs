@@ -17,6 +17,8 @@ namespace SharpiTech.POS.Entities
         [DatabaseColumn("goods_receipt_item_id")]
         public Int32? GoodsReceiptItemId { get; set; }
 
+        public Int32? InwardGoodsId { get; set; }
+
         [DatabaseColumn("item_id")]
         public Int32? ItemId { get; set; }
 

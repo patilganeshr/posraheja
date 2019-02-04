@@ -359,7 +359,8 @@ namespace SharpiTech.POS.DataModel
         public static string GetSalesBillDetailsById { get { return "usp_sales_bills_get_sales_bill_details_by_id"; } }
         public static string GetSalesBillDetailsByWorkingPeriodSaleTypeAndSalesBillNo { get { return "usp_sales_bills_get_sales_bill_details_by_working_period_sale_type_and_sales_bill_no"; } }
         public static string GetTypeOfSales { get { return "usp_sale_types_get_type_of_sales"; } }
-        public static string GetItemNameAsPerBarcode { get { return "usp_items_get_item_details_by_goods_receipt_item_id"; } }
+        public static string GetItemsListByGoodsReceiptBarcode { get { return "usp_items_get_item_details_by_goods_receipt_item_id"; } }
+        public static string GetItemsListByGoodsReceiptAndInwardGoodsBarcode {  get { return "usp_items_get_item_details_by_goods_receipt_item_id_and_inward_goods_id"; } }
         public static string GetItemDetailsByItemId { get { return "usp_items_get_item_details_by_item_id"; } }
         public static string GetSaleRateHistoryByCustomerAndItem { get { return "usp_sales_bills_get_sale_rate_history_by_customer_id_and_item_id"; } }
 
