@@ -1085,7 +1085,7 @@ SharpiTech.PurchaseBill = (function () {
                                                 DeletedByIP: IP_ADDRESS,
                                                 PurchaseBillItems: billItems,
                                                 PurchaseBillCharges: billCharges
-                                            }
+                                            };
 
                                             var postData = JSON.stringify(purchaseBill);
 

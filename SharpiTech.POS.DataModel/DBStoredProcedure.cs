@@ -559,6 +559,7 @@ namespace SharpiTech.POS.DataModel
         public static string DeleteJobWorkItemMtrAdjustmentsDetails { get { return "usp_job_work_items_mtr_adjustment_delete"; } }
 
         public static string GetJobWorkItemsBalanceQty { get { return "usp_job_works_get_balance_items_qty_report"; } }
+        public static string GetJobWorkItemsSentToKaragir { get { return "usp_job_works_get_goods_sent_to_job_work_report"; } }
 
         public static string GetSalesmanwiseDailySalesQtyReport { get { return "usp_sales_qty_report_get_salesmanwise_daily_sales_report"; } }
         public static string GetSalesmanwiseDailySalesQtyReportWithSaleRateAndPurchaseRate { get { return "usp_sales_qty_report_get_salesmanwise_daily_sales_with_sale_rate_and_purchase_rate"; } }

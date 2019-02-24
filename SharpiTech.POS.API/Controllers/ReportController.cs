@@ -181,10 +181,16 @@ namespace SharpiTech.POS.API.Controllers
             return _salesmanwiseReport.GetDailySalesQtyReportWithSaleRateAndPurchaseRate(salesmanId, salesBillDate);
         }
 
-        [Route("GetJGetBalanceQtyDetails")]
-        public List<Entities.JobWorkItemsBalanceQtyReport> GetJGetBalanceQtyDetails()
+        [Route("GetJobWorkItemsSentToKaragir")]
+        public List<Entities.JobWorkItemSentToKaragir> GetJobWorkItemsSentToKaragir()
         {
-            return _jobWorkReport.GetJGetBalanceQtyDetails();
+            return _jobWorkReport.GetJobWorkItemsSentToKaragir();
+        }
+
+        [Route("GetJobWorkItemsBalanceQtyDetails")]
+        public List<Entities.JobWorkItemsBalanceQtyReport> GetJobWorkItemsBalanceQtyDetails()
+        {
+            return _jobWorkReport.GetJobWorkItemsBalanceQtyDetails();
         }
 
     }

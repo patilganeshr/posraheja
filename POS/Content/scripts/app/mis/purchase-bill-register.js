@@ -152,7 +152,7 @@ SharpiTech.PurchaseBillRegister = (function () {
         });
     }
 
-    var getReportURL = function() {
+    var getReportURL = function () {
 
         var url = "";
 
@@ -171,19 +171,19 @@ SharpiTech.PurchaseBillRegister = (function () {
                 url = "GetPurchaseBillRegisterByPeriod"; // "/" + DOM.fromDate.value + '/' + DOM.toDate.value + '/';
             }
         }
-        else if (DOM.reportByFinancialYearAndVendor.checked) {            
+        else if (DOM.reportByFinancialYearAndVendor.checked) {
             if (DOM.financialYear.selectedIndex > 0 && DOM.vendor.selectedIndex > 0) {
                 url = "GetPurchaseBillRegisterByWorkingPeriodAndVendor/" + DOM.financialYear.options[DOM.financialYear.selectedIndex].value + '/' + DOM.vendor.options[DOM.vendor.selectedIndex].value;
             }
         }
-        else if (DOM.reportByVendorAndFromToDate.checked) {            
+        else if (DOM.reportByVendorAndFromToDate.checked) {
             if (DOM.vendor.selectedIndex > 0 && (DOM.fromDate.value !== "" && DOM.toDate.value !== "")) {
                 url = "GetPurchaseBillRegisterByVendorAndFromToDate/" + DOM.vendor.options[DOM.vendor.selectedIndex].value + '/' + DOM.fromDate.value + '/' + DOM.toDate.value + '/';
             }
         }
 
         return url;
-    }
+    };
 
     function generatePurchaseBillRegister() {
 

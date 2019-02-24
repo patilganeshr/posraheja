@@ -1538,32 +1538,33 @@ SharpiTech.InwardDetails = (function () {
                                                     inwards[0].InwardGoodsDetails = inwardItems;
                                                 }
                                             }
+
+
+                                            var postData = JSON.stringify(inwards);
+
+                                            shared.sendRequest(SERVICE_PATH + 'SaveInwardDetails', "POST", true, "JSON", postData, function (response) {
+
+                                                if (response.status === 200) {
+
+                                                    if (parseInt(response.responseText) > 0) {
+
+                                                        swal({
+                                                            title: "Success",
+                                                            text: "Inward details deleted successfully.",
+                                                            type: "success"
+                                                        }, function () {
+                                                            getInwards();
+                                                        });
+                                                    }
+                                                    else {
+                                                        swal("Error", "Unable to delete the records due to some error.", "Error");
+                                                    }
+                                                }
+
+                                                shared.hideLoader(DOM.loader);
+
+                                            });
                                         }
-
-                                        var postData = JSON.stringify(inwards);
-
-                                        shared.sendRequest(SERVICE_PATH + 'SaveInwardDetails', "POST", true, "JSON", postData, function (response) {
-
-                                            if (response.status === 200) {
-
-                                                if (parseInt(response.responseText) > 0) {
-
-                                                    swal({
-                                                        title: "Success",
-                                                        text: "Inward details deleted successfully.",
-                                                        type: "success"
-                                                    }, function () {
-                                                        getInwards();
-                                                    });
-                                                }
-                                                else {
-                                                    swal("Error", "Unable to delete the records due to some error.", "Error");
-                                                }
-                                            }
-
-                                            shared.hideLoader(DOM.loader);
-
-                                        });
                                     });
                                 }
                             }

@@ -408,32 +408,34 @@ SharpiTech.GoodsReceipt = (function () {
                                                     receipts[0].GoodsReceiptItems = receiptItems;
                                                 }
                                             }
+
+
+                                            var postData = JSON.stringify(receipts);
+
+                                            shared.sendRequest(SERVICE_PATH + 'SaveGoodsReceipt', "POST", true, "JSON", postData, function (response) {
+
+                                                if (response.status === 200) {
+
+                                                    if (parseInt(response.responseText) > 0) {
+
+                                                        swal({
+                                                            title: "Success",
+                                                            text: "Goods Receipt deleted successfully.",
+                                                            type: "success"
+                                                        }, function () {
+                                                            getGoodsReceipts();
+                                                        });
+                                                    }
+                                                    else {
+                                                        swal("Error", "Unable to delete the records due to some error.", "Error");
+                                                    }
+                                                }
+
+                                                shared.hideLoader(DOM.loader);
+
+                                            });
                                         }
 
-                                        var postData = JSON.stringify(receipts);
-
-                                        shared.sendRequest(SERVICE_PATH + 'SaveGoodsReceipt', "POST", true, "JSON", postData, function (response) {
-
-                                            if (response.status === 200) {
-
-                                                if (parseInt(response.responseText) > 0) {
-
-                                                    swal({
-                                                        title: "Success",
-                                                        text: "Goods Receipt deleted successfully.",
-                                                        type: "success"
-                                                    }, function () {
-                                                        getGoodsReceipts();
-                                                    });
-                                                }
-                                                else {
-                                                    swal("Error", "Unable to delete the records due to some error.", "Error");
-                                                }
-                                            }
-
-                                            shared.hideLoader(DOM.loader);
-
-                                        });
                                     });
                                 }
                             }

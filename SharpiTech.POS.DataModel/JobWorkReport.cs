@@ -22,7 +22,53 @@ namespace SharpiTech.POS.DataModel
             database = DBConnect.getDBConnection();
         }
 
-        public List<Entities.JobWorkItemsBalanceQtyReport> GetBalanceQtyDetails()
+        public List<Entities.JobWorkItemSentToKaragir> GetJobWorkItemsSentToKaragir()
+        {
+            var balanceQtyList = new List<Entities.JobWorkItemSentToKaragir>();
+
+            DbCommand dbCommand = null;
+
+            try
+            {
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetJobWorkItemsSentToKaragir))
+                {
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+                            var listItem = new Entities.JobWorkItemSentToKaragir()
+                            {
+                                ChallanNo = DRE.GetNullableString(reader, "challan_no", null),
+                                ChallanDate = DRE.GetNullableString(reader, "challan_date", null),
+                                PurchaseItem = DRE.GetNullableString(reader, "purchase_item", null),
+                                SentMtrs = DRE.GetNullableDecimal(reader, "sent_mtrs", null),
+                                UnitCode = DRE.GetNullableString(reader, "unit_code", null),
+                                KaragirName = DRE.GetNullableString(reader, "karagir_name", null),
+                                PurchaseBillNo = DRE.GetNullableString(reader, "purchase_bill_no", null),
+                                BaleNo = DRE.GetNullableString(reader, "bale_no", null),
+                                PurchaseBillDate = DRE.GetNullableString(reader, "purchase_bill_date", null),
+                                VendorName = DRE.GetNullableString(reader, "vendor_name", null),
+                                PurchaseQty = DRE.GetNullableDecimal(reader, "purchase_qty", null)
+                            };
+
+                            balanceQtyList.Add(listItem);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                dbCommand = null;
+            }
+
+            return balanceQtyList;
+        }
+
+        public List<Entities.JobWorkItemsBalanceQtyReport> GetJobWorkItemsBalanceQtyDetails()
         {
             var balanceQtyList = new List<Entities.JobWorkItemsBalanceQtyReport>();
 

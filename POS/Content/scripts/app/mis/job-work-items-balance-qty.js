@@ -42,12 +42,14 @@ SharpiTech.JobWorkItemBalanceQty = (function () {
     function bindEvents() {
 
         DOM.generateReport.addEventListener('click', generateReport);
-        DOM.exportReport.addEventListener('click', exportReport);
+        DOM.exportReport.addEventListener('click', exportStockReport);
 
     }
 
     function loadData() {
-            
+
+        generateReport();
+
     }
 
     function generateReport() {
@@ -65,9 +67,9 @@ SharpiTech.JobWorkItemBalanceQty = (function () {
 
         try {
 
-            var url = getReportURL();
+            //var url = getReportURL();
 
-            shared.sendRequest(SERVICE_PATH + url, "GET", true, "JSON", null, function (response) {
+            shared.sendRequest(SERVICE_PATH + "GetJobWorkItemsBalanceQtyDetails/", "GET", true, "JSON", null, function (response) {
 
                 shared.showLoader(DOM.loader);
 
@@ -83,7 +85,7 @@ SharpiTech.JobWorkItemBalanceQty = (function () {
                                 
                                 jobWorkItemsBalanceQtyList = res;
 
-                                bindStockData();
+                                bindReportData();
                             }
                         }                        
                     }
@@ -145,9 +147,9 @@ SharpiTech.JobWorkItemBalanceQty = (function () {
 
             var tableBody = createTableBody(jobWorkItemsBalanceQtyList, excludeListOfTableHeaders);
 
-            DOM.jobWorkItemsBalanceQtyList.appendChild(tableHeader);
+            DOM.jobWorkItemBalanceQty.appendChild(tableHeader);
 
-            DOM.jobWorkItemsBalanceQtyList.appendChild(tableBody);            
+            DOM.jobWorkItemBalanceQty.appendChild(tableBody);            
         }
     }
 
@@ -353,7 +355,7 @@ SharpiTech.JobWorkItemBalanceQty = (function () {
         else                 //other browser not tested on IE 11
             sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
 
-        return (sa);
+        return sa;
     }
 
     /* ---- public methods ---- */

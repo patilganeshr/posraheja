@@ -260,3 +260,11 @@ paket-files/
 __pycache__/
 *.pyc
 *.pdf
+/.vscode/solution-explorer/class.cs-template
+*.ts-template
+/.vscode/solution-explorer/class.vb-template
+/.vscode/solution-explorer/enum.cs-template
+/.vscode/solution-explorer/interface.cs-template
+/.vscode/solution-explorer
+/.vscode/iisexpress.json
+/.vscode/settings.json

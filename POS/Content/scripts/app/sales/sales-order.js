@@ -419,14 +419,32 @@ SharpiTech.SalesOrder = (function () {
         });
     }
 
-    function getItemList(e) {
+    function getItemsList(e) {
 
         if (e.keyCode === 13) {
             CurrentFocus = -1;
-            setItemOnEnter();
+            showCustomerNameOnEnterKey(e);
+            return;
         }
-        
-        shared.showAutoCompleteItemsList(e, CurrentFocus, "ItemName", DOM.itemList, ItemList, SERVICE_PATH + "SearchItem/" + DOM.scanItem.value + "/", function (response) {
+
+        var dataAttributes = ['Item-Id', 'Item-Name'];
+
+        var parameters = {};
+
+        parameters = {
+
+            Event: e,
+            CurrentFocus: CurrentFocus,
+            PostDataKeyValue: postMessage,
+            ElementToBeAppend: DOM.itemList,
+            DataAttributes: dataAttributes,
+            PostParamObject: undefined,
+            URL: SERVICE_PATH + "SearchItem/" +  DOM.scanItem.value + "/",
+            DisplayName: "ItemName"
+        };
+
+        shared.showAutoCompleteItemsList(parameters, function (response) {
+            //e, CurrentFocus, undefined, DOM.customerList, CustomerList, , function (response) {
 
             if (response !== undefined) {
 
@@ -435,7 +453,7 @@ SharpiTech.SalesOrder = (function () {
                     CurrentFocus = response;
                 }
                 else {
-
+                                        
                     CurrentFocus = -1;
 
                     var autoCompleteList = response;
@@ -459,12 +477,12 @@ SharpiTech.SalesOrder = (function () {
                             li.classList.add('list-group-item');
                             li.classList.add('clearfix');
 
-                            li.setAttribute('id', items[s].ItemId);
-                            li.setAttribute('data-unit-of-measurement-id', items[s].UnitOfMeasurementId);
-                            li.setAttribute('data-unit-code', items[s].UnitCode);
+                            li.setAttribute('id', autoCompleteList[s].ItemId);
+                            li.setAttribute('data-unit-of-measurement-id', autoCompleteList[s].UnitOfMeasurementId);
+                            li.setAttribute('data-unit-code', autoCompleteList[s].UnitCode);
 
                             li.style.cursor = "pointer";
-                            li.onclick = setItem;
+                            li.onclick = showItemNameOnSelection;
                             li.textContent = autoCompleteList[s].ItemName;
 
                             fragment.appendChild(li);
@@ -485,8 +503,149 @@ SharpiTech.SalesOrder = (function () {
             }
 
         });
+
+        if (e.keyCode === 13) {
+            CurrentFocus = -1;
+            setItemOnEnter();
+        }
     }
+
+    function showItemNameOnSelection(e) {
+
+        FLAG = "NEW ITEM";
+
+        DOM.ItemName.value = e.target.textContent;
+        DOM.ItemName.setAttribute('data-item-id', e.target.id);
+
+        var itemId = e.target.id;
+        var itemName = e.target.textContent;
+        var unitCode = e.target.getAttribute('data-unit-code');
+        var unitOfMeasurementId = e.target.getAttribute('data-unit-of-measurement-id');
+
+        shared.closeAutoCompleteList(DOM.customerList);
+
+        bindJobWorkItems(itemName, itemId, unitCode, unitOfMeasurementId, 0);
+
+        DOM.customerName.focus();
+    }
+
+    function showItemNameOnEnterKey() {
+
+        FLAG = "NEW ITEM";
+       
+        var li = DOM.itemList.querySelectorAll('.autocompleteListItem-active');
+
+        var count = li.length;
+
+        if (count) {
+
+            DOM.itemName.value = li[0].textContent;
+
+            shared.closeAutoCompleteList(DOM.customerList);
+        }
+
+        var itemId = li[0].id;
+        var itemName = li[0].textContent;
+        var unitCode = li[0].getAttribute('data-unit-code');
+        var unitOfMeasurementId = li[0].getAttribute('data-unit-of-measurement-id');
+
+        bindJobWorkItems(itemName, itemId, unitCode, unitOfMeasurementId);
         
+        DOM.customerName.focus();
+    }
+
+
+    function bindJobWorkItems(itemName, itemId, unitCode, unitOfMeasurementId, inwardQty, inwardGoodsId) {
+
+        var goodsReceiptItemId = 0;
+
+        if (ItemList.length) {
+            items = ItemList.filter(function (value, index, array) {
+                return value.InwardId === parseInt(DOM.inwardId.value);
+            });
+
+            goodsReceiptItemId = inwardGoods[0].GoodsReceiptItemId;
+        }
+
+        var table = DOM.inwardGoodsList;
+
+        var tableBody = table.tBodies[0];
+
+        var tableRows = tableBody.children;
+
+        var rowsCount = tableBody.children.length;
+
+        if (inwardQty === undefined) { inwardQty = 0; }
+
+        if (inwardGoodsId === undefined) { inwardGoodsId = 0; }
+
+        if (goodsReceiptItemId === undefined) { goodsReceiptItemId = 0; }
+
+        if (rowsCount === 0) {
+            tableBody.innerHTML = "";
+        }
+
+        if (FLAG === "NEW ITEM") {
+
+            if (itemName !== "") {
+
+                for (var r = 0; r < rowsCount; r++) {
+
+                    if (parseInt(tableRows[r].getAttribute('data-item-id')) === parseInt(itemId)) {
+                        DOM.itemName.value = "";
+                        DOM.itemName.focus();
+                        swal("Error", "This item is alredy exists.", "error");
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (itemName !== "") {
+
+            var data = "";
+
+            var tr = document.createElement('tr');
+
+            tr.setAttribute('data-inward-goods-id', inwardGoodsId);
+            tr.setAttribute('data-goods-receipt-item-id', goodsReceiptItemId);
+            tr.setAttribute('data-item-id', itemId);
+            tr.setAttribute('data-unit-of-measurement-id', unitOfMeasurementId);
+
+            data += "<td>" +
+                "<button type='button' id=RemoveItem'" + (rowsCount + 1) + "' class='btn btn-xs btn-danger btn-round' >" +
+                "<span class='fa fa-fw fa-remove'></span> </button>" + "</td >";
+            data += "<td>" + (rowsCount + 1) + "</td>";
+            data += "<td>" + itemName + "</td>";
+            data += "<td>" + unitCode + "</td>";
+            data += "<td>" + 0 + "</td>";
+            data += "<td> <input type='text' id=InwardQty" + (rowsCount + 1) + " class='form-control input-sm' value=" + inwardQty + " /></td>";
+
+            tr.innerHTML = data;
+
+            tableBody.appendChild(tr);
+
+            var buttons = tableBody.querySelectorAll('button');
+            var inputs = tableBody.querySelectorAll('input[type="text"]');
+
+            if (buttons.length) {
+
+                for (var b = 0; b < buttons.length; b++) {
+                    buttons[b].onclick = removeItem;
+                }
+            }
+
+            if (inputs.length) {
+
+                for (var i = 0; i < inputs.length; i++) {
+                    inputs[i].onkeydown = function validate(e) {
+                        return shared.acceptOnlyNumbers(e);
+                    };
+                }
+            }
+        }
+    }
+
     function calculateItemAmount() {
 
         var itemId = parseInt(DOM.item.options[DOM.item.selectedIndex].value);

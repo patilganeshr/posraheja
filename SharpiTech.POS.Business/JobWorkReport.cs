@@ -15,9 +15,15 @@ namespace SharpiTech.POS.Business
             _jobWorkReport = new DataModel.JobWorkReport();
         }
 
-        public List<Entities.JobWorkItemsBalanceQtyReport> GetJGetBalanceQtyDetails()
+
+        public List<Entities.JobWorkItemSentToKaragir> GetJobWorkItemsSentToKaragir()
         {
-            return _jobWorkReport.GetBalanceQtyDetails();
+            return _jobWorkReport.GetJobWorkItemsSentToKaragir();
+        }
+
+        public List<Entities.JobWorkItemsBalanceQtyReport> GetJobWorkItemsBalanceQtyDetails()
+        {
+            return _jobWorkReport.GetJobWorkItemsBalanceQtyDetails();
         }
     }
 }

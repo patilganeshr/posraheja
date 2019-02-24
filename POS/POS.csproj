@@ -119,6 +119,7 @@
     <Content Include="Content\scripts\app\Masters\gst-category.js" />
     <Content Include="Content\scripts\app\Masters\item-rate.js" />
     <Content Include="Content\scripts\app\mis\job-work-items-balance-qty.js" />
+    <Content Include="Content\scripts\app\mis\job-work-items-sent-to-karagir.js" />
     <Content Include="Content\scripts\app\mis\purchase-bill-regiser.min - Copy %282%29.js">
       <DependentUpon>item-rate-register.js</DependentUpon>
     </Content>
@@ -133,6 +134,7 @@
     <Content Include="Content\scripts\app\mis\purchase-bill-regiser.min.js">
       <DependentUpon>purchase-bill-register.js</DependentUpon>
     </Content>
+    <Content Include="Content\scripts\app\mis\salesmanwise-sale-qty-report.js" />
     <Content Include="Content\scripts\app\mis\stock-as-on-date.js" />
     <Content Include="Content\scripts\app\mis\stock-in-transit.js" />
     <Content Include="Content\scripts\app\mis\stock-report.js" />
@@ -188,6 +190,7 @@
     <Content Include="Masters\GSTCategory.aspx" />
     <Content Include="Masters\ItemRate.aspx" />
     <Content Include="MIS\ItemRateList.aspx" />
+    <Content Include="MIS\JobWorkItemSentToKaragir.aspx" />
     <Content Include="MIS\JobWorkItemBalanceQty.aspx" />
     <Content Include="MIS\SalesBillItemRegister.aspx" />
     <Content Include="MIS\SalesBillRegister.aspx" />
@@ -904,6 +907,13 @@
     </Compile>
     <Compile Include="MIS\ItemRateList.aspx.designer.cs">
       <DependentUpon>ItemRateList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\JobWorkItemSentToKaragir.aspx.cs">
+      <DependentUpon>JobWorkItemSentToKaragir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MIS\JobWorkItemSentToKaragir.aspx.designer.cs">
+      <DependentUpon>JobWorkItemSentToKaragir.aspx</DependentUpon>
     </Compile>
     <Compile Include="MIS\JobWorkItemBalanceQty.aspx.cs">
       <DependentUpon>JobWorkItemBalanceQty.aspx</DependentUpon>

@@ -73,6 +73,7 @@
     <Compile Include="JobWorkItem.cs" />
     <Compile Include="JobWorkItemMtrAdjustment.cs" />
     <Compile Include="JobWorkItemsBalanceQtyReport.cs" />
+    <Compile Include="JobWorkItemSentToKaragir.cs" />
     <Compile Include="LocationType.cs" />
     <Compile Include="ModeOfPayment.cs" />
     <Compile Include="PaymentSettlement.cs" />
