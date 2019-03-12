@@ -60,6 +60,7 @@
     <Compile Include="GoodsReceiptItem.cs" />
     <Compile Include="InwardDetails.cs" />
     <Compile Include="InwardGoodsDetails.cs" />
+    <Compile Include="ItemMargin.cs" />
     <Compile Include="ItemPicture.cs" />
     <Compile Include="ItemRateForCustomerCategory.cs" />
     <Compile Include="DatabaseAttributes.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="LocationType.cs" />
     <Compile Include="ModeOfPayment.cs" />
     <Compile Include="PaymentSettlement.cs" />
+    <Compile Include="PaymentTerms.cs" />
     <Compile Include="PkgSlip.cs" />
     <Compile Include="PkgSlipItem.cs" />
     <Compile Include="GoodsReceipt.cs" />
@@ -92,6 +94,8 @@
     <Compile Include="OutwardDetails.cs" />
     <Compile Include="OutwardGoodsDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseOrderItem.cs" />
+    <Compile Include="PurchaseOrder.cs" />
     <Compile Include="PurchaseBill.cs" />
     <Compile Include="PurchaseBillItem.cs" />
     <Compile Include="ItemRateRegister.cs" />

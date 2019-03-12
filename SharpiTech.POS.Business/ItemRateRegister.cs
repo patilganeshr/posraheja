@@ -30,5 +30,10 @@ namespace SharpiTech.POS.Business
             return _itemRateRegister.GetItemRateRegisterByWorkingPeriod(workingPeriodId);
         }
 
+        public List<Entities.ItemMargin> GetItemMarginByCategorywiseQualitywiseCostwise()
+        {
+            return _itemRateRegister.GetItemMarginByCategorywiseQualitywiseCostwise();
+        }
+
     }
 }

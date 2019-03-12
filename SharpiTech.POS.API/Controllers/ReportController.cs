@@ -181,6 +181,20 @@ namespace SharpiTech.POS.API.Controllers
             return _salesmanwiseReport.GetDailySalesQtyReportWithSaleRateAndPurchaseRate(salesmanId, salesBillDate);
         }
 
+
+        [HttpPost]
+        [Route("GetSalesmanwiseItemwiseDailySalesValueReport")]
+        public List<Entities.SalesmanwiseReport> GetSalesmanwiseItemwiseDailySalesValueReport(Entities.SalesmanwiseReport salesmanwiseReport)
+        {
+            int? salesmanId = (int)salesmanwiseReport.SalesmanId;
+            string salesBillDate = salesmanwiseReport.SalesBillDate;
+
+            if (salesmanId == -1) { salesmanId = null; }
+            if (salesBillDate == "") { salesBillDate = null; }
+
+            return _salesmanwiseReport.GetSalesmanwiseItemwiseDailySalesValueReport(salesmanId, salesBillDate);
+        }
+
         [Route("GetJobWorkItemsSentToKaragir")]
         public List<Entities.JobWorkItemSentToKaragir> GetJobWorkItemsSentToKaragir()
         {
@@ -192,6 +206,7 @@ namespace SharpiTech.POS.API.Controllers
         {
             return _jobWorkReport.GetJobWorkItemsBalanceQtyDetails();
         }
+        
 
     }
 }

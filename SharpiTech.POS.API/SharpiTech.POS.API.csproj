@@ -159,6 +159,9 @@
     <Compile Include="Controllers\JobWorkController.cs" />
     <Compile Include="Controllers\JobWorkItemController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\PurchaseOrderController.cs" />
+    <Compile Include="Controllers\PurchaseOrderItemController.cs" />
     <Compile Include="Controllers\SalesBillItemRegisterController.cs" />
     <Compile Include="Controllers\SalesBillRegisterController.cs" />
     <Compile Include="Controllers\PurchaseBillRegisterController.cs" />

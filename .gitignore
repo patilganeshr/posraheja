@@ -268,3 +268,4 @@ __pycache__/
 /.vscode/solution-explorer
 /.vscode/iisexpress.json
 /.vscode/settings.json
+*.zip

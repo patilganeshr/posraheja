@@ -22,6 +22,8 @@ namespace SharpiTech.POS.Entities
 
         public string MonthName { get; set; }
 
+        public string FinancialYear { get; set; }
+
         public string ItemCategoryName { get; set; }
 
         public string ItemName { get; set; }
@@ -50,6 +52,11 @@ namespace SharpiTech.POS.Entities
 
         public decimal? PurchaseRate { get; set; }
 
+        public decimal? SaleValue { get; set; }
+
+        public decimal? WholesaleValue { get; set; }
+
+        public decimal? RetailValue { get; set; }
 
     }
 }

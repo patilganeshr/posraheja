@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Salesmanwise Sale Qty Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SalesmanwiseSalesQtyReport.aspx.cs" Inherits="POS.MIS.SalesmanwiseSalesQtyReport" %>
+﻿<%@ Page Title="Salesmanwise Sales Value Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SalesmanwiseSalesValueReport.aspx.cs" Inherits="POS.MIS.SalesmanwiseSalesValueReport" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -7,7 +7,7 @@
 
     <div class="action-toolbar">
 
-        <a href="#" id="GenerateSaleQtyReport"><i class="fa fa-eye fa-fw"></i>Generate Report</a>
+        <a href="#" id="GenerateSaleValueReport"><i class="fa fa-eye fa-fw"></i>Generate Report</a>
         <a href="#" id="PrintSalesReport"><i class="fa fa-print fa-fw"></i>Print</a>
         <a href="#" id="FilterSalesReport"><i class="fa fa-filter fa-fw"></i>Filter</a>
         <a href="#" id="ExportSalesReport"><i class="fa fa-cog fa-fw"></i>Export</a>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="page-header">
-                <h3>Salesmanwise Sale Qty Report</h3>
+                <h3>SALESMANWISE - SALESTYPEWISE - SALESBILLDATEWISE - ITEMCATEGORYWISE - ITEMQUALITYWISE - ITEMWISE - SALEVALUE  REPORT</h3>
             </div>
 
             <div class="row">
@@ -51,23 +51,23 @@
 
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                            <div class="form-group form-group-md">
+                                            <div class="form-group form-group-sm">
                                                 <label>Report Filters</label>
                                                 <select id="ReportFilterOption" class="form-control"></select>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-md">
+                                            <div class="form-group form-group-sm">
                                                 <label>Salesman</label>
                                                 <select id="Salesman" class="form-control"></select>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                    <div class="form-group form-group-md">
+                                                    <div class="form-group form-group-sm">
                                                         <label>Sales Bill Date</label>
-                                                        <div class="input-group date input-group-md" id="SalesBillDatePicker">
+                                                        <div class="input-group date input-group-sm" id="SalesBillDatePicker">
                                                             <input type="text" id="SalesBillDate" class="form-control" />
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar"></i>

@@ -259,5 +259,50 @@ namespace SharpiTech.POS.DataModel
             return itemRatesRegister;
         }
 
+        public List<Entities.ItemMargin> GetItemMarginByCategorywiseQualitywiseCostwise()
+        {
+            var itemwiseMarginList = new List<Entities.ItemMargin>();
+
+            DbCommand dbCommand = null;
+
+            try
+            {
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetItemMarginReportByCategorywiseQualitywiseCostwise))
+                {
+
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+
+                            var itemMargin = new Entities.ItemMargin()
+                            {
+                                ItemCategoryName = DRE.GetNullableString(reader, "item_category_name", null),
+                                ItemQuality = DRE.GetNullableString(reader, "item_quality", null),
+                                ItemName = DRE.GetNullableString(reader, "item_name", null),
+                                PurchaseRate = DRE.GetNullableDecimal(reader, "purchase_rate", null),
+                                LandingCost = DRE.GetNullableDecimal(reader, "landing_cost", null),
+                                WholesaleRate = DRE.GetNullableDecimal(reader, "wholesale_rate", null),
+                                RetailRate = DRE.GetNullableDecimal(reader, "retail_rate", null),
+                                Margin = DRE.GetNullableDecimal(reader, "margin", null)
+                            };
+
+                            itemwiseMarginList.Add(itemMargin);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                dbCommand = null;
+            }
+
+            return itemwiseMarginList;
+
+        }
     }
 }

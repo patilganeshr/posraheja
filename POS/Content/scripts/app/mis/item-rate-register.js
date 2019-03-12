@@ -152,12 +152,12 @@ SharpiTech.ItemRateRegister = (function () {
         });
     }
 
-    var getReportURL = function() {
+    var getReportURL = function () {
 
         var url = "";
 
         url = "GetItemRateRegister";
-        
+
         //if (DOM.reportByFinancialYear.checked) {
         //    if (DOM.financialYear.selectedIndex > 0) {
         //        url = "GetItemRateRegisterByWorkingPeriod/" + DOM.financialYear.options[DOM.financialYear.selectedIndex].value;
@@ -168,10 +168,10 @@ SharpiTech.ItemRateRegister = (function () {
         //        url = "GetItemRegister/" + DOM.vendor.options[DOM.vendor.selectedIndex].value;
         //    }
         //}
-        
+
 
         return url;
-    }
+    };
 
     function generateItemRateRegister() {
 

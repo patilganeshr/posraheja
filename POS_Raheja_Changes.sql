@@ -2291,3 +2291,208 @@ vwsds.working_period_id,
 vwsds.financial_year
 ORDER by
 vwsds.month_no
+
+
+
+insert into dbo.menus
+(menu_group_id, menu_name, page_link, menu_sequence, is_deleted, created_by, created_by_ip, created_datetime)
+values
+(2, 'Purchase Order', 'Purchase/PurchaseOrder', 1.00, 0, 1, '::1', GETDATE())
+
+select top 1 * from dbo.menus m
+order by m.menu_id desc
+
+select * from dbo.role_permissions 
+
+insert into dbo.role_permissions
+(role_id, menu_group_id, menu_id, add_permission, view_permission, edit_permission, delete_permission, is_deleted, created_by, created_by_ip, created_datetime)
+values
+(1, 2, 40, 1, 1, 1, 1, 0, 1, '::1', GETDATE())
+
+USE [POS_Raheja_Dev]
+GO
+
+CREATE TABLE payment_terms
+(
+payment_term_id		int identity(1,1) not null,
+term_short_code		nvarchar(25) not null,
+term_short_desc		nvarchar(200) not null,
+term_meaning		nvarchar(1000) null,
+is_deleted			bit	NOT NULL,
+created_by			int	NOT NULL,
+created_by_ip		nvarchar(25) NOT NULL,
+created_datetime	datetime NOT NULL,
+modified_by			int NULL,
+modified_by_ip		nvarchar(25) NULL,
+modified_datetime	datetime NULL,
+deleted_by			int NULL,
+deleted_by_ip		nvarchar(25) NULL,
+deleted_datetime	datetime NULL,
+row_guid			uniqueidentifier NOT NULL	
+CONSTRAINT [pk_payment_terms_payment_term_id] PRIMARY KEY CLUSTERED 
+(
+	[payment_term_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[payment_terms] ADD  CONSTRAINT [DF_payment_terms_is_deleted]  DEFAULT ((0)) FOR [is_deleted]
+GO
+
+ALTER TABLE [dbo].[payment_terms] ADD  CONSTRAINT [DF_payment_terms_created_datetime]  DEFAULT (getdate()) FOR [created_datetime]
+GO
+
+ALTER TABLE [dbo].[payment_terms] ADD  CONSTRAINT [DF_payment_terms_row_guid]  DEFAULT (newid()) FOR [row_guid]
+GO
+
+INSERT INTO dbo.payment_terms
+(term_short_code, term_short_desc, term_meaning, created_by, created_by_ip)
+values
+('1MD', '1 Month Credit', 'Monthly credit payment of a full month''s supply.', 1, '::1'),
+('2MD', '2 Month Credit', 'Monthly credit payment of a full month''s supply plus an extra calendar month.', 1, '::1'),
+('Bill Of Exchange', 'Bill Of Exchange', 'Also called a draft. This is a short-term unconditional order involving three parties. The first party (drawer) is the goods supplier, who addresses the bill to the second party (drawee), the buyer. The bill requires the buyer to pay immediately (site draft) or at a fixed future date, a set sum of money to a third party (or bearer of the bill).', 1, '::1'),
+('CBS or CBD', 'Cash Before Shipment or Cash Before Delivery', 'Cash before shipment or cash before delivery. This scenario allows the goods producer to take a down payment before creating the product. The down payment helps reduce some risks involved with creation of the product. The balance must be made before the product will be shipped to the customer.', 1, '::1'),
+('CND', 'Cash Next Delivery', 'Cash Next Deliver. Used when delivery of a specific good or goods is made regularly, such as weekly or monthly. The current delivery must be paid before the next delivery is initiated.',  1, '::1'),
+('COD', 'Cash On Delivery', 'Cash On Delivery. Payment has not yet been made for the goods being delivered. Once delivered, payment is made. The sender assumes risks in this scenario. The goods might be damaged in transit and/or the recipient may decide not to pay.', 1, '::1'),
+('Contra Payment', 'Contra Payment', 'Used when two companies owe each other. Usually each amount owed will be different. Rather than the companies sending full invoice payment to each other, the company owing more simply pays the difference between the two invoices. The might also be referred to as a contra asset or valuation allowance.', 1, '::1'),
+('CWO', 'Cash With Order', 'Cash with order. This option can work well with customers for whom credit is not being extended. In other words, there is no "Net X" involved. The customer will need to supply payment in full before any goods will be produced and shipped. Payment must first be received and verified with the bank.', 1, '::1'),
+('L/C', 'Letter Of Credit', 'Letter of credit. Allows a supplier to perform services for a customer who does not have a credit history with the supplier. Suppliers take a risk when extending credit to new customers. One way around this is to have the new customer pay with a L/C. This requires the customer to get approval for financing through the customer''s bank. If for some reason, the customer cannot pay the supplier, the bank will pay. This protects the buyer. On the hand, if the supplier doesn''t come through, the customer is not out anything. They can in fact use the L/C with a different supplier.', 1, '::1'),
+('Net X', 'Net Payment', 'Payment is due X no. of days after invoice is received.', 1, '::1'),
+('A/B Net X', 'Discounted Net Payment', 'Another way Net might be stated is with a discount. "X" still applies as before. "A" is a discount percentage while "B" is the number of days the invoice must be paid within to receive the discount. Here are a few examples:
+1/10 Net 30 - Receive a 1% discount is paid within 10 days. Otherwise, the invoice is still due 30 days after being received.', 1, '::1'),
+('PIA', 'Payment In Advance', 'Payment in advance. Similar to CWO. This arrangement requires payment in full before any goods or service will be delivered. Payment can come in the form of a letter of credit from a bank. This can also mean an acceptable guarantee of payment.', 1, '::1'),
+('PP or Stage Payment', 'Progress Payment', 'Progress payments. Used when work is ongoing for a long period of time, as in the construction industry. Predetermined milestones or stages are set before the project begins. Once a milestone is reached and approved, a payment is made. Upon completion of the project, the balance is paid out. It is common for penalties to be applied when milestone dates slip.', 1, '::1'),
+('RD', 'Rolling Deposit', 'Rolling deposit. Similar to CWO, this arrangement allows customers to receive goods but with restrictions on payment. It allows you to monitor a customer''s payment behavior before extending additional credit. The way it works is that a customer will supply receipt of a deposit that covers any credit limit you''ve offered them. The deposit is like a secured credit card. The customer is able to place orders that draw on their secured credit. There is usually no interest paid on the deposit.', 1, '::1')
+
+drop table purchase_orders
+
+
+CREATE TABLE [dbo].[purchase_orders](
+	[purchase_order_id] [int] IDENTITY(1,1) NOT NULL,
+	[vendor_id] [int] NOT NULL,
+	[vendor_reference_no] nvarchar(25) NULL,
+	[purchase_order_no] [int] NOT NULL,
+	[purchase_order_date] [date] NOT NULL,
+	[payment_term_id] int not null,
+	[discount_rate_for_payment] decimal(18,2) null,
+	[discount_applicable_before_payment_days] int null,
+	[no_of_days_for_payment] int null,	
+	[expected_delivery_date] datetime null,
+	[remarks] nvarchar(500) null,
+	[branch_id] [int] NULL,
+	[working_period_id] [int] NULL,
+	[is_deleted] [bit] NOT NULL,
+	[created_by] [int] NOT NULL,
+	[created_by_ip] [nvarchar](25) NOT NULL,
+	[created_datetime] [datetime] NOT NULL,
+	[modified_by] [int] NULL,
+	[modified_by_ip] [nvarchar](25) NULL,
+	[modified_datetime] [datetime] NULL,
+	[deleted_by] [int] NULL,
+	[deleted_by_ip] [nvarchar](25) NULL,
+	[deleted_datetime] [datetime] NULL,
+	[row_guid] [uniqueidentifier] NOT NULL	
+ CONSTRAINT [pk_purchase_orders_purchase_order_id] PRIMARY KEY CLUSTERED 
+(
+	[purchase_order_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[purchase_orders] ADD  CONSTRAINT [DF_purchase_orders_is_deleted]  DEFAULT ((0)) FOR [is_deleted]
+GO
+
+ALTER TABLE [dbo].[purchase_orders] ADD  CONSTRAINT [DF_purchase_orders_created_datetime]  DEFAULT (getdate()) FOR [created_datetime]
+GO
+
+ALTER TABLE [dbo].[purchase_orders] ADD  CONSTRAINT [DF_purchase_orders_row_guid]  DEFAULT (newid()) FOR [row_guid]
+GO
+
+drop table purchase_order_items
+
+CREATE TABLE purchase_order_items
+(
+purchase_order_item_id	int identity(1,1) not null,
+purchase_order_id		int not null,
+item_id					int not null,
+design_id				int null,
+color_id				int null,
+no_of_bales				int	null,
+order_qty				decimal(18,2)	null,
+unit_of_measurement_id	int null,
+order_rate				decimal(18,2)	not null,
+fabric_cutout_length	int	null,
+is_deleted				bit NOT NULL,
+created_by				int NOT NULL,
+created_by_ip			nvarchar(25) NOT NULL,
+created_datetime		datetime NOT NULL,
+modified_by				int NULL,
+modified_by_ip			nvarchar(25) NULL,
+modified_datetime		datetime NULL,
+deleted_by				int NULL,
+deleted_by_ip			nvarchar(25) NULL,
+deleted_datetime		datetime NULL,
+row_guid				uniqueidentifier NOT NULL	
+CONSTRAINT [pk_purchase_order_items_purchase_order_item_id] PRIMARY KEY CLUSTERED 
+(
+	[purchase_order_item_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[purchase_order_items] ADD  CONSTRAINT [DF_purchase_order_items_is_deleted]  DEFAULT ((0)) FOR [is_deleted]
+GO
+
+ALTER TABLE [dbo].[purchase_order_items] ADD  CONSTRAINT [DF_purchase_order_items_created_datetime]  DEFAULT (getdate()) FOR [created_datetime]
+GO
+
+ALTER TABLE [dbo].[purchase_order_items] ADD  CONSTRAINT [DF_purchase_order_items_row_guid]  DEFAULT (newid()) FOR [row_guid]
+GO
+
+CREATE TABLE orders_status
+(
+order_status_id		int	identity(1,1) not null,
+status_name			nvarchar(25) not null,
+status_desc			nvarchar(500) not null,
+status_sequence		decimal(18,2)	not null,
+is_deleted			bit not null,
+created_by			int NOT NULL,
+created_by_ip		nvarchar(25) NOT NULL,
+created_datetime	datetime NOT NULL,
+modified_by			int NULL,
+modified_by_ip		nvarchar(25) NULL,
+modified_datetime	datetime NULL,
+deleted_by			int NULL,
+deleted_by_ip		nvarchar(25) NULL,
+deleted_datetime	datetime NULL,
+row_guid			uniqueidentifier NOT NULL,
+CONSTRAINT [pk_orders_status_order_status_id] PRIMARY KEY CLUSTERED 
+(
+	[order_status_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[orders_status] ADD  CONSTRAINT [DF_orders_status_is_deleted]  DEFAULT ((0)) FOR [is_deleted]
+GO
+
+ALTER TABLE [dbo].[orders_status] ADD  CONSTRAINT [DF_orders_status_created_datetime]  DEFAULT (GETDATE()) FOR [created_datetime]
+GO
+
+ALTER TABLE [dbo].[orders_status] ADD  CONSTRAINT [DF_orders_status_row_guid]  DEFAULT (NEWID()) FOR [row_guid]
+GO
+
+INSERT INTO dbo.orders_status
+(
+	status_name, status_desc, status_sequence, created_by, created_by_ip
+)
+values
+('Draft', 'Order Created and is yet to be sent to Vendor.', 1.0, 1, '::1'),
+('Issued', 'Order has successfully been sent to Vendor.', 2.0, 1, '::1'),
+('Partially Received', 'Some portion of order items has been received from the Vendor.', 3.0, 1, '::1'),
+('Received', 'All the ordered items has been received from the Vendor.', 4.0, 1, '::1'),
+('Cancelled', 'Order has been cancelled.', 5.0, 1, '::1')
+
+alter table purchase_orders
+add order_status_id	int
+go

@@ -72,13 +72,17 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
 
         reportFilterOptions = [
             {
-                filterOption: "Sale Qty",
+                filterOption: "Sales Value",
                 filterOptionValue: 0
-            },
-            {
-                filterOption: "Sale Rate And Purchase Rate",
-                filterOptionValue: 1
             }
+            //{
+            //    filterOption: "Sale Qty",
+            //    filterOptionValue: 0
+            //},
+            //{
+            //    filterOption: "Sale Rate And Purchase Rate",
+            //    filterOptionValue: 1
+            //}
         ];
 
         shared.fillDropdownWithArrayData(reportFilterOptions, DOM.reportFilterOption, "filterOption", "filterOptionValue", "Choose Filter Option");
@@ -258,7 +262,7 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
 
                     var tableHeaderCaption = document.createElement('th');
 
-                    tableHeaderCaption.innerText = getTableHeaderCaption(prop);;
+                    tableHeaderCaption.innerText = getTableHeaderCaption(prop);
 
                     tableHeaderRow.appendChild(tableHeaderCaption);
                 }
@@ -348,7 +352,9 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
                 'ItemQualityId',
                 'ItemId',
                 'GoodsReceiptItemId',
-                'UnitOfMeasurementId'
+                'UnitOfMeasurementId',
+                'SaleQty',
+                'UnitCode'
             ];
 
             var reportFilterOptionValue = getReportFilterOptionValue();
@@ -427,7 +433,8 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
         reportFilterOptionValue = getReportFilterOptionValue();
 
         if (reportFilterOptionValue === "0") {
-            url = "GetDailySalesQtyReport/";
+            //url = "GetDailySalesQtyReport/";
+            url = "GetSalesmanwiseItemwiseDailySalesValueReport";
 
         }
         else if (reportFilterOptionValue === "1") {
@@ -529,7 +536,7 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
         else                 //other browser not tested on IE 11
             sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
 
-        return (sa);
+        return sa;
     }
 
     /* ---- public methods ---- */

@@ -563,6 +563,7 @@ namespace SharpiTech.POS.DataModel
 
         public static string GetSalesmanwiseDailySalesQtyReport { get { return "usp_sales_qty_report_get_salesmanwise_daily_sales_report"; } }
         public static string GetSalesmanwiseDailySalesQtyReportWithSaleRateAndPurchaseRate { get { return "usp_sales_qty_report_get_salesmanwise_daily_sales_with_sale_rate_and_purchase_rate"; } }
+        public static string GetSalesmanwiseItemwiseDailySalesValueReport { get { return "usp_sales_value_report_get_by_salesmanwise_datewise_itemwise_sales_value"; } }
 
         public static string InsertDailyReceivablePayable { get { return "usp_daily_receivable_payable_insert"; } }
         public static string UpdateDailyReceivablePayable { get { return "usp_daily_receivable_payable_update"; } }
@@ -573,8 +574,33 @@ namespace SharpiTech.POS.DataModel
 
         public static string GetVoucherType { get { return "usp_voucher_types_get_all_voucher_type"; } }
 
+        public static string InsertPurchaseOrder { get { return "usp_purchase_orders_insert_purchase_order"; } }
+        public static string UpdatePurchaseOrder { get { return "usp_purchase_orders_update_purchase_order"; } }
+        public static string DeletePurchaseOrder { get { return "usp_purchase_orders_delete_purchase_order"; } }
+        public static string CheckPurchaseOrderNoIsExists { get { return "usp_purchase_orders_check_purchase_order_no_is_exists"; } }
+        public static string GetAllPurchaseOrders { get { return "usp_purchase_orders_get_all_purchase_orders"; } }
+        public static string GetPurchaseOrdersByVendorId { get { return "usp_purchase_orders_get_orders_by_vendor_id"; } }
+        public static string GetPurchaseOrdersByVendorName { get { return "usp_purchase_orders_get_orders_by_vendor_name"; } }
+        public static string GetPurchaseOrderDetailsByOrderId { get { return "usp_purchase_orders_get_order_details_by_order_id"; } }
+        public static string GetPurchaseOrderDetailsByOrderNoAndWorkingPeriod { get { return "usp_purchase_orders_get_order_details_by_purchase_order_no_and_working_period"; } }        
+        public static string GetVendorsByPurchaseOrderNo { get { return "usp_purchase_orders_get_vendors_by_purchase_order_no"; } }
+
+        public static string InsertPurchaseOrderItem { get { return "usp_purchase_order_items_insert_order_item"; } }
+        public static string UpdatePurchaseOrderItem { get { return "usp_purchase_order_items_update_order_item"; } }
+        public static string DeletePurchaseOrderItem { get { return "usp_purchase_order_items_delete_order_item"; } }
+        public static string GetPurchaseOrderItemsByPurchaseOrderId { get { return "usp_purchase_order_items_get_order_items_by_purchase_order_id"; } }
+
+        public static string GetAllOrdersStatus { get { return "usp_orders_status_get_all_orders_status_codes"; } }
+
+        public static string InsertPaymentTerms { get { return "usp_payment_terms_insert"; } }
+        public static string UpdatePaymentTerms { get { return "usp_payment_terms_update"; } }
+        public static string DeletePaymentTerms { get { return "usp_payment_terms_delete"; } }
+        public static string GetAllPaymentTerms { get { return "usp_payment_terms_get_all_payment_terms"; } }
+
+        public static string GetItemMarginReportByCategorywiseQualitywiseCostwise { get { return "usp_item_margin_report_by_categorywise_qualitywise_costwise"; } }
+        
 
     }
-    
+
 
 }

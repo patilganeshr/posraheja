@@ -32,6 +32,12 @@ namespace SharpiTech.POS.API.Controllers
             return _itemRateRegister.GetItemRateRegisterByWorkingPeriod(workingPeriodId);
         }
 
+        [Route("GetItemMarginByCategorywiseQualitywiseCostwise")]
+        public List<Entities.ItemMargin> GetItemMarginByCategorywiseQualitywiseCostwise()
+        {
+            return _itemRateRegister.GetItemMarginByCategorywiseQualitywiseCostwise();
+        }
+
 
     }
 }
