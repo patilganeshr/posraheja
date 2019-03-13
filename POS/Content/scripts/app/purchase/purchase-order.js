@@ -12,7 +12,7 @@ SharpiTech.PurchaseOrder = (function () {
     var UNIT_OF_MEASUREMENTS = [];
     var SEARCH_ITEMS_LIST = [];
     var CURRENT_FOCUS = -1;
-    
+
 
     function cacheDOM() {
 
@@ -46,10 +46,10 @@ SharpiTech.PurchaseOrder = (function () {
         DOM.deletePurchaseOrder = document.getElementById('DeletePurchaseOrder');
         DOM.sendMail = document.getElementById('SendMail');
         DOM.printPurchasesOrder = document.getElementById('PrintPurchasesOrder');
-        
+
         /*cache the jquery element */
         DOM.$purchaseOrderDateDatePicker = $('#PurchaseOrderDateDatePicker');
-        DOM.expectedDeliveryDateDatePicker = $('#ExpectedDeliveryDateDatePicker');
+        DOM.$expectedDeliveryDateDatePicker = $('#ExpectedDeliveryDateDatePicker');
 
     }
 
@@ -61,12 +61,12 @@ SharpiTech.PurchaseOrder = (function () {
 
         var deliveryDate = new Date() + 30;
 
-        DOM.$purchaseOrderDatePicker.datetimepicker({
+        DOM.$purchaseOrderDateDatePicker.datetimepicker({
             format: 'DD/MMM/YYYY',
             defaultDate: moment(currentDate).format("DD/MMM/YYYY")
         });
 
-        DOM.$ExpectedDeliveryDateDatePicker.datetimepicker({
+        DOM.$expectedDeliveryDateDatePicker.datetimepicker({
             format: 'DD/MMM/YYYY',
             defaultDate: moment(deliveryDate).format("DD/MMM/YYYY")
         });
@@ -86,7 +86,7 @@ SharpiTech.PurchaseOrder = (function () {
         }, 200);
     }
 
-        /* ---- handle errors ---- */
+    /* ---- handle errors ---- */
     function handleError(err) {
         console.log('Application Error: ' + err);
     }
@@ -97,22 +97,22 @@ SharpiTech.PurchaseOrder = (function () {
         //DOM.searchByPurchaseBillNoButton.addEventListener('click', getPurchaseBillDetailsByPurchaseBillNo);
 
         DOM.addNewPurchaseOrder.addEventListener('click', addNewPurchaseOrder);
-        DOM.showPurchaseOrderList.addEventListener('click', showPurchaseOrderList);
-        DOM.viewPurchaseOrder.addEventListener('click', viewPurchaseOrder);
-        DOM.editPurchaseOrder.addEventListener('click', editPurchaseOrder);
-        DOM.savePurchaseOrder.addEventListener('click', savePurchaseOrder);
-        DOM.deletePurchaseOrder.addEventListener('click', deletePurchaseOrder);
-        DOM.printPurchasesOrder.addEventListener('click', printPurchasesOrder);
-        DOM.sendMail.addEventListener('click', sendMail);
+        //DOM.showPurchaseOrderList.addEventListener('click', showPurchaseOrderList);
+        //DOM.viewPurchaseOrder.addEventListener('click', viewPurchaseOrder);
+        //DOM.editPurchaseOrder.addEventListener('click', editPurchaseOrder);
+        //DOM.savePurchaseOrder.addEventListener('click', savePurchaseOrder);
+        //DOM.deletePurchaseOrder.addEventListener('click', deletePurchaseOrder);
+        //DOM.printPurchasesOrder.addEventListener('click', printPurchasesOrder);
+        //DOM.sendMail.addEventListener('click', sendMail);
 
 
         DOM.companyName.onchange = function () {
             getBranchName(1);
         };
 
-        DOM.searchItem.onchange = function () {
-            getItemDetailsByItemId();
-        };
+        //DOM.searchItem.onchange = function () {
+        //    getItemDetailsByItemId();
+        //};
 
     }
 
@@ -122,11 +122,9 @@ SharpiTech.PurchaseOrder = (function () {
         getCompany();
         getBranchName();
         getVendor();
-        getTransporter();
         getUnitOfMeasurements();
-        getCharges();
-
-        addNewPurchaseBill();
+        
+        addNewPurchaseOrder();
     }
 
     function getFinancialYear() {
@@ -241,6 +239,11 @@ SharpiTech.PurchaseOrder = (function () {
         });
 
         shared.hideLoader(DOM.loader);
+    }
+
+    function bindUnitOfMeasurements(element, value) {
+
+        shared.fillDropdownWithArrayData(unitOfMeasurements, element, "UnitCode", "UnitOfMeasurementId", "Choose UoM");
     }
 
     var getSelectedRows = function (element) {
@@ -448,7 +451,7 @@ SharpiTech.PurchaseOrder = (function () {
         var unitCode = li[0].getAttribute('data-unit-code');
         var unitOfMeasurementId = li[0].getAttribute('data-unit-of-measurement-id');
 
-        bindItemDetails(itemId, itemName, unitCode, unitOfMeasurementId);
+//        bindItemDetails(itemId, itemName, unitCode, unitOfMeasurementId);
 
         element.value = "";
     }
@@ -469,69 +472,200 @@ SharpiTech.PurchaseOrder = (function () {
 
     }
 
-    function addRowsToItemsList(item) {
+    function addRowsToItemsList() {
 
         var table = DOM.purchaseOrderItemsList;
 
         var tableBody = table.tBodies[0];
 
-        //var tableRows = tableBody.children;
-
-        //var rowsCount = tableBody.children.length;
+        var tableRowsCount = tableBody.children.length;
 
         var tableRow = document.createElement('tr');
-                     
-        var tableCell = document.createElement('td');
 
-        tableRow.setAttribute('data-item-id', item.ItemId);
+        var rowIndex = tableRowsCount + 1;
 
-        tableCell.innerHTML = "<input type='text' class='form-control input-md' id='ItemName_" + item.ItemId + "' />";
+        //tableRow.setAttribute('data-item-id', item.ItemId);
 
-                data = data + "<tr data-item-id=" + item.ItemId + " >";
-                data = data + "<td> <input type='text' class='form-control input-md' id='ItemName_" + item.ItemId + "' /> </td>";
-                data = data + "<td> <input type='text' class='form-control input-md' id='NoOfBales_" + item.ItemId + "' /> </td>";
-                data = data + "<td> <input type='text' class='form-control input-md' id='OrderQty_" + item.ItemId + "' /> </td>";
-                data = data + "<td> <select class='form-control input-md' id='UoM_" + item.ItemId + "' /> </td>";
-                data = data + "<td> <input type='text' class='form-control input-md' id='OrderRate_" + item.ItemId + "' /> </td>";
-                data = data + "<td> <input type='text' class='form-control input-md' id='Discount_" + item.ItemId + "' /> </td>";
-                data = data + "<td> <input type='text' class='form-control input-md' id='ItemTotal_" + item.ItemId  + "' /> </td>";
-                data = data + "</tr>";
+        var data = "";
 
-            
+        data = data + "<td> <input type='text' class='form-control input-md' id='NoOfBales_" + rowIndex + "' /> </td>";        
+        data = data + "<td> <input type='text' class='form-control input-md' id='ItemName_" + rowIndex + "' /> </td>";
+        data = data + "<td> <input type='text' class='form-control input-md' id='OrderQty_" + rowIndex + "' /> </td>";
+        data = data + "<td> <select class='form-control input-md' id='UoM_" + rowIndex + "' /> </td>";
+        data = data + "<td> <input type='text' class='form-control input-md' id='OrderRate_" + rowIndex + "' /> </td>";
+        data = data + "<td> <input type='text' class='form-control input-md' id='Discount_" + rowIndex + "' /> </td>";
+        data = data + "<td> <input type='text' class='form-control input-md' id='ItemTotal_" + rowIndex + "' /> </td>";
 
-            tableBody.innerHTML = data;
+        tableRow.innerHTML = data;
 
+        tableBody.appendChild(tr);
+
+        addEvents();
     }
 
-    var createTableRow = function () {
+    function addEvents(tableRow) {
 
-        return document.createElement('tr');
-    };
+        var tableBody = DOM.purchaseOrderItemsList.tBodies[0];
 
+        var inputs = tableRow.querySelectorAll('input[type="text"]');
 
-    var createTableCell = function () {
-        return document.createElement('td');
-    }
+        if (inputs.length) {
 
-    var createElement = function (typeOfElement, id, name, cssClass, dataAttributes) {
+            for (var i = 0; i < inputs.length; i++) {
 
-        var element = document.createElement(typeOfElement);
-
-        element.setAttribute('id', id);
-        element.setAttribute('name', name);
-
-        if (cssClass !== null) {
-            element.classList.add(cssClass);
-        }
-
-        if (dataAttributes.length) {
-
-            for (var d = 0; d < dataAttributes.lenght; d++) {
-
-                element.setAttribute('data-' + dataAttributes[d], dataAttributes[d][0]);
+                if (inputs[i].id.toLower().indexOf('noofbales') > 0) {
+                    inputs[i].onkeydown = function (e) {
+                        return shared.acceptOnlyNumbers(e);
+                    };
+                }
+                else if (inputs[i].id.toLower().indexOf('itemname') > 0) {
+                    inputs[i].onkeydown = function (e) {
+                        showItemsList(e, DOM.itemsList);
+                    };
+                }
+                else if (inputs[i].id.toLower().indexOf('orderqty') > 0) {
+                    inputs[i].onkeydown = function (e) {
+                        return shared.acceptDecimalNos(e);
+                    };
+                }
+                else if (inputs[i].id.toLower().indexOf('uom') > 0) {
+                    bindUnitOfMeasurements(inputs[i], 8);
+                }
+                else if (inputs[i].id.toLower().indexOf('orderrate') > 0) {
+                    inputs[i].onkeydown = function (e) {
+                        return shared.acceptDecimalNos(e);
+                    };
+                }
+                else if (inputs[i].id.toLower().indexOf('discount') > 0) {
+                    inputs[i].onkeydown = function (e) {
+                        return shared.acceptDecimalNos(e);
+                    };
+                }
             }
         }
-    };
+    }
+
+    //var getTableHeaderCaptions = function () {
+
+    //    var cols = [];
+
+    //    var tableHead = DOM.purchaseOrderItemsList.tHead;
+
+    //    var tableHeadCells = tableHead.children;
+
+    //    if (tableHeadCells.length) {
+
+    //        for (var th = 0; th < tableHeadCells.length; th++) {
+
+    //            cols.push(tableHeadCells[th].textContent)
+    //        }
+    //    }
+
+    //    return cols;
+    //};
+
+    //var tableHeaders = function () {
+
+    //    var cols = ['NoOfBales', 'ItemName', 'OrderQty', 'UoM', 'OrderRate', 'Discount', 'Item Total'];
+
+    //    return cols;
+    //};
+
+    //var inputList = function () {
+
+    //    var inputList = {};
+
+    //    var cols = tableHeaders();
+
+    //    if (cols.length) {
+
+    //        for (var c = 0; c < cols.length; c++) {
+
+    //            inputList['NoOfBales'] = 'INPUT';
+    //            inputList['ItemName'] = 'INPUT';
+    //            inputList['OrderQty'] = 'INPUT';
+    //            inputList['UoM'] = 'SELECT';
+    //            inputList['OrderRate'] = 'INPUT';
+    //            inputList['Discount'] = 'INPUT';
+    //            inputList['ItemTotal'] = undefined;
+    //        }
+    //    }
+
+    //};
+
+    //var createTableRow = function () {
+
+    //    return document.createElement('tr');
+    //};
+
+
+    //var createTableCell = function () {
+    //    return document.createElement('td');
+    //};
+
+    //var createElement = function (typeOfElement, id, name, cssClass, dataAttributes) {
+
+    //    var element = document.createElement(typeOfElement);
+
+    //    element.setAttribute('id', id);
+    //    element.setAttribute('name', name);
+
+    //    if (cssClass !== null) {
+    //        element.classList.add(cssClass);
+    //    }
+
+    //    if (dataAttributes.length) {
+
+    //        for (var d = 0; d < dataAttributes.lenght; d++) {
+
+    //            element.setAttribute('data-' + dataAttributes[d], dataAttributes[d][0]);
+    //        }
+    //    }
+    //};
+
+    function addNewPurchaseOrder() {
+
+        shared.showLoader(DOM.loader);
+
+        //DOM.searchPanel.style.display = "none";
+
+        shared.clearInputs(DOM.editMode);
+        shared.clearTextAreas(DOM.editMode);
+        shared.clearSelect(DOM.editMode);
+        shared.clearTables(DOM.editMode);
+
+        //shared.disableControls(DOM.editMode, false);
+
+        PURCHASE_ORDER.length = 0;
+        PURCHASE_ORDER_ITEMS.length = 0;
+        
+        DOM.purchaseOrderNo.setAttribute('data-purchase-order-id', parseInt(0));
+        //DOM.totalBillAmount.innerHTML = "";
+
+
+        // Set default values
+        shared.setSelectOptionByIndex(DOM.financialYear, parseInt(1));
+        shared.setSelect2ControlsText(DOM.financialYear);
+
+        shared.setSelectOptionByIndex(DOM.companyName, parseInt(2));
+        shared.setSelect2ControlsText(DOM.companyName);
+
+        getBranchName(1);
+
+        var currentDate = new Date();
+
+        DOM.purchaseOrderDate.value = moment(currentDate).format("DD/MMM/YYYY");
+
+        shared.showPanel(DOM.editMode);
+        shared.hidePanel(DOM.viewMode);
+
+        DOM.vendor.focus();
+
+        addRowsToItemsList();
+
+        shared.hideLoader(DOM.loader);
+    }
+
     /* ---- public methods ---- */
     function init() {
         cacheDOM();
