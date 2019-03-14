@@ -14,7 +14,7 @@
                     <a href="#" id="ViewPurchaseOrder"><i class="fa fa-eye fa-fw"></i>View</a>
                     <a href="#" id="EditPurchaseOrder"><i class="fa fa-edit fa-fw"></i>Edit</a>
                     <a href="#" id="SavePurchaseOrder"><i class="fa fa-save fa-fw"></i>Save</a>
-                    <a href="#" id="DeletePurchaseOrder"><i class="fa fa-remove fa-fw"></i>Delete</a>
+                    <a href="#" id="DeletePurchaseOrder"><i class="fa fa-remove fa-fw"></i>Delete</a>purchase-order.js
                     <a href="#" id="SendMail"><i class="fa fa-envelop fa-fw"></i>Send Mail</a>
                     <a href="#" id="PrintPurchasesOrder"><i class="fa fa-print fa-fw"></i>Print</a>
                     <a href="#" id="FilterPurchaseOrder"><i class="fa fa-filter fa-fw"></i>Filter</a>
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <%--<div id="Loader" class="loader-container">
+            <div id="Loader" class="loader-container">
                 <!--There's the container that centers it-->
                 <div class="spinner-frame">
                     <!--The background-->
@@ -31,7 +31,7 @@
                     <div class="spinner-bar"></div>
                     <!--and the spinny thing-->
                 </div>
-            </div>--%>
+            </div>
 
             <div class="page-header text-center">
                 <h3>Purchase Order</h3>
@@ -151,6 +151,7 @@
                                 </div>
                                 
                             </div>
+                            
                         </div>
 
                     </div>
@@ -211,7 +212,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td class="table-rows-large">MIX CHADAR-L 90X100 / BED SHEET / SKR</td>
                                                         <td class="table-rows-large">2.00</td>
                                                         <td class="table-rows-large">PCS</td>
@@ -242,7 +243,7 @@
                                                         <td class="table-rows-large">90.00</td>
                                                         <td class="table-rows-large">0</td>
                                                         <td class="table-rows-large">2160</td>
-                                                    </tr>
+                                                    </tr>--%>
                                                 </tbody>
                                             </table>
                                         </div>

@@ -215,23 +215,23 @@ SharpiTech.StockReport = (function () {
 
             //for (var d = 0; d < data.length; d++) {
 
-                for (var prop in data[0]) {
+            for (var prop in data[0]) {
 
-                    var excludeList = excludeListOfTableHeaderCaption.filter(function (value, index, array) {
-                        return value.toLowerCase() === prop.toLowerCase();
-                    });
+                var excludeList = excludeListOfTableHeaderCaption.filter(function (value, index, array) {
+                    return value.toLowerCase() === prop.toLowerCase();
+                });
 
-                    //for (var ex = 0; ex < excludeListOfTableHeaderCaption.length; ex++) {
+                //for (var ex = 0; ex < excludeListOfTableHeaderCaption.length; ex++) {
 
-                    if (excludeList.length === 0) {
+                if (excludeList.length === 0) {
 
-                        var tableHeaderCaption = document.createElement('th');
+                    var tableHeaderCaption = document.createElement('th');
 
-                        tableHeaderCaption.innerText = getTableHeaderCaption(prop);;
+                    tableHeaderCaption.innerText = getTableHeaderCaption(prop);
 
-                        tableHeaderRow.appendChild(tableHeaderCaption);
-                    }
-                    //}         
+                    tableHeaderRow.appendChild(tableHeaderCaption);
+                }
+                //}         
                 //}
             }
         }
@@ -239,7 +239,7 @@ SharpiTech.StockReport = (function () {
         tableHeader.appendChild(tableHeaderRow);
 
         return tableHeader;
-    }
+    };
 
     var getTableHeaderCaption = function (tableHeaderCaption) {
 
@@ -264,7 +264,7 @@ SharpiTech.StockReport = (function () {
         }
 
         return caption;
-    }
+    };
 
     var createTableBody = function (data, excludeListOfTableHeaderCaption) {
 
@@ -298,9 +298,9 @@ SharpiTech.StockReport = (function () {
 
             }
         }
-        
+
         return tableBody;
-    }
+    };
 
     function bindStockData() {
 
@@ -405,7 +405,8 @@ SharpiTech.StockReport = (function () {
 
         return reportFilterOptionValue;
 
-    }
+    };
+
     var getReportURL = function() {
 
         var url = "";

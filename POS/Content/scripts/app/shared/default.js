@@ -1428,6 +1428,105 @@ Shared.prototype = function () {
 
     };
 
+    var createTableHeader = function (data, excludeListOfTableHeaderCaption) {
+
+        var tableHeader = document.createElement('thead');
+
+        tableHeader.innerHTML = "";
+
+        var tableHeaderRow = document.createElement('tr');
+
+        if (data.length) {
+
+            //for (var d = 0; d < data.length; d++) {
+
+            for (var prop in data[0]) {
+
+                var excludeList = excludeListOfTableHeaderCaption.filter(function (value, index, array) {
+                    return value.toLowerCase() === prop.toLowerCase();
+                });
+
+                //for (var ex = 0; ex < excludeListOfTableHeaderCaption.length; ex++) {
+
+                if (excludeList.length === 0) {
+
+                    var tableHeaderCaption = document.createElement('th');
+
+                    tableHeaderCaption.innerText = getTableHeaderCaption(prop);
+
+                    tableHeaderRow.appendChild(tableHeaderCaption);
+                }
+                //}         
+                //}
+            }
+        }
+
+        tableHeader.appendChild(tableHeaderRow);
+
+        return tableHeader;
+    };
+
+    var getTableHeaderCaption = function (tableHeaderCaption) {
+
+        var caption = "";
+
+        for (var cl = 0; cl < tableHeaderCaption.length; cl++) {
+
+            if (tableHeaderCaption.charAt(cl) === tableHeaderCaption.charAt(cl).toUpperCase()) {
+
+                if (cl === 0) {
+                    caption += tableHeaderCaption.charAt(0);
+                }
+                else {
+                    caption += " " + tableHeaderCaption.charAt(cl);
+                }
+
+            }
+            else {
+                caption += tableHeaderCaption.charAt(cl);
+            }
+
+        }
+
+        return caption;
+    };
+
+    var createTableBody = function (data, excludeListOfTableHeaderCaption) {
+
+        var tableBody = document.createElement('tbody');
+
+        tableBody.innerHTML = "";
+
+        if (data.length) {
+
+            for (var d = 0; d < data.length; d++) {
+
+                var tableBodyRow = document.createElement('tr');
+
+                for (var prop in data[d]) {
+
+                    var excludeList = excludeListOfTableHeaderCaption.filter(function (value, index, array) {
+                        return value.toLowerCase() === prop.toLowerCase();
+                    });
+
+                    if (excludeList.length === 0) {
+
+                        var tableDetails = document.createElement('td');
+
+                        tableDetails.innerText = data[d][prop];
+
+                        tableBodyRow.appendChild(tableDetails);
+                    }
+                }
+
+                tableBody.appendChild(tableBodyRow);
+
+            }
+        }
+
+        return tableBody;
+    };
+
     var panelShowHide = function (editModeElement, viewModeElement, displayEditMode, displayViewMode) {
 
         editModeElement.style.display = displayEditMode;
@@ -1729,6 +1828,8 @@ Shared.prototype = function () {
         openChildWindow: openChildWindow,
         getMaxSrNo: getMaxSrNo,
         roundOff: roundOff,
+        createTableHeader: createTableHeader,
+        createTableBody: createTableBody,
         showAutoCompleteItemsList: showAutoCompleteItemsList,
         closeAutoCompleteList: closeAutoCompleteList        
     };
