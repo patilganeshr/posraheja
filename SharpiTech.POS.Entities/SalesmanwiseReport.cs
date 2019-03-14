@@ -58,5 +58,10 @@ namespace SharpiTech.POS.Entities
 
         public decimal? RetailValue { get; set; }
 
+        public string FromDate { get; set; }
+
+        public string ToDate { get; set; }
+
+
     }
 }

@@ -138,7 +138,7 @@ namespace SharpiTech.POS.DataModel
         }
 
 
-        public List<Entities.SalesmanwiseReport> GetSalesmanwiseItemwiseDailySalesValueReport(Int32? salesmanId, string salesBillDate)
+        public List<Entities.SalesmanwiseReport> GetSalesmanwiseItemwiseDailySalesValueReport(Int32? salesmanId, string fromDate, string toDate)
         {
             var salesmanwiseReportList = new List<Entities.SalesmanwiseReport>();
 
@@ -149,7 +149,8 @@ namespace SharpiTech.POS.DataModel
                 using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSalesmanwiseItemwiseDailySalesValueReport))
                 {
                     database.AddInParameter(dbCommand, "@salesman_id", DbType.Int32, salesmanId);
-                    database.AddInParameter(dbCommand, "@sales_bill_date", DbType.String, salesBillDate);
+                    database.AddInParameter(dbCommand, "@from_date", DbType.String, fromDate);
+                    database.AddInParameter(dbCommand, "@to_date", DbType.String, toDate);
 
                     using (IDataReader reader = database.ExecuteReader(dbCommand))
                     {

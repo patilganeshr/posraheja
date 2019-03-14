@@ -16,7 +16,8 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
 
         DOM.loader = document.getElementById('Loader');
         DOM.salesman = document.getElementById('Salesman');
-        DOM.salesBillDate = document.getElementById('SalesBillDate');
+        DOM.fromBillDate = document.getElementById('FromBillDate');
+        DOM.toBillDate = document.getElementById('ToBillDate');
         DOM.salesBillDatePicker = document.getElementById('SalesBillDatePicker');
         DOM.reportFilterOption = document.getElementById('ReportFilterOption');
         DOM.generateSaleQtyReport = document.getElementById('GenerateSaleQtyReport');
@@ -26,7 +27,8 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
 
         DOM.salesmanwiseSaleQtyReport= document.getElementById('SalesmanwiseSaleQtyReport');
 
-        DOM.$salesBillDatePicker = $('#SalesBillDatePicker');
+        DOM.$fromBillDateDatePicker = $('#FromBillDateDatePicker');
+        DOM.$toBillDateDatePicker = $('#toBillDateDatePicker');
 
     }
 
@@ -47,7 +49,12 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
 
         var currentDate = new Date();
 
-        DOM.$salesBillDatePicker.datetimepicker({
+        DOM.$fromBillDateDatePicker.datetimepicker({
+            format: 'DD/MMM/YYYY',
+            defaultDate: moment(currentDate).format("DD/MMM/YYYY")
+        });
+
+        DOM.$toBillDateDatePicker.datetimepicker({
             format: 'DD/MMM/YYYY',
             defaultDate: moment(currentDate).format("DD/MMM/YYYY")
         });
@@ -453,7 +460,8 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
 
             var reportParameters = {
                 SalesmanId: parseInt(DOM.salesman.options[DOM.salesman.selectedIndex].value),
-                SalesBillDate: DOM.salesBillDate.value 
+                FromBillDate: DOM.fromBillDate.value,
+                ToBillDate: DOM.toBillDate.value
             };
 
             var postData = JSON.stringify(reportParameters);

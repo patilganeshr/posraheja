@@ -187,12 +187,14 @@ namespace SharpiTech.POS.API.Controllers
         public List<Entities.SalesmanwiseReport> GetSalesmanwiseItemwiseDailySalesValueReport(Entities.SalesmanwiseReport salesmanwiseReport)
         {
             int? salesmanId = (int)salesmanwiseReport.SalesmanId;
-            string salesBillDate = salesmanwiseReport.SalesBillDate;
+            string fromDate = salesmanwiseReport.FromDate;
+            string toDate = salesmanwiseReport.ToDate;
 
             if (salesmanId == -1) { salesmanId = null; }
-            if (salesBillDate == "") { salesBillDate = null; }
+            if (fromDate == "") { fromDate = null; }
+            if (toDate == "") { toDate = null; }
 
-            return _salesmanwiseReport.GetSalesmanwiseItemwiseDailySalesValueReport(salesmanId, salesBillDate);
+            return _salesmanwiseReport.GetSalesmanwiseItemwiseDailySalesValueReport(salesmanId, fromDate, toDate);
         }
 
         [Route("GetJobWorkItemsSentToKaragir")]

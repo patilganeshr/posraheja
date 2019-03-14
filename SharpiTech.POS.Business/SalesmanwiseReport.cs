@@ -29,9 +29,9 @@ namespace SharpiTech.POS.Business
             return _salesmanwiseReport.GetDailySalesQtyReportWithSaleRateAndPurchaseRate(salesmanId, salesBillDate);
         }
 
-        public List<Entities.SalesmanwiseReport> GetSalesmanwiseItemwiseDailySalesValueReport(Int32? salesmanId, string salesBillDate)
+        public List<Entities.SalesmanwiseReport> GetSalesmanwiseItemwiseDailySalesValueReport(Int32? salesmanId, string fromDate, string toDate)
         {
-            return _salesmanwiseReport.GetSalesmanwiseItemwiseDailySalesValueReport(salesmanId, salesBillDate);
+            return _salesmanwiseReport.GetSalesmanwiseItemwiseDailySalesValueReport(salesmanId, fromDate, toDate);
         }
 
 
