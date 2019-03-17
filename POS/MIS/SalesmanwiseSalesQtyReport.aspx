@@ -64,11 +64,35 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                        <%--<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                                     <div class="form-group form-group-md">
                                                         <label>Sales Bill Date</label>
                                                         <div class="input-group date input-group-md" id="SalesBillDatePicker">
                                                             <input type="text" id="SalesBillDate" class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                       </div>--%>
+
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>From Date</label>
+                                                        <div class="input-group date input-group-md" id="FromBillDateDatePicker">
+                                                            <input type="text" id="FromBillDate" class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                       </div>
+
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>To Date</label>
+                                                        <div class="input-group date input-group-md" id="ToBillDateDatePicker">
+                                                            <input type="text" id="ToBillDate" class="form-control" />
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar"></i>
                                                             </span>

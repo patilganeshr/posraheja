@@ -498,9 +498,9 @@ SharpiTech.PurchaseOrder = (function () {
 
         tableRow.innerHTML = data;
 
-        tableBody.appendChild(tr);
+        tableBody.appendChild(tableRow);
 
-        addEvents();
+        addEvents(tableRow);
     }
 
     function addEvents(tableRow) {
@@ -509,38 +509,44 @@ SharpiTech.PurchaseOrder = (function () {
 
         var inputs = tableRow.querySelectorAll('input[type="text"]');
 
+        var selects = tableRow.querySelectorAll('select');
+
         if (inputs.length) {
 
             for (var i = 0; i < inputs.length; i++) {
 
-                if (inputs[i].id.toLower().indexOf('noofbales') > 0) {
+                if (inputs[i].id.toLowerCase().indexOf('noofbales') === 0) {
                     inputs[i].onkeydown = function (e) {
                         return shared.acceptOnlyNumbers(e);
                     };
                 }
-                else if (inputs[i].id.toLower().indexOf('itemname') > 0) {
+                else if (inputs[i].id.toLowerCase().indexOf('itemname') === 0) {
                     inputs[i].onkeydown = function (e) {
                         showItemsList(e, DOM.itemsList);
                     };
                 }
-                else if (inputs[i].id.toLower().indexOf('orderqty') > 0) {
+                else if (inputs[i].id.toLowerCase().indexOf('orderqty') === 0) {
                     inputs[i].onkeydown = function (e) {
                         return shared.acceptDecimalNos(e);
                     };
                 }
-                else if (inputs[i].id.toLower().indexOf('uom') > 0) {
-                    bindUnitOfMeasurements(inputs[i], 8);
-                }
-                else if (inputs[i].id.toLower().indexOf('orderrate') > 0) {
+                else if (inputs[i].id.toLowerCase().indexOf('orderrate') === 0) {
                     inputs[i].onkeydown = function (e) {
                         return shared.acceptDecimalNos(e);
                     };
                 }
-                else if (inputs[i].id.toLower().indexOf('discount') > 0) {
+                else if (inputs[i].id.toLowerCase().indexOf('discount') === 0) {
                     inputs[i].onkeydown = function (e) {
                         return shared.acceptDecimalNos(e);
                     };
                 }
+            }
+
+            for (var s = 0; s < selects.lentgth; s++) {
+                               if (select[s].id.toLowerCase().indexOf('uom') === 0) {
+                    bindUnitOfMeasurements(selects[s], 8);
+                }
+
             }
         }
     }
@@ -656,8 +662,8 @@ SharpiTech.PurchaseOrder = (function () {
 
         DOM.purchaseOrderDate.value = moment(currentDate).format("DD/MMM/YYYY");
 
-        shared.showPanel(DOM.editMode);
-        shared.hidePanel(DOM.viewMode);
+        //shared.showPanel(DOM.editMode);
+        //shared.hidePanel(DOM.viewMode);
 
         DOM.vendor.focus();
 

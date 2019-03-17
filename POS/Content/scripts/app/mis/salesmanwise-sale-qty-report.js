@@ -18,7 +18,8 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
         DOM.salesman = document.getElementById('Salesman');
         DOM.fromBillDate = document.getElementById('FromBillDate');
         DOM.toBillDate = document.getElementById('ToBillDate');
-        DOM.salesBillDatePicker = document.getElementById('SalesBillDatePicker');
+        DOM.fromBillDateDatePicker = document.getElementById('FromBillDateDatePicker');
+        DOM.toBillDateDatePicker = document.getElementById('toBillDateDatePicker');
         DOM.reportFilterOption = document.getElementById('ReportFilterOption');
         DOM.generateSaleQtyReport = document.getElementById('GenerateSaleQtyReport');
         DOM.printSalesReport =  document.getElementById('PrintSalesReport');
@@ -28,7 +29,7 @@ SharpiTech.SalesmanwiseSaleQtyReport = (function () {
         DOM.salesmanwiseSaleQtyReport= document.getElementById('SalesmanwiseSaleQtyReport');
 
         DOM.$fromBillDateDatePicker = $('#FromBillDateDatePicker');
-        DOM.$toBillDateDatePicker = $('#toBillDateDatePicker');
+        DOM.$toBillDateDatePicker = $('#ToBillDateDatePicker');
 
     }
 
