@@ -121,7 +121,7 @@ SharpiTech.PurchaseOrder = (function () {
         getFinancialYear();
         getCompany();
         getBranchName();
-        getVendor();
+        //getVendor();
         getUnitOfMeasurements();
         
         addNewPurchaseOrder();
@@ -235,6 +235,7 @@ SharpiTech.PurchaseOrder = (function () {
                 var res = JSON.parse(response.responseText);
 
                 UNIT_OF_MEASUREMENTS = res;
+                
             }
         });
 
@@ -243,7 +244,12 @@ SharpiTech.PurchaseOrder = (function () {
 
     function bindUnitOfMeasurements(element, value) {
 
-        shared.fillDropdownWithArrayData(unitOfMeasurements, element, "UnitCode", "UnitOfMeasurementId", "Choose UoM");
+        if (UNIT_OF_MEASUREMENTS.length) {
+
+            shared.fillDropdownWithArrayData(UNIT_OF_MEASUREMENTS, element, "UnitCode", "UnitOfMeasurementId", "Choose UoM");
+
+        }
+
     }
 
     var getSelectedRows = function (element) {
@@ -277,7 +283,7 @@ SharpiTech.PurchaseOrder = (function () {
 
     function showItemsList(e, element) {
 
-        elementName = element;
+        targetElement = e.target;
 
         if (element.value === "") {
             CURRENT_FOCUS = -1;
@@ -306,7 +312,7 @@ SharpiTech.PurchaseOrder = (function () {
             var item = {};
 
             item = {
-                ItemName: DOM.searchItemName.value
+                ItemName: targetElement.value //DOM.searchItemName.value
             };
 
             var postData = JSON.stringify(item);
@@ -359,8 +365,9 @@ SharpiTech.PurchaseOrder = (function () {
 
                         DOM.itemsList.appendChild(ul);
 
-                        DOM.itemsList.style.width = element.offsetWidth + 'px';
-                        DOM.itemsList.style.left = element.offsetParent.offsetLeft + 15 + 'px';
+                        DOM.itemsList.style.width = targetElement.offsetWidth + 200 + 'px';
+                        DOM.itemsList.style.left = targetElement.offsetLeft + 'px';
+                        
 
                         DOM.itemsList.classList.add('autocompleteList-active');
                         //DOM.itemsList.innerHTML = data;
@@ -507,27 +514,58 @@ SharpiTech.PurchaseOrder = (function () {
 
         var tableBody = DOM.purchaseOrderItemsList.tBodies[0];
 
+        var tableRows = tableBody.children;
+
+        //var lastRow = tableRows.rows[tableRows.length - 1];
+
         var inputs = tableRow.querySelectorAll('input[type="text"]');
 
         var selects = tableRow.querySelectorAll('select');
+
+        if (selects.length) {
+
+
+            for (var s = 0; s < selects.length; s++) {
+
+                $(selects[s]).select2();
+                
+            }
+                        
+        }
 
         if (inputs.length) {
 
             for (var i = 0; i < inputs.length; i++) {
 
                 if (inputs[i].id.toLowerCase().indexOf('noofbales') === 0) {
+
                     inputs[i].onkeydown = function (e) {
-                        return shared.acceptOnlyNumbers(e);
+                        return shared.acceptDecimalNos(e);
                     };
                 }
                 else if (inputs[i].id.toLowerCase().indexOf('itemname') === 0) {
-                    inputs[i].onkeydown = function (e) {
+                    inputs[i].onkeyup = function (e) {
                         showItemsList(e, DOM.itemsList);
                     };
                 }
                 else if (inputs[i].id.toLowerCase().indexOf('orderqty') === 0) {
                     inputs[i].onkeydown = function (e) {
                         return shared.acceptDecimalNos(e);
+                    };
+                    inputs[i].onblur = function () {
+
+                        var selects = tableRow.querySelectorAll('select');
+
+                        if (selects.length) {
+
+                            for (var s = 0; s < selects.length; s++) {
+
+                                if (selects[s].id.toLowerCase().indexOf('uom') === 0) {
+
+                                    bindUnitOfMeasurements(selects[s], 8);
+                                }
+                            }
+                        }
                     };
                 }
                 else if (inputs[i].id.toLowerCase().indexOf('orderrate') === 0) {
@@ -542,12 +580,6 @@ SharpiTech.PurchaseOrder = (function () {
                 }
             }
 
-            for (var s = 0; s < selects.lentgth; s++) {
-                               if (select[s].id.toLowerCase().indexOf('uom') === 0) {
-                    bindUnitOfMeasurements(selects[s], 8);
-                }
-
-            }
         }
     }
 
