@@ -285,7 +285,7 @@ SharpiTech.PurchaseOrder = (function () {
 
         targetElement = e.target;
 
-        if (element.value === "") {
+        if (targetElement.value === "") {
             CURRENT_FOCUS = -1;
             closeAutoCompleteList();
             return;
@@ -366,9 +366,10 @@ SharpiTech.PurchaseOrder = (function () {
                         DOM.itemsList.appendChild(ul);
 
                         DOM.itemsList.style.width = targetElement.offsetWidth + 200 + 'px';
-                        DOM.itemsList.style.left = targetElement.offsetLeft + 'px';
+                        DOM.itemsList.style.left = targetElement.parentElement.offsetLeft + 'px';
+                        DOM.itemsList.style.top = targetElement.parentElement.offsetTop + 52 + 'px';
+                        DOM.itemsList.style.zIndex = 1;
                         
-
                         DOM.itemsList.classList.add('autocompleteList-active');
                         //DOM.itemsList.innerHTML = data;
                     }
@@ -400,6 +401,7 @@ SharpiTech.PurchaseOrder = (function () {
 
         li[CURRENT_FOCUS].classList.add('autocompleteListItem-active');
 
+        DOM.itemsList.scrollTop = parseInt(li[CURRENT_FOCUS].offsetHeight * CURRENT_FOCUS);
     }
 
     function removeActive() {
@@ -422,7 +424,7 @@ SharpiTech.PurchaseOrder = (function () {
 
         FLAG = "NEW ITEM";
 
-        var element = elementName;
+        //var element = elementName;
 
         element.value = e.target.textContent;
 
@@ -524,13 +526,11 @@ SharpiTech.PurchaseOrder = (function () {
 
         if (selects.length) {
 
-
             for (var s = 0; s < selects.length; s++) {
 
                 $(selects[s]).select2();
                 
-            }
-                        
+            }                        
         }
 
         if (inputs.length) {
