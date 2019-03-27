@@ -83,6 +83,11 @@ namespace SharpiTech.POS.Business
             return _item.GetItemByName(itemName);
         }
 
+        public List<Entities.Item> GetItemsByBrandAndItemCategory(Int32 brandId, Int32 itemCategoryId)
+        {
+            return _item.GetItemsByBrandAndItemCategory(brandId, itemCategoryId);
+        }
+
         public List<Entities.Item> SearchItemByItemName(string itemName)
         {
             return _item.SearchItemByItemName(itemName);

@@ -274,7 +274,8 @@ namespace SharpiTech.POS.DataModel
                             var baleNo = new Entities.OutwardDetails
                             {
                                 PkgSlipId = DRE.GetNullableInt32(reader, "pkg_slip_id", null),
-                                BaleNo = DRE.GetNullableString(reader, "bale_no", null)
+                                BaleNo = DRE.GetNullableString(reader, "bale_no", null),
+                                PurchaseBillItemId = DRE.GetNullableInt32(reader, "purchase_bill_item_id", null)
                             };
 
                             baleNos.Add(baleNo);

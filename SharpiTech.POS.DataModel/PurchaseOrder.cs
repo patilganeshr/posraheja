@@ -44,6 +44,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
                     database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
                     database.AddInParameter(dbCommand, "@order_status_id", DbType.Int32, purchaseOrder.OrderStatusId);
@@ -98,6 +99,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
                     database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
                     database.AddInParameter(dbCommand, "@order_status_id", DbType.Int32, purchaseOrder.OrderStatusId);
@@ -307,26 +309,21 @@ namespace SharpiTech.POS.DataModel
                             var purchaseOrder = new Entities.PurchaseOrder
                             {
                                 PurchaseOrderId = DRE.GetNullableInt32(reader, "purchase_order_id", 0),
-                                VendorId = DRE.GetNullableInt32(reader, "vendor_id", null),
+                                PurchaseOrderNo = DRE.GetNullableInt32(reader, "purchase_order_no", null),
+                                PurchaseOrderDate = DRE.GetNullableString(reader, "purchase_order_date", null),
                                 VendorName = DRE.GetNullableString(reader, "vendor_name", null),
                                 VendorReferenceNo = DRE.GetNullableString(reader, "vendor_reference_no", null),
-                                PurchaseOrderNo = DRE.GetNullableString(reader, "purchase_order_no", null),
-                                PurchaseOrderDate = DRE.GetNullableString(reader, "purchase_order_date", null),
-                                PaymentTermId = DRE.GetNullableString(reader, "payment_term_id", null),
-                                DiscountRateForPayment = DRE.GetNullableDecimal(reader, "discount_rate_for_payment", null),
-                                DiscountApplicableBeforePaymentDays = DRE.GetNullableInt32(reader, "discount_applicable_before_payment_days", null),
-                                NoOfDaysForPayment = DRE.GetNullableInt32(reader, "no_of_days_for_payment", null),
-                                Remarks = DRE.GetNullableString(reader, "remarks", null),
+                                TotalNoOfBales = DRE.GetNullableInt32(reader, "total_no_of_bales", null),
+                                TotalOrderQty = DRE.GetNullableDecimal(reader, "total_order_qty", null),
+                                UnitCode = DRE.GetNullableString(reader, "unit_code", null),
+                                TotalOrderAmount = DRE.GetNullableDecimal(reader, "total_order_amount", null),
+                                OrderStatus = DRE.GetNullableString(reader, "order_status", null),
                                 CompanyId = DRE.GetNullableInt32(reader, "company_id", null),
                                 CompanyName = DRE.GetNullableString(reader, "company_name", null),
                                 BranchId = DRE.GetNullableInt32(reader, "branch_id", null),
                                 BranchName = DRE.GetNullableString(reader, "branch_name", null),
-                                WorkingPeriodId = DRE.GetNullableInt32(reader, "working_period_id", null),
                                 FinancialYear = DRE.GetNullableString(reader, "financial_year", null),
-                                guid = DRE.GetNullableGuid(reader, "row_guid", null),
-                                SrNo = DRE.GetNullableInt64(reader, "sr_no", null),
-                                PurchaseOrderItems = purchaseOrderItem.GetPurchaseOrderItemsByPuchaseOrderId(DRE.GetInt32(reader, "purchase_order_id"))
-                                //PurchaseBillChargesDetails = purchaseBillCharges.GetB illChargesDetailsBypurchaseOrderId(DRE.GetInt32(reader, "purchase_order_id"))
+                                PurchaseOrderItems = purchaseOrderItem.GetPurchaseOrderItemsByPuchaseOrderId(DRE.GetInt32(reader, "purchase_order_id"))                                
                             };
 
                             purchaseOrders.Add(purchaseOrder);
@@ -369,7 +366,7 @@ namespace SharpiTech.POS.DataModel
                                 //VendorName = DRE.GetNullableString(reader, "vendor_name", null),
                                 //TransporterId = DRE.GetNullableInt32(reader, "transporter_id", null),
                                 //TransporterName = DRE.GetNullableString(reader, "transporter_name", null),
-                                PurchaseOrderNo = DRE.GetNullableString(reader, "purchase_order_no", null),
+                                PurchaseOrderNo = DRE.GetNullableInt32(reader, "purchase_order_no", null),
                                 //ChallanNo = DRE.GetNullableString(reader, "challan_no", null),
                                 //TruckNo = DRE.GetNullableString(reader, "truck_no", null),
                                 //PurchaseBillDate = DRE.GetNullableString(reader, "purchase_order_date", null),
@@ -420,15 +417,15 @@ namespace SharpiTech.POS.DataModel
                                 VendorId = DRE.GetNullableInt32(reader, "vendor_id", null),
                                 VendorName = DRE.GetNullableString(reader, "vendor_name", null),
                                 VendorReferenceNo = DRE.GetNullableString(reader, "vendor_reference_no", null),
-                                PurchaseOrderNo = DRE.GetNullableString(reader, "purchase_order_no", null),
+                                PurchaseOrderNo = DRE.GetNullableInt32(reader, "purchase_order_no", null),
                                 PurchaseOrderDate = DRE.GetNullableString(reader, "purchase_order_date", null),
-                                PaymentTermId = DRE.GetNullableString(reader, "payment_term_id", null),
+                                PaymentTermId = DRE.GetNullableInt32(reader, "payment_term_id", null),
                                 DiscountRateForPayment = DRE.GetNullableDecimal(reader, "discount_rate_for_payment", null),
                                 DiscountApplicableBeforePaymentDays = DRE.GetNullableInt32(reader, "discount_applicable_before_payment_days", null),
                                 NoOfDaysForPayment = DRE.GetNullableInt32(reader, "no_of_days_for_payment", null),
                                 Remarks = DRE.GetNullableString(reader, "remarks", null),
                                 TermShortCode = DRE.GetNullableString(reader, "term_short_code", null),
-                                OrderStatusName = DRE.GetNullableString(reader,"status_name", null),
+                                OrderStatus = DRE.GetNullableString(reader,"order_status", null),
                                 CompanyId = DRE.GetNullableInt32(reader, "company_id", null),
                                 CompanyName = DRE.GetNullableString(reader, "company_name", null),
                                 BranchId = DRE.GetNullableInt32(reader, "branch_id", null),
@@ -581,9 +578,9 @@ namespace SharpiTech.POS.DataModel
                                 VendorId = DRE.GetNullableInt32(reader, "vendor_id", null),
                                 VendorName = DRE.GetNullableString(reader, "vendor_name", null),
                                 VendorReferenceNo = DRE.GetNullableString(reader, "vendor_reference_no", null),
-                                PurchaseOrderNo = DRE.GetNullableString(reader, "purchase_order_no", null),
+                                PurchaseOrderNo = DRE.GetNullableInt32(reader, "purchase_order_no", null),
                                 PurchaseOrderDate = DRE.GetNullableString(reader, "purchase_order_date", null),
-                                PaymentTermId = DRE.GetNullableString(reader, "payment_term_id", null),
+                                PaymentTermId = DRE.GetNullableInt32(reader, "payment_term_id", null),
                                 DiscountRateForPayment = DRE.GetNullableDecimal(reader, "discount_rate_for_payment", null),
                                 DiscountApplicableBeforePaymentDays = DRE.GetNullableInt32(reader, "discount_applicable_before_payment_days", null),
                                 NoOfDaysForPayment = DRE.GetNullableInt32(reader, "no_of_days_for_payment", null),
@@ -683,6 +680,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
                     database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
                     database.AddInParameter(dbCommand, "@order_status_id", DbType.Int32, purchaseOrder.OrderStatusId);
@@ -737,6 +735,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
                     database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
                     database.AddInParameter(dbCommand, "@order_status_id", DbType.Int32, purchaseOrder.OrderStatusId);

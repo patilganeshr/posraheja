@@ -129,6 +129,7 @@
     <Compile Include="SalesmanwiseReport.cs" />
     <Compile Include="SalesReturnBill.cs" />
     <Compile Include="SalesReturnBillItem.cs" />
+    <Compile Include="SalesScheme.cs" />
     <Compile Include="StockDetails.cs" />
     <Compile Include="PkgSlip.cs" />
     <Compile Include="PkgSlipItem.cs" />

@@ -164,7 +164,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetAllItemCategories { get { return "usp_item_categories_get_all_item_categories"; } }
         public static string GetItemCategoryById { get { return "usp_item_categories_get_item_category_by_id"; } }
         public static string GetItemCategoryByName { get { return "usp_item_categories_get_item_category_by_name"; } }
-
+        
         public static string GetLocationAndLocationType { get { return "usp_locations_get_all_location_and_location_type"; } }
 
         public static string InsertItem { get { return "usp_items_insert_item"; } }
@@ -177,6 +177,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetItemById { get { return "usp_items_get_item_by_id"; } }
         public static string GetItemByName { get { return "usp_items_get_item_by_name"; } }
         public static string SearchItemsByItemName { get { return "usp_items_search_items_by_item_name"; } }
+        public static string GetItemsByBrandAndItemCategory {  get { return "usp_items_get_items_by_brand_and_item_category"; } }
 
         public static string InsertAddressType { get { return "usp_address_types_insert_address_type"; } }
         public static string UpdateAddressType { get { return "usp_address_types_update_address_type"; } }
@@ -585,9 +586,9 @@ namespace SharpiTech.POS.DataModel
         public static string GetPurchaseOrderDetailsByOrderNoAndWorkingPeriod { get { return "usp_purchase_orders_get_order_details_by_purchase_order_no_and_working_period"; } }        
         public static string GetVendorsByPurchaseOrderNo { get { return "usp_purchase_orders_get_vendors_by_purchase_order_no"; } }
 
-        public static string InsertPurchaseOrderItem { get { return "usp_purchase_order_items_insert_order_item"; } }
-        public static string UpdatePurchaseOrderItem { get { return "usp_purchase_order_items_update_order_item"; } }
-        public static string DeletePurchaseOrderItem { get { return "usp_purchase_order_items_delete_order_item"; } }
+        public static string InsertPurchaseOrderItem { get { return "usp_purchase_order_items_insert_purchase_order_item"; } }
+        public static string UpdatePurchaseOrderItem { get { return "usp_purchase_order_items_update_purchase_order_item"; } }
+        public static string DeletePurchaseOrderItem { get { return "usp_purchase_order_items_delete_purchase_order_item"; } }
         public static string GetPurchaseOrderItemsByPurchaseOrderId { get { return "usp_purchase_order_items_get_order_items_by_purchase_order_id"; } }
 
         public static string GetAllOrdersStatus { get { return "usp_orders_status_get_all_orders_status_codes"; } }
@@ -599,7 +600,10 @@ namespace SharpiTech.POS.DataModel
 
         public static string GetItemMarginReportByCategorywiseQualitywiseCostwise { get { return "usp_item_margin_report_by_categorywise_qualitywise_costwise"; } }
         
-
+        public static string InsertSalesScheme { get { return "usp_sales_schemes_insert_sales_scheme"; } }
+        public static string UpdateSalesScheme { get { return "usp_sales_schemes_update_sales_scheme"; } }
+        public static string DeleteSalesScheme { get { return "usp_sales_schemes_delete_sales_scheme"; } }
+        public static string GetAllSalesSchemes { get { return "usp_sales_schemes_get_all_sales_schemes"; } }
     }
 
 

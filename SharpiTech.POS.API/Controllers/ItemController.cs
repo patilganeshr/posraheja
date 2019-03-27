@@ -106,6 +106,12 @@ namespace SharpiTech.POS.API.Controllers
             return _item.SearchItemByItemName(itemName);
         }
 
+        [Route("GetItemsByBrandAndItemCategory/{brandId}/{itemCategoryId}")]
+        public List<Entities.Item> GetItemsByBrandAndItemCategory(Int32 brandId, Int32 itemCategoryId)
+        {
+            return _item.GetItemsByBrandAndItemCategory(brandId, itemCategoryId);
+        }
+
         /// <summary>
         /// 
         /// </summary>

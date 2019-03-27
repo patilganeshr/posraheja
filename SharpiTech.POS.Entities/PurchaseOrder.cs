@@ -18,13 +18,23 @@ namespace SharpiTech.POS.Entities
         public string VendorReferenceNo { get; set; }
 
         [DatabaseColumn("purchase_order_no")]
-        public string PurchaseOrderNo { get; set; }
+        public Int32? PurchaseOrderNo { get; set; }
+
+        public Int32? TotalNoOfBales { get; set; }
+
+        public decimal? TotalOrderQty { get; set; }
+
+        public string UnitCode { get; set; }
+
+        public decimal? TotalOrderAmount { get; set; }
+
+        public string TermShortDesc { get; set; }
 
         [DatabaseColumn("purchase_order_date")]
         public string PurchaseOrderDate { get; set; }
 
         [DatabaseColumn("payment_term_id")]
-        public string PaymentTermId { get; set; }
+        public Int32? PaymentTermId { get; set; }
 
         [DatabaseColumn("discount_rate_for_payment")]
         public decimal? DiscountRateForPayment { get; set; }
@@ -35,11 +45,13 @@ namespace SharpiTech.POS.Entities
         [DatabaseColumn("no_of_days_for_payment")]
         public Int32? NoOfDaysForPayment{ get; set; }
 
+        public string ExpectedDeliveryDate { get; set; }
+
         public Int32? OrderStatusId { get; set; }
 
         public string TermShortCode { get; set; }
 
-        public string OrderStatusName { get; set; }
+        public string OrderStatus { get; set; }
 
         [DatabaseColumn("branch_id")]
         public Int32? BranchId { get; set; }

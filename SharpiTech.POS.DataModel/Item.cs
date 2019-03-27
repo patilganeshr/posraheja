@@ -333,6 +333,46 @@ namespace SharpiTech.POS.DataModel
             return items;
         }
 
+        public List<Entities.Item> GetItemsByBrandAndItemCategory(Int32 brandId, Int32 itemCategoryId)
+        {
+            var items = new List<Entities.Item>();
+
+            DbCommand dbCommand = null;
+
+            try
+            {
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetItemsByBrandAndItemCategory))
+                {
+                    database.AddInParameter(dbCommand, "@brand_id", DbType.Int32, brandId);
+                    database.AddInParameter(dbCommand, "@item_category_id", DbType.Int32, itemCategoryId);
+
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+                            var item = new Entities.Item
+                            {
+                                ItemId = DRE.GetNullableInt32(reader, "item_id", 0),
+                                ItemName = DRE.GetNullableString(reader, "item_name", null)
+                            };
+
+                            items.Add(item);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                dbCommand = null;
+            }
+
+            return items;
+        }
+
         /// <summary>
         /// 
         /// </summary>

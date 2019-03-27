@@ -2496,3 +2496,101 @@ values
 alter table purchase_orders
 add order_status_id	int
 go
+
+
+create table purchase_types
+(
+purchase_type_id	int identity(1,1) not null,
+purchase_type		nvarchar(25) not null,
+is_deleted			bit not null,
+created_by			int not null,
+created_by_ip		nvarchar(25) not null,
+created_datetime	datetime not null,
+modified_by			int null,
+modified_by_ip		nvarchar(25) null,
+modified_datetime	datetime null,
+deleted_by			int null,
+deleted_by_ip		nvarchar(25) null,
+deleted_datetime	datetime null,
+row_guid			uniqueidentifier not null,
+constraint [pk_purchase_types_purchase_type_id] primary key clustered
+	(
+		[purchase_type_id]
+	)
+) ON [PRIMARY]
+GO
+
+alter table purchase_types add constraint [DF_purchase_types_is_deleted] default(0) for[is_deleted]
+go
+
+alter table purchase_types add constraint [DF_purchase_types_created_datetime] default(GETDATE()) for[created_datetime]
+go
+
+alter table purchase_types add constraint [DF_purchase_types_row_guid] default(NEWID()) for[row_guid]
+go
+
+insert into dbo.purchase_types
+(purchase_type, created_by, created_by_ip)
+values
+('Sales Item Purchase', 1, '::1'),
+('Misc. Purchase', 1, '::1')
+
+
+
+create table sales_schemes
+(
+sales_scheme_id		int	identity(1,1) not null,
+brand_id			int null,
+item_category_id	int null,
+item_id				int null,
+discount_percent	decimal(18,2) null,
+discount_amount		decimal(18,2) null,
+max_discount_amount	decimal(18,2) null,
+buy_qty				int null,
+free_qty			int null,
+sale_start_date		date not null,
+sale_end_date		date not null,
+branch_id			int not null,
+is_deleted			bit not null,
+created_by			int not null,
+created_by_ip		nvarchar(25) not null,
+created_datetime	datetime not null,
+modified_by			int null,
+modified_by_ip		nvarchar(25) null,
+modified_datetime	datetime null,
+deleted_by			int null,
+deleted_by_ip		nvarchar(25) null,
+deleted_datetime	datetime null,
+row_guid			uniqueidentifier not null,
+constraint [pk_sales_schemes_sales_scheme_id] primary key clustered
+	(
+		sales_scheme_id
+	)
+) ON [PRIMARY]
+GO
+
+alter table sales_schemes add constraint [DF_sales_schemes_is_deleted] default(0) for[is_deleted]
+go
+
+alter table sales_schemes add constraint [DF_sales_schemes_created_datetime] default(GETDATE()) for[created_datetime]
+go
+
+alter table sales_schemes add constraint [DF_sales_schemes_row_guid] default(newid()) for[row_guid]
+go
+
+
+insert into dbo.menus
+(menu_group_id, menu_name, page_link, menu_sequence, created_by, created_by_ip)
+values
+(1, 'Sales Scheme', 'Masters/SalesScheme', 7, 1, '::1')
+
+insert into dbo.role_permissions
+(role_id, menu_group_id, menu_id, add_permission, view_permission, edit_permission, delete_permission, created_by, created_by_ip)
+values
+(1, 1, 37, 1, 1, 1, 1, 1, '::1')
+
+alter table client_addressess
+add 
+mobile_no_1 varchar(10) null,
+mobile_no_2 varchar(10) null
+go

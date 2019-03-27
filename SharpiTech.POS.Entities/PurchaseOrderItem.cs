@@ -35,6 +35,10 @@ namespace SharpiTech.POS.Entities
         [DatabaseColumn("order_rate")]
         public decimal? OrderRate { get; set; }
 
+        public decimal? Discount { get; set; }
+
+        public decimal? ItemAmount { get; set; }
+
         public string ItemName { get; set; }
 
         public string HSNCode { get; set; }

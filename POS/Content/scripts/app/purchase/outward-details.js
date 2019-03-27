@@ -103,7 +103,7 @@ SharpiTech.Outward = (function () {
 
         DOM.baleNo.onchange = function (e) {
             getPkgSlipAdditionalDetails(parseInt(e.target.value));
-            getPkgSlipItems(parseInt(e.target.value));
+            getPkgSlipItems(parseInt(e.target.value), parseInt(e.target.options[e.target.selectedIndex].getAttribute('data-purchasebillitemid')));
         };
     }
 
@@ -221,7 +221,7 @@ SharpiTech.Outward = (function () {
 
         shared.showLoader(DOM.loader);
 
-        var dataAttributes = "FromToLocation";
+        var dataAttributes = "PurchaseBillItemId";
 
         shared.fillDropdownWithDataAttributesAndCallback(SERVICE_PATH + 'GetBaleNos', DOM.baleNo, "BaleNo", "PkgSlipId", "Choose Bale No.", dataAttributes, function (response) {
 
@@ -273,7 +273,7 @@ SharpiTech.Outward = (function () {
         shared.hideLoader(DOM.loader);
     }
 
-    function getPkgSlipItems(pkgSlipId) {
+    function getPkgSlipItems(pkgSlipId, purchaseBillItemid) {
 
         DOM.outwardGoodsList.tBodies[0].innerHTML = "";
 
@@ -287,7 +287,7 @@ SharpiTech.Outward = (function () {
 
             DOM.outwardGoodsList.tBodies[0].innerHTML = "";
 
-            shared.sendRequest(SERVICE_PATH + "GetPkgSlipItems/" + pkgSlipId, "GET", true, "JSON", null, function (response) {
+            shared.sendRequest(SERVICE_PATH + "GetPkgSlipItems/" + pkgSlipId + "/" + purchaseBillItemid, "GET", true, "JSON", null, function (response) {
 
                 if (response.status === 200) {
 

@@ -17,6 +17,7 @@ SharpiTech.Barcode = (function () {
     //cache DOM elements
     function _cacheDOM() {
 
+        DOM.loader = document.getElementById('Loader');
         DOM.editMode = document.getElementById('EditMode');
         DOM.byInwardNo = document.getElementById('ByInwardNo');
         DOM.byItem = document.getElementById('ByItem');
@@ -26,7 +27,7 @@ SharpiTech.Barcode = (function () {
         DOM.barcodeSize = document.getElementById('BarcodeSize');
         DOM.noOfLabels = document.getElementById('NoOfLabels');
         DOM.labelStartNo = document.getElementById('LabelStartNo');
-        DOM.itemsList = document.getElementById('ItemsList');
+        DOM.inwardNosList = document.getElementById('InwardNosList');
         DOM.barcodeItemsList = document.getElementById('BarcodeItemsList');
 
         DOM.printBarcode = document.getElementById('PrintBarcode');
@@ -74,30 +75,36 @@ SharpiTech.Barcode = (function () {
 
         DOM.vendorName.onchange = function () {
             getItems();
-        }
+        };
 
 
         DOM.inwardNo.onkeyup = function (e) {
 
-            showAutoComplete(e);
-        }
+            showInwardNoList(e);
+            //showAutoComplete(e);
+        };
     }
 
     function loadData() {
 
+        shared.showLoader(DOM.loader);
+
         shared.clearInputs(DOM.editMode);
 
-        _barcodes = [];
+        _barcodes.length = 0;
         
         DOM.vendorName.focus();
 
         getVendors();
 
         getItems();
-        
+
+        shared.hideLoader(DOM.loader);
     }
 
     function getVendors() {
+
+        shared.showLoader(DOM.loader);
 
         shared.fillDropdownWithCallback(SERVICE_PATH + 'GetVendors', DOM.vendorName, "VendorName", "VendorId", "Choose Vendor", function (response) {
 
@@ -112,9 +119,13 @@ SharpiTech.Barcode = (function () {
                 }
             }
         });
+
+        shared.hideLoader(DOM.loader);
     }
 
     function getItemsByInwardId(inwardId) {
+
+        shared.showLoader(DOM.loader);
 
         shared.sendRequest(SERVICE_PATH + "GetItemsByInwardId/" + inwardId, "Get", true, "JSON", null, function (response) {            
 
@@ -128,13 +139,104 @@ SharpiTech.Barcode = (function () {
                 }
             }
         });
+
+        shared.hideLoader(DOM.loader);
+    }
+
+    function showInwardNoList(e) {
+
+        shared.showLoader(DOM.loader);
+
+        if (e.keyCode === 13) {
+            _currentFocus = -1;
+            showInwardNoOnEnterKey(e);
+            return;
+        }
+
+        var dataAttributes = ['Inward-Id', 'Inward-No'];
+
+        var parameters = {};
+            
+        parameters = {
+
+            Event: e,
+            CurrentFocus: _currentFocus,
+            PostDataKeyValue: postMessage,
+            ElementToBeAppend: DOM.inwardNosList,
+            DataAttributes: dataAttributes,
+            PostParamObject: undefined,
+            URL: SERVICE_PATH + "SearchInwardNo/" + DOM.inwardNo.value,
+            DisplayName: "InwardNo"
+        };
+
+        shared.showAutoCompleteItemsList(parameters, function (response) {
+
+            if (response !== undefined) {
+
+                if (response >= 0) {
+
+                    _currentFocus = response;
+                }
+                else {
+
+                    _currentFocus = -1;
+                    
+                    var autoCompleteList = response;
+
+                    var listCount = autoCompleteList.length;
+
+                    if (listCount) {
+
+                        var data = "";
+
+                        var fragment = document.createDocumentFragment();
+
+                        var ul = document.createElement('ul');
+
+                        ul.classList.add('list-group');
+
+                        for (var s = 0; s < listCount; s++) {
+
+                            var li = document.createElement('li');
+
+                            li.classList.add('list-group-item');
+                            li.classList.add('clearfix');
+
+                            li.setAttribute('id', autoCompleteList[s].InwardId);
+
+                            li.style.cursor = "pointer";
+                            li.onclick = showInwardNoOnSelection;
+                            li.textContent = autoCompleteList[s].InwardNo;
+
+                            fragment.appendChild(li);
+                        }
+
+                        ul.appendChild(fragment);
+
+                        DOM.inwardNosList.appendChild(ul);
+
+                        DOM.inwardNosList.style.width = e.target.offsetWidth + 'px';
+                        DOM.inwardNosList.style.left = 0;//e.target.offsetParent.offsetLeft + 15 + 'px';
+
+                        DOM.inwardNosList.classList.add('autocompleteList-active');
+                        //DOM.itemsList.innerHTML = data;
+
+                    }
+
+                }
+            }
+
+            shared.hideLoader(DOM.loader);
+
+        });
+
     }
 
     function showAutoComplete(e) {
                 
         if (e.target.value === "") {
             _currentFocus = -1;
-            shared.closeAutoCompleteList(DOM.itemsList);
+            shared.closeAutoCompleteList(DOM.inwardNosList);
             return;
         }
 
@@ -154,21 +256,21 @@ SharpiTech.Barcode = (function () {
 
             if (_currentFocus === undefined) { _currentFocus = -1; }
             
-            shared.showItemsList(e, DOM.itemsList, SERVICE_PATH + 'SearchInwardNo/' + DOM.inwardNo.value, function (response) {
+            shared.showItemsList(e, DOM.inwardNosList, SERVICE_PATH + 'SearchInwardNo/' + DOM.inwardNo.value, function (response) {
 
                 if (response) {
 
-                    DOM.itemsList.appendChild(response);
+                    DOM.inwardNosList.appendChild(response);
 
-                    var li = DOM.itemsList.querySelectorAll('li');
+                    var li = DOM.inwardNosList.querySelectorAll('li');
 
                     for (l = 0; l < li.length; l++) {
                         li[l].onclick = setItem;
                     }
 
-                    DOM.itemsList.style.width = DOM.inwardNo.offsetWidth + 'px';
+                    DOM.inwardNosList.style.width = DOM.inwardNo.offsetWidth + 'px';
                         
-                    DOM.itemsList.classList.add('autocompleteList-active');                        
+                    DOM.inwardNosList.classList.add('autocompleteList-active');                        
                 }
 
             });
@@ -180,7 +282,7 @@ SharpiTech.Barcode = (function () {
 
         removeActive();
 
-        var li = DOM.itemsList.querySelectorAll('li');
+        var li = DOM.inwardNosList.querySelectorAll('li');
 
         var count = li.length;
 
@@ -198,7 +300,7 @@ SharpiTech.Barcode = (function () {
 
     function removeActive() {
 
-        var li = DOM.itemsList.querySelectorAll('li');
+        var li = DOM.inwardNosList.querySelectorAll('li');
 
         var count = li.length;
 
@@ -218,7 +320,7 @@ SharpiTech.Barcode = (function () {
 
         DOM.inwardNo.value = e.target.textContent;
 
-        shared.closeAutoCompleteList(DOM.itemsList);
+        shared.closeAutoCompleteList(DOM.inwardNosList);
 
         getItemsByInwardId(e.target.id);
 
@@ -229,7 +331,7 @@ SharpiTech.Barcode = (function () {
 
         FLAG = "NEW ITEM";
 
-        var li = DOM.itemsList.querySelectorAll('.autocompleteListItem-active');
+        var li = DOM.inwardNosList.querySelectorAll('.autocompleteListItem-active');
 
         var count = li.length;
 
@@ -237,7 +339,7 @@ SharpiTech.Barcode = (function () {
 
             DOM.inwardNo.value = li[0].textContent;
 
-            shared.closeAutoCompleteList(DOM.itemsList);
+            shared.closeAutoCompleteList(DOM.inwardNosList);
         }
 
         var inwardId = li[0].id;
@@ -247,7 +349,46 @@ SharpiTech.Barcode = (function () {
         DOM.inwardNo.value = "";
     }
 
+    function showInwardNoOnSelection(e) {
+
+        FLAG = "NEW ITEM";
+
+        setInwardNo(e.target.textContent, e.target.id);
+
+    }
+
+    function showInwardNoOnEnterKey() {
+
+        FLAG = "NEW ITEM";
+       
+        var li = DOM.inwardNosList.querySelectorAll('.autocompleteListItem-active');
+
+        var count = li.length;
+
+        if (count) {
+
+            setInwardNo(li[0].textContent, li[0].id);
+        }
+
+    }
+
+    function setInwardNo(name, id) {
+
+        DOM.inwardNo.value = name;
+        DOM.inwardNo.setAttribute('data-inward-id', id);
+
+        shared.closeAutoCompleteList(DOM.inwardNosList);
+
+        getItemsByInwardId(parseInt(id));
+
+        DOM.inwardNo.focus();
+    }
+
+
+
     function bindBarcodeItems() {
+
+        shared.showLoader(DOM.loader);
 
         var inwardGoodsId = 0;
         var goodsReceiptItemId = 0;
@@ -329,6 +470,31 @@ SharpiTech.Barcode = (function () {
                 }
             }
         }
+
+        shared.hideLoader(DOM.loader);
+    }
+
+    function removeItem(e) {
+
+        // Remove the item from the Table only if the sales bill item id is 0
+        var tableBody = DOM.barcodeItemsList.tBodies[0];
+
+        //var tableRows = tableBody.children;
+
+        var tableRow = e.currentTarget.parentElement.parentElement;
+
+        var inwardId = parseInt(tableRow.getAttribute('data-inward-id'));
+
+        if (isNaN(inwardId)) { inwardId = parseInt(0); }
+
+        //tableRow.classList.add('removed-item');
+
+        //setTimeout(function() {
+        //    tableRow.style.display = "none";
+        //}, 100);
+
+        tableBody.removeChild(tableRow);
+        
     }
 
     //function getItems() {

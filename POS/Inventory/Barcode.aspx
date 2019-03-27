@@ -11,6 +11,17 @@
             <h3>Barcode Details</h3>
         </div>
 
+            <div id="Loader" class="loader-container">
+                <!--There's the container that centers it-->
+                <div class="spinner-frame">
+                    <!--The background-->
+                    <div class="spinner-cover"></div>
+                    <!--The foreground-->
+                    <div class="spinner-bar"></div>
+                    <!--and the spinny thing-->
+                </div>
+            </div>
+
         <div id="EditMode">
 
             <div class="row">
@@ -67,7 +78,7 @@
                                             <label>Inward No.</label>
                                             <input type="text" id="InwardNo" class="form-control input-sm" />
 
-                                            <div id="ItemsList" class="autocompleteList"></div>
+                                            <div id="InwardNosList" class="autocompleteList"></div>
                                         </div>
                                     </div>
 

@@ -39,11 +39,11 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_item_id", DbType.Int32, purchaseOrderItem.PurchaseOrderItemId);
                     database.AddInParameter(dbCommand, "@purchase_order_id", DbType.Int32, purchaseOrderItem.PurchaseOrderId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, purchaseOrderItem.ItemId);
-                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.String, purchaseOrderItem.NoOfBales);
+                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.Int32, purchaseOrderItem.NoOfBales);
                     database.AddInParameter(dbCommand, "@order_qty", DbType.Decimal, purchaseOrderItem.OrderQty);
                     database.AddInParameter(dbCommand, "@unit_of_measurement_id", DbType.Int32, purchaseOrderItem.UnitOfMeasurementId);
                     database.AddInParameter(dbCommand, "@order_rate", DbType.Decimal, purchaseOrderItem.OrderRate);
-                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Decimal, purchaseOrderItem.FabricCutOutLenght);
+                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Int32, purchaseOrderItem.FabricCutOutLenght);
                     database.AddInParameter(dbCommand, "@created_by", DbType.Int32, purchaseOrderItem.CreatedBy);
                     database.AddInParameter(dbCommand, "@created_by_ip", DbType.String, purchaseOrderItem.CreatedByIP);
 
@@ -88,11 +88,13 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_item_id", DbType.Int32, purchaseOrderItem.PurchaseOrderItemId);
                     database.AddInParameter(dbCommand, "@purchase_order_id", DbType.Int32, purchaseOrderItem.PurchaseOrderId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, purchaseOrderItem.ItemId);
-                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.String, purchaseOrderItem.NoOfBales);
+                    database.AddInParameter(dbCommand, "@design_id", DbType.Int32, purchaseOrderItem.DesignId);
+                    database.AddInParameter(dbCommand, "@color_id", DbType.Int32, purchaseOrderItem.ColorId);
+                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.Int32, purchaseOrderItem.NoOfBales);
                     database.AddInParameter(dbCommand, "@order_qty", DbType.Decimal, purchaseOrderItem.OrderQty);
                     database.AddInParameter(dbCommand, "@unit_of_measurement_id", DbType.Int32, purchaseOrderItem.UnitOfMeasurementId);
                     database.AddInParameter(dbCommand, "@order_rate", DbType.Decimal, purchaseOrderItem.OrderRate);
-                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Decimal, purchaseOrderItem.FabricCutOutLenght);
+                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Int32, purchaseOrderItem.FabricCutOutLenght);
                     database.AddInParameter(dbCommand, "@created_by", DbType.Int32, purchaseOrderItem.CreatedBy);
                     database.AddInParameter(dbCommand, "@created_by_ip", DbType.String, purchaseOrderItem.CreatedByIP);
                     database.AddOutParameter(dbCommand, "@return_value", DbType.Int32, 0);
@@ -228,12 +230,14 @@ namespace SharpiTech.POS.DataModel
                             ItemName = DRE.GetNullableString(reader, "item_name", null),
                             HSNCode = DRE.GetNullableString(reader,"hsn_code", null),
                             NoOfBales = DRE.GetNullableInt32(reader, "no_of_bales", null),
+                            FabricCutOutLenght = DRE.GetNullableInt32(reader, "fabric_cutout_length", null),
                             OrderQty = DRE.GetNullableDecimal(reader, "order_qty", null),
                             UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
                             UnitCode = DRE.GetNullableString(reader, "unit_code", null),
                             OrderRate = DRE.GetNullableDecimal(reader, "order_rate", null),
-                            guid = DRE.GetNullableGuid(reader, "row_guid", null),
-                            SrNo = DRE.GetNullableInt64(reader, "sr_no", null)
+                            Discount = DRE.GetNullableDecimal(reader, "discount", null),
+                            ItemAmount = DRE.GetNullableDecimal(reader, "item_amount", null),
+                            guid = DRE.GetNullableGuid(reader, "row_guid", null)
                         };
 
                         purchaseOrderItems.Add(purchaseOrderItem);
@@ -262,11 +266,11 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_item_id", DbType.Int32, purchaseOrderItem.PurchaseOrderItemId);
                     database.AddInParameter(dbCommand, "@purchase_order_id", DbType.Int32, purchaseOrderItem.PurchaseOrderId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, purchaseOrderItem.ItemId);
-                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.String, purchaseOrderItem.NoOfBales);
+                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.Int32, purchaseOrderItem.NoOfBales);
                     database.AddInParameter(dbCommand, "@order_qty", DbType.Decimal, purchaseOrderItem.OrderQty);
                     database.AddInParameter(dbCommand, "@unit_of_measurement_id", DbType.Int32, purchaseOrderItem.UnitOfMeasurementId);
                     database.AddInParameter(dbCommand, "@order_rate", DbType.Decimal, purchaseOrderItem.OrderRate);
-                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Decimal, purchaseOrderItem.FabricCutOutLenght);
+                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Int32, purchaseOrderItem.FabricCutOutLenght);
                     database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, purchaseOrderItem.ModifiedBy);
                     database.AddInParameter(dbCommand, "@modified_by_ip", DbType.String, purchaseOrderItem.ModifiedByIP);
 
@@ -311,11 +315,12 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_item_id", DbType.Int32, purchaseOrderItem.PurchaseOrderItemId);
                     database.AddInParameter(dbCommand, "@purchase_order_id", DbType.Int32, purchaseOrderItem.PurchaseOrderId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, purchaseOrderItem.ItemId);
-                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.String, purchaseOrderItem.NoOfBales);
+                    database.AddInParameter(dbCommand, "@no_of_bales", DbType.Int32, purchaseOrderItem.NoOfBales);
                     database.AddInParameter(dbCommand, "@order_qty", DbType.Decimal, purchaseOrderItem.OrderQty);
                     database.AddInParameter(dbCommand, "@unit_of_measurement_id", DbType.Int32, purchaseOrderItem.UnitOfMeasurementId);
                     database.AddInParameter(dbCommand, "@order_rate", DbType.Decimal, purchaseOrderItem.OrderRate);
-                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Decimal, purchaseOrderItem.FabricCutOutLenght); database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, purchaseOrderItem.ModifiedBy);
+                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Int32, purchaseOrderItem.FabricCutOutLenght); database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, purchaseOrderItem.ModifiedBy);
+                    database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, purchaseOrderItem.ModifiedBy);
                     database.AddInParameter(dbCommand, "@modified_by_ip", DbType.String, purchaseOrderItem.ModifiedByIP);
 
                     database.AddOutParameter(dbCommand, "@return_value", DbType.Int32, 0);

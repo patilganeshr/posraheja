@@ -43,6 +43,8 @@ namespace SharpiTech.POS.Entities
 
         public string BaleNo { get; set; }
 
+        public Int32? PurchaseBillItemId { get; set; }
+
         public string FromToLocation { get; set; }
 
         public  string FromLocation { get; set; }

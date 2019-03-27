@@ -44,10 +44,10 @@ namespace SharpiTech.POS.API.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [Route("GetPkgSlipItems/{pkgSlipId}")]
-        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId)
+        [Route("GetPkgSlipItems/{pkgSlipId}/{purchaseBillItemId}")]
+        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId, Int32 purchaseBillItemId)
         {
-            return _outwardGoodsDetails.GetPkgSlipItems(pkgSlipId);
+            return _outwardGoodsDetails.GetPkgSlipItems(pkgSlipId, purchaseBillItemId);
         }
 
         /// <summary>

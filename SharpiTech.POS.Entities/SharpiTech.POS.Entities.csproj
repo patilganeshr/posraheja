@@ -120,6 +120,7 @@
     <Compile Include="SalesReturnBillItem.cs" />
     <Compile Include="SalesOrder.cs" />
     <Compile Include="SalesOrderItem.cs" />
+    <Compile Include="SalesScheme.cs" />
     <Compile Include="State.cs" />
     <Compile Include="StockDetails.cs" />
     <Compile Include="StockInTransit.cs" />

@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cpMaster" runat="server">
 
-    <div class="st-content" style="top: 87px;">
+    <div class="st-content">
 
         <div class="container-fluid">
 
@@ -107,7 +107,18 @@
                                                 </button>
                                             </span>
                                         </div>
-                                    </div>                            
+                                    </div>
+                                    
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div id="VendorList" class="autocompleteList"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                    <div class="form-group form-group-md">
+                                        <label>Vendor Reference No.</label>
+                                        <input type="text" class="form-control" id="VendorReferenceNo" />
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
@@ -170,7 +181,7 @@
 
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                    <%--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label for="IsTaxInclusive">Is Tax Inclusive</label>
                                         <div class="form-group form-group-md">
                                             <label class="label-tick">
@@ -182,11 +193,17 @@
                                                 <span class="label-text">No</span>
                                             </label>
                                         </div>
-                                    </div>
+                                    </div>--%>
 
                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                         <div class="form-group form-group-lg">
-                                            <input type="text" class="form-control" placeholder="Search Item Name" id="SearchItemName" />
+                                            <input type="text" class="form-control" placeholder="Enter Item Name" id="SearchItemName" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-lg">
+                                            <button type="button" class="btn btn-info btn-md" id="AddNewItem">Add New Item</button>
                                         </div>
                                     </div>
 
@@ -197,17 +214,19 @@
                                 </div>
                                 
                                 <div class="row">
-                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                                         <div class="table-responsive">
                                             <table id="PurchaseOrderItemsList" class="table">
                                                 <thead>
                                                     <tr>
+                                                        <th class="table-rows-large">Action</th>
                                                         <th class="table-rows-large">No. of Bales</th>
                                                         <th class="table-rows-large">Item Name</th>
+                                                        <th class="table-rows-large">Fabric Cut Length</th>
                                                         <th class="table-rows-large">Order Qty</th>
                                                         <th class="table-rows-large">UoM</th>
                                                         <th class="table-rows-large">Order Rate</th>
-                                                        <th class="table-rows-large">Discount</th>
+                                                        <th class="table-rows-large">Discount</th>                                                        
                                                         <th class="table-rows-large">Item Total</th>
                                                     </tr>
                                                 </thead>
@@ -249,20 +268,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                         <div class="form-group form-group-lg">
                                             <div id="ItemsTotalSummary">
                                                 <ul class="list-group">
                                                     <li class="list-group-item list-group-item-large">
-                                                        <span class="badge">14</span>
+                                                        <span class="badge">0</span>
                                                         Subtotal
                                                     </li>
                                                     <li class="list-group-item list-group-item-large">
-                                                        <span class="badge">14</span>
+                                                        <span class="badge">0</span>
                                                         GST
                                                     </li>
                                                     <li class="list-group-item list-group-item-large">
-                                                        <span class="badge">14</span>
+                                                        <span class="badge">0</span>
                                                         Total
                                                     </li>
                                                 </ul>
@@ -371,6 +390,101 @@
                 </div>
 
                 
+            </div>
+
+            <!-- /EditMode -->
+
+            <div id="ViewMode">
+
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                        <div class="panel panel-carmine">
+
+                            
+                            <div class="panel-heading panel-heading-carmine">
+                                <h4 class="panel-title">Purchase Order</h4>
+                            </div>
+
+                            <div class="action-toolbar-sub">
+                            
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                    <div class="form-group form-group-sm">
+                                        <select id="FilterOption" class="form-control">
+                                            <option value="-1">Please Select</option>
+                                            <option value="1">Todays Orders</option>
+                                            <option value="2">Search By Vendor</option>
+                                            <option value="3">Search By Period</option>
+                                            <option value="4">Search By Vendor Ref. No.</option>
+                                            <option value="5">Search By Vendor and Period</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                    <div class="form-group form-group-sm">
+                                        <select id="FilterYear" class="form-control"></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                                    <div class="form-group form-group-sm">
+                                        <input type="text" id="SearchByFilterVendor" class="form-control input-sm" placeholder="Type vendor name first 3 letters"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                    <div class="form-group form-group-sm">
+                                        <input type="text" id="SearchByFromDate" class="form-control input-sm" placeholder="Enter date e.g. 01/Apr/2018"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-1 col-md-2 col-sm-2 col-xs-12">
+                                    <div class="form-group form-group-sm">
+                                        <input type="text" id="SearchByToDate" class="form-control input-sm" placeholder="Enter date e.g. 30/Apr/2018" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="panel-body">
+
+                                    
+                                    <div class="table-responsive">
+
+                                        <table id="PurchaseOrderList" class="table table-condensed table-fixed">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-1 text-center">Action</th>
+                                                <th class="col-sm-1 text-center">P.O. No.</th>
+                                                <th class="col-sm-1 text-center">P.O. Date</th>
+                                                <th class="col-sm-2 text-center">Vendor</th>
+                                                <th class="col-sm-1 text-center">Ref. No.</th>                                                
+                                                <th class="col-sm-1 text-center">Total Bales</th>
+                                                <th class="col-sm-1 text-center">Total Order Qty</th>
+                                                <th class="col-sm-1 text-center">UoM</th>
+                                                <th class="col-sm-1 text-center">Total Amount</th>
+                                                <th class="col-sm-2 text-center">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                    </div>
+
+                                
+                            </div>
+
+                        </div>
+
+                        <!-- / panel -->
+
+                    </div>
+
+                </div>
+                <!-- / .row -->
+
             </div>
 
         </div>
