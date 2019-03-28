@@ -2594,3 +2594,35 @@ add
 mobile_no_1 varchar(10) null,
 mobile_no_2 varchar(10) null
 go
+
+CREATE TABLE client_categories
+(
+client_category_id	int	identity(1,1) not null,
+client_category		nvarchar(25) not null,
+is_deleted			bit not null,
+created_by			int not null,
+created_by_ip		nvarchar(25) not null,
+created_datetime	datetime not null,
+modified_by			int null,
+modified_by_ip		nvarchar(25) null,
+modified_datetime	datetime null,
+deleted_by			int null,
+deleted_by_ip		nvarchar(25) null,
+deleted_datetime	datetime null,
+row_guid			uniqueidentifier not null,
+constraint [pk_client_categories_client_category_id] primary key clustered
+	(
+		client_category_id
+	)
+) ON [PRIMARY]
+GO
+
+alter table client_categories add constraint [DF_client_categories_is_deleted] default(0) for[is_deleted]
+go
+
+alter table client_categories add constraint [DF_client_categories_created_datetime] default(GETDATE()) for[created_datetime]
+go
+
+alter table client_categories add constraint [DF_client_categories_row_guid] default(newid()) for[row_guid]
+go
+

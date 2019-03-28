@@ -1032,7 +1032,7 @@ SharpiTech.InwardDetails = (function () {
         if (isNaN(referenceId)) { referenceId = parseInt(0); }
 
         var inwardFrom = DOM.inwardFrom.options[DOM.inwardFrom.selectedIndex].text.toUpperCase();
-
+                
         if (inwardGoodsDetails.length > 0) {
 
             var inwardGoods = [];
@@ -1068,9 +1068,9 @@ SharpiTech.InwardDetails = (function () {
                         
                     for (var g = 0; g < inwardGoods.length; g++) {
 
-                        if (DOM.inwardId.value !== undefined && parseInt(DOM.inwardId.value) > 0 ) {
+                        //if (DOM.inwardId.value !== undefined && parseInt(DOM.inwardId.value) > 0 ) {
                             bindJobWorkItems(inwardGoods[g].ItemName, inwardGoods[g].ItemId, inwardGoods[g].UnitCode, inwardGoods[g].UnitOfMeasurementId, inwardGoods[0].InwardQty, inwardGoods[0].InwardGoodsId, inwardGoods[0].GoodsReceiptItemId);
-                        }
+                        //}
                     }
                 }
             }
