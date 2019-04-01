@@ -87,7 +87,7 @@ SharpiTech.Brand = (function () {
         }
 
         return selectedRows;
-    }
+    };
     
     function addNewBrand() {
 

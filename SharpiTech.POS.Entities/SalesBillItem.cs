@@ -79,5 +79,14 @@ namespace SharpiTech.POS.Entities
         public bool? IsSellAtNetRate { get; set; }
 
         public List<Entities.SalesBillItemChargesDetails> SalesBillItemCharges { get; set; }
+
+        public Int32? SalesSchemeId { get; set; }
+
+        public string Scheme { get; set; }
+
+        public decimal? SchemeDiscountPercent { get; set; }
+
+        public decimal? SchemeDiscountAmount { get; set; }
+
     }
 }

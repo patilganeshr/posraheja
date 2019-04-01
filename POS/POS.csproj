@@ -136,6 +136,7 @@
     <Content Include="Content\scripts\app\mis\purchase-bill-regiser.min.js">
       <DependentUpon>purchase-bill-register.js</DependentUpon>
     </Content>
+    <Content Include="Content\scripts\app\mis\sales-scheme-register.js" />
     <Content Include="Content\scripts\app\mis\salesmanwise-sale-qty-report.js" />
     <Content Include="Content\scripts\app\mis\stock-as-on-date.js" />
     <Content Include="Content\scripts\app\mis\stock-in-transit.js" />
@@ -203,6 +204,7 @@
     <Content Include="MIS\SaleQtyReport.aspx" />
     <Content Include="MIS\SalesmanwiseSalesValueReport.aspx" />
     <Content Include="MIS\SalesmanwiseSalesQtyReport.aspx" />
+    <Content Include="MIS\SalesSchemeRegister.aspx" />
     <Content Include="MIS\StockReport.aspx" />
     <Content Include="MIS\StockAsOnDate.aspx" />
     <Content Include="MIS\StockInTransit.aspx" />
@@ -984,6 +986,13 @@
     </Compile>
     <Compile Include="MIS\SalesmanwiseSalesQtyReport.aspx.designer.cs">
       <DependentUpon>SalesmanwiseSalesQtyReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\SalesSchemeRegister.aspx.cs">
+      <DependentUpon>SalesSchemeRegister.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MIS\SalesSchemeRegister.aspx.designer.cs">
+      <DependentUpon>SalesSchemeRegister.aspx</DependentUpon>
     </Compile>
     <Compile Include="MIS\StockReport.aspx.cs">
       <DependentUpon>StockReport.aspx</DependentUpon>

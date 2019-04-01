@@ -168,6 +168,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SalesReturnBillController.cs" />
     <Compile Include="Controllers\SalesSchemeController.cs" />
+    <Compile Include="Controllers\SalesSchemeRegisterController.cs" />
     <Compile Include="Controllers\StockDetailsController.cs" />
     <Compile Include="Controllers\PkgSlipController.cs" />
     <Compile Include="Controllers\GoodsReceiptController.cs" />

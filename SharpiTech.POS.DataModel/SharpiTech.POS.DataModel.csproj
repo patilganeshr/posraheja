@@ -113,6 +113,7 @@
     <Compile Include="SalesReturnBillAdjustment.cs" />
     <Compile Include="SalesReturnBillItem.cs" />
     <Compile Include="SalesScheme.cs" />
+    <Compile Include="SalesSchemeRegister.cs" />
     <Compile Include="StockInTransit.cs" />
     <Compile Include="StockReport.cs" />
     <Compile Include="Role.cs" />

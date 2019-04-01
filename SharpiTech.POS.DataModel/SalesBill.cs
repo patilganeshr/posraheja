@@ -584,7 +584,12 @@ namespace SharpiTech.POS.DataModel
                                 UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
                                 IsSet = DRE.GetNullableBoolean(reader, "is_set", null),
                                 IsSellAtNetRate = DRE.GetNullableBoolean(reader, "is_sell_at_net_rate", null),
-                                SaleRate = DRE.GetNullableDecimal(reader, "flat_rate", null)
+                                SaleRate = DRE.GetNullableDecimal(reader, "flat_rate", null),
+                                SalesSchemeId = DRE.GetNullableInt32(reader, "sales_scheme_id", null),
+                                Scheme = DRE.GetNullableString(reader, "scheme", null),
+                                TypeOfDiscount = DRE.GetNullableString(reader, "type_of_discount", null),
+                                SchemeDiscountPercent = DRE.GetNullableDecimal(reader, "discount_percent", null),
+                                SchemeDiscountAmount = DRE.GetNullableDecimal(reader, "discount_amount", null)
                             };
 
                             itemDetails = salesBillItem;

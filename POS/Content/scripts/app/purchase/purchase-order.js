@@ -1595,7 +1595,7 @@ SharpiTech.PurchaseOrder = (function () {
                             UnitOfMeasurementId: unitOfMeasurementId
                         };
 
-                        if (validateOrderItems(dataValidation)) { }
+                        //if (validateOrderItems(dataValidation)) { }
 
                         var orderItem = {};
 

@@ -1120,7 +1120,7 @@ SharpiTech.SalesBill = (function () {
                                 res.TaxId = parseInt(0);
                                 res.GSTRate = parseFloat(0);
                                 res.TotalItemAmount = parseFloat(0);
-
+                                
                                 bindBarcodeItem(res);
 
                             }
@@ -1260,6 +1260,10 @@ SharpiTech.SalesBill = (function () {
         var HSNCode = null;
         var saleQty = parseFloat(0);
         var itemSaleRate = parseFloat(0);
+        var salesSchemeid = 0;
+        var scheme = null;
+        var schemeDiscountPercent = 0;
+        var schemeDiscountAmount = 0;
         var typeOfDiscount = null;
         var cashDiscountPercent = parseFloat(0);
         var taxId = parseInt(0);
@@ -1269,6 +1273,7 @@ SharpiTech.SalesBill = (function () {
         var GSTAmount = parseFloat(0);
         var totalItemAmount = parseFloat(0);
 
+        
         salesBillItemId = parseInt(response.SalesBillItemId);
         goodsReceiptItemId =  parseInt(response.GoodsReceiptItemId);
         itemId = parseInt(response.ItemId);
@@ -1278,6 +1283,10 @@ SharpiTech.SalesBill = (function () {
         HSNCode = response.HSNCode;
         saleQty = response.SaleQty;
         itemSaleRate = response.SaleRate;
+        salesSchemeid = response.SalesSchemeId;
+        scheme = response.Scheme;
+        schemeDiscountPercent = response.SchemeDiscountPercent;
+        schemeDiscountAmount = response.SchemeDiscountAmount;
         typeOfDiscount = response.TypeOfDiscount;
         cashDiscountPercent = parseFloat(response.CashDiscountPercent);
         taxId = parseInt(response.TaxId);

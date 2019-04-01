@@ -1,10 +1,9 @@
-﻿<%@ Page Title="Item Margin" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ItemMargin.aspx.cs" Inherits="POS.MIS.ItemMargin" %>
-
+﻿<%@ Page Title="Sales Schemes Register" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SalesSchemeRegister.aspx.cs" Inherits="POS.MIS.SalesSchemeRegister" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cpMaster" runat="server">
 
-        <div class="action-toolbar">
+  <div class="action-toolbar">
 
         <a href="#" id="GenerateReport"><i class="fa fa-eye fa-fw"></i>Generate Report</a>
         <a href="#" id="FilterReport"><i class="fa fa-filter fa-fw"></i>Filter</a>
@@ -28,7 +27,7 @@
             </div>
 
             <div class="page-header">
-                <h3>Item Margin Report</h3>
+                <h3>Sales Schemes Register</h3>
             </div>
 
             <%--<div class="row">
@@ -115,7 +114,22 @@
                                     <iframe id="txtArea1" style="display:none;"></iframe>
 
                                     <div class="table-responsive">
-                                        <table id="ItemMarginList" class="table table-condensed">                                            
+                                        <table id="SalesSchemeList" class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th>Brand Name</th>
+                                                    <th>Item Cateogry Name</th>
+                                                    <th>Item Name</th>
+                                                    <th>Discount Percent</th>
+                                                    <th>Discount Amount</th>
+                                                    <th>Max Discount Amount</th>
+                                                    <th>Sale Start Date</th>
+                                                    <th>Sale End Date</th>
+                                                    <th>Branch Name</th>
+                                                    <th>Company Name</th>
+                                                </tr>
+                                           </thead>
+                                            <tbody></tbody>
                                         </table>                                        
                                     </div>
 
@@ -136,6 +150,6 @@
     </div>
 
     <script type="text/javascript" src="../content/scripts/app/shared/default.js"></script>
-    <script type="text/javascript" src="../content/scripts/app/mis/item-margin-register.js"></script>
-    
+    <script type="text/javascript" src="../content/scripts/app/mis/sales-scheme-register.js"></script>
+
 </asp:Content>
