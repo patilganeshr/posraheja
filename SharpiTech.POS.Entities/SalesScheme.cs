@@ -40,5 +40,7 @@ namespace SharpiTech.POS.Entities
 
         public Int32? CompanyId { get; set; }
 
+        public string SchemeName { get; set; }
+
     }
 }

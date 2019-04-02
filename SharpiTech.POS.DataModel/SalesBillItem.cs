@@ -46,6 +46,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@tax_id", DbType.Int32, salesBillItem.TaxId);
                     database.AddInParameter(dbCommand, "@gst_rate_id", DbType.Int32, salesBillItem.GSTRateId);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, salesBillItem.Remarks);
+                    database.AddInParameter(dbCommand, "@sales_scheme_id", DbType.Int32, salesBillItem.SalesSchemeId);
                     database.AddInParameter(dbCommand, "@created_by", DbType.Int32, salesBillItem.CreatedBy);
                     database.AddInParameter(dbCommand, "@created_by_ip", DbType.String, salesBillItem.CreatedByIP);
 
@@ -96,6 +97,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@tax_id", DbType.Int32, salesBillItem.TaxId);
                     database.AddInParameter(dbCommand, "@gst_rate_id", DbType.Int32, salesBillItem.GSTRateId);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, salesBillItem.Remarks);
+                    database.AddInParameter(dbCommand, "@sales_scheme_id", DbType.Int32, salesBillItem.SalesSchemeId);
                     database.AddInParameter(dbCommand, "@created_by", DbType.Int32, salesBillItem.CreatedBy);
                     database.AddInParameter(dbCommand, "@created_by_ip", DbType.String, salesBillItem.CreatedByIP);
 
@@ -238,6 +240,10 @@ namespace SharpiTech.POS.DataModel
                                 GSTAmount = DRE.GetNullableDecimal(reader, "gst_amount", null),
                                 TotalItemAmount = DRE.GetNullableDecimal(reader, "total_item_amount", null),
                                 Remarks = DRE.GetNullableString(reader, "remarks", null),
+                                SalesSchemeId = DRE.GetNullableInt32(reader, "sales_scheme_id", null),
+                                SchemeName = DRE.GetNullableString(reader, "sales_scheme", null),
+                                SchemeDiscountPercent = DRE.GetNullableDecimal(reader, "scheme_discount_percent", null),
+                                SchemeDiscountAmount = DRE.GetNullableDecimal(reader, "scheme_discount_amount", null),
                                 guid = DRE.GetNullableGuid(reader, "row_guid", null),
                                 SrNo = DRE.GetNullableInt64(reader, "sr_no", null),
                                 SalesBillItemCharges = billItemChargesDetails.GetBillitemChargesDetailsBySalesBillItemId(DRE.GetInt32(reader, "sales_bill_item_id"))
@@ -285,6 +291,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@tax_id", DbType.Int32, salesBillItem.TaxId);
                     database.AddInParameter(dbCommand, "@gst_rate_id", DbType.Int32, salesBillItem.GSTRateId);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, salesBillItem.Remarks);
+                    database.AddInParameter(dbCommand, "@sales_scheme_id", DbType.Int32, salesBillItem.SalesSchemeId);
                     database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, salesBillItem.ModifiedBy);
                     database.AddInParameter(dbCommand, "@modified_by_ip", DbType.String, salesBillItem.ModifiedByIP);
 
@@ -335,6 +342,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@tax_id", DbType.Int32, salesBillItem.TaxId);
                     database.AddInParameter(dbCommand, "@gst_rate_id", DbType.Int32, salesBillItem.GSTRateId);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, salesBillItem.Remarks);
+                    database.AddInParameter(dbCommand, "@sales_scheme_id", DbType.Int32, salesBillItem.SalesSchemeId);
                     database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, salesBillItem.ModifiedBy);
                     database.AddInParameter(dbCommand, "@modified_by_ip", DbType.String, salesBillItem.ModifiedByIP);
 

@@ -82,7 +82,7 @@ namespace SharpiTech.POS.Entities
 
         public Int32? SalesSchemeId { get; set; }
 
-        public string Scheme { get; set; }
+        public string SchemeName { get; set; }
 
         public decimal? SchemeDiscountPercent { get; set; }
 

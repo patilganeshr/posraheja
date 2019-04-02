@@ -241,6 +241,7 @@
                                                     <th class="text-center">Unit Code</th>
                                                     <th class="text-center">Sale Qty</th>
                                                     <th class="text-center">Rate</th>
+                                                    <th class="text-center">Scheme</th>
                                                     <th class="text-center">Type of Discount</th>
                                                     <th class="text-center">Discount Rate</th>
                                                     <th class="text-center">Taxable Value</th>

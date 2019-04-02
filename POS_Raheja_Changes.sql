@@ -4362,3 +4362,279 @@ values
 (89,1,559, 0, 1000, 0.00, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1'	),
 (37,1,536, 0, 1000, 0.00, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1'	)
 
+
+
+
+    SELECT
+		gri.goods_receipt_item_id,
+		i.item_id,
+		gc.hsn_code,
+		dbo.udf_items_get_item_name_by_brand_category_and_quality( i.item_id) AS item_name,
+		uom.unit_code,
+		uom.unit_of_measurement_id,
+		i.is_set,
+		ISNULL(issi.item_set_sub_item_id,0) item_set_sub_item_id ,
+		ir.is_sell_at_net_rate,
+		ircc.flat_rate,
+		ss.sales_scheme_id,
+		ss.discount_percent,
+		ss.discount_amount,
+		'FLAT ' + CASE WHEN ss.discount_amount > 0 THEN 'Rs. ' + CAST(CONVERT(decimal(18,0), ss.discount_amount) AS nvarchar(10))
+		ELSE CAST(CONVERT(decimal(18,0), ss.discount_percent) AS nvarchar(10)) + '% ' END + ' OFF' AS scheme,
+		CASE WHEN ss.discount_percent > 0 THEN 'Cash Discount' ELSE 'Rate Diff' END AS type_of_discount
+	FROM
+		dbo.goods_receipt_items gri
+	INNER JOIN
+		dbo.purchase_bill_items pbi ON gri.purchase_bill_item_id = pbi.purchase_bill_item_id
+	INNER JOIN
+		dbo.items i ON pbi.item_id = i.item_id
+	INNER JOIN
+		dbo.item_categories ic ON i.item_category_id = ic.item_category_id
+	INNER JOIN
+		dbo.gst_categories gc ON ic.gst_category_id = gc.gst_category_id
+	INNER JOIN
+		dbo.units_of_measurements uom ON i.unit_of_measurement_id = uom.unit_of_measurement_id
+	LEFT JOIN
+		dbo.item_rates ir ON i.item_id = ir.item_id 
+	LEFT JOIN
+		dbo.item_rates_for_customer_categories ircc ON ir.item_rate_id = ircc.item_rate_id and ircc.is_deleted = 0 and ircc.flat_rate > 0 and ircc.customer_category_id = 3
+	LEFT JOIN
+		dbo.item_sets_sub_items issi ON i.item_id = issi.sub_item_id
+	LEFT JOIN
+		dbo.sales_schemes ss ON pbi.item_id = ss.item_id AND GETDATE() + 1 BETWEEN ss.sale_start_date AND ss.sale_end_date
+	WHERE
+		gri.goods_receipt_item_id = 1436
+		AND gri.is_deleted = 0
+
+
+select ss.sales_scheme_id, ss.discount_percent, ss.discount_amount
+from dbo.sales_schemes ss
+where ss.item_id = 1066
+and GETDATE() + 1 BETWEEN ss.sale_start_date AND ss.sale_end_date
+
+
+
+exec usp_sales_bills_get_sales_bill_details_by_working_period_sale_type_and_sales_bill_no 2, 1, 10672
+
+exec usp_sales_bills_items_get_items_by_sales_bill_id 9112
+
+select sb.working_period_id, * from dbo.sales_bills sb
+where sb.sales_bill_no = 10777
+
+
+select * from dbo.sales_bills_items sbi
+where sbi.sales_bill_id = 1501
+
+    SELECT
+		sbi.sales_bill_item_id,
+		sbi.sales_bill_id,
+		sbi.goods_receipt_item_id,
+		sbi.item_id,
+		(
+			SELECT
+				dbo.udf_items_get_item_name_by_brand_category_and_quality (sbi.item_id)
+		) AS item_name,
+		gc.hsn_code,
+		sbi.sale_qty,
+		sbi.unit_of_measurement_id,
+		uom.unit_code,
+		sbi.sale_rate,
+		(sbi.sale_qty * sbi.sale_rate) AS amount,
+		sbi.type_of_discount,
+		sbi.cash_discount_percent,
+		sbi.discount_amount,
+		sbi.rate_adjustment,
+		sbi.rate_adjustment_remarks,
+		(sbi.sale_qty * sbi.sale_rate) - sbi.discount_amount AS total_amount_after_discount,
+		(select dbo.udf_sales_bills_items_get_item_amount_before_tax(sbi.sales_bill_item_id)) as amount_before_tax,
+		sbi.gst_rate_id,
+		gr.gst_rate,
+		sbi.tax_id,
+		gr.gst_name,
+		CAST(ROUND((select dbo.udf_sales_bills_items_get_item_amount_before_tax(sbi.sales_bill_item_id)) * (gr.gst_rate / 100),2) AS decimal(18,2)) AS gst_amount,
+		CAST(ROUND((select dbo.udf_sales_bills_items_get_item_amount_before_tax(sbi.sales_bill_item_id)) * (gr.gst_rate / 100) 
+		+ (select dbo.udf_sales_bills_items_get_item_amount_before_tax(sbi.sales_bill_item_id)),2) AS decimal(18,2)) AS total_item_amount,
+		sbi.remarks,
+		ss.sales_scheme_id,
+		ss.discount_percent,
+		ss.discount_amount,
+		sbi.row_guid,
+		ROW_NUMBER() OVER (ORDER BY sbi.sales_bill_item_id) AS sr_no
+	FROM
+		dbo.sales_bills_items sbi
+	INNER JOIN
+		dbo.sales_bills sb ON sbi.sales_bill_id = sb.sales_bill_id
+	INNER JOIN
+		dbo.items i ON sbi.item_id = i.item_id
+	INNER JOIN
+		dbo.item_categories ic ON i.item_category_id = ic.item_category_id
+	LEFT JOIN
+		dbo.gst_categories gc ON ic.gst_category_id = gc.gst_category_id
+	INNER JOIN
+		dbo.units_of_measurements uom ON i.unit_of_measurement_id = uom.unit_of_measurement_id
+	LEFT JOIN
+		dbo.gst_rates gr ON sbi.gst_rate_id = gr.gst_rate_id
+	LEFT JOIN
+		dbo.sales_schemes ss ON sbi.sales_scheme_id = ss.sales_scheme_id AND sbi.item_id = ss.item_id 
+		AND sb.sales_bill_date BETWEEN ss.sale_start_date AND ss.sale_end_date
+	WHERE
+		sbi.sales_bill_id = 9112
+		AND sbi.is_deleted = 0
+	ORDER BY
+		sr_no
+
+
+
+select b.brand_name, ic.item_category_name, i.item_name,
+ss.discount_percent, ss.discount_amount, ss.max_discount_amount,
+replace(convert(nvarchar(11), ss.sale_start_date, 106),' ','/') AS sale_start_date,
+replace(convert(nvarchar(11), ss.sale_end_date, 106), ' ','/') AS sale_end_date
+from dbo.sales_schemes ss
+inner join dbo.brands b ON ss.brand_id = b.brand_id
+inner join dbo.item_categories ic ON ss.item_category_id = ic.item_category_id
+inner join dbo.items i ON ss.item_id = i.item_id
+
+	SELECT
+		b.brand_id,
+		ic.item_category_id,
+		iq.item_quality_id,
+		i.item_id,
+		b.brand_name,
+		ic.item_category_name,
+		iq.item_quality,
+		i.item_name,
+		vwirwr.wholesale_rate,
+		vwirwr.retail_rate
+	FROM
+		dbo.items i
+	INNER JOIN
+		dbo.item_qualities iq ON i.item_quality_id = iq.item_quality_id
+	INNER JOIN
+		dbo.item_categories ic ON i.item_category_id = ic.item_category_id
+	INNER JOIN
+		dbo.brands b ON i.brand_id = b.brand_id
+	LEFT JOIN
+		dbo.vw_item_rates_wholesale_and_retail_rate vwirwr ON i.item_id = vwirwr.item_id
+	WHERE 
+		not i.item_id in (
+			select ss.item_id
+			from dbo.sales_schemes ss
+		)
+	ORDER BY
+		b.brand_name,
+		ic.item_category_name,
+		iq.item_quality,
+		i.item_name
+
+		insert into dbo.sales_schemes
+(brand_id, item_category_id, item_id, discount_percent, discount_amount, max_discount_amount, buy_qty, free_qty,
+sale_start_date, sale_end_date, branch_id, is_deleted, created_by, created_by_ip)
+values
+(51,11,570,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(51,11,124,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(51,11,1071,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(51,11,2179,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(51,11,2180,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(109,11,561,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(3,11,10,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(3,11,565,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(62,11,172,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(62,11,1318,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(62,11,170,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(62,11,101,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(62,11,173,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(62,11,541,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(62,11,171,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(62,11,745,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(43,11,102,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(43,11,270,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(191,11,1691,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(24,14,712,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(24,14,715,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(24,14,1077,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,30,1494,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,30,2002,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1340,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1346,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1345,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1447,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1347,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1341,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1339,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1344,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(9,36,1348,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(36,27,469,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(36,27,313,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(36,27,312,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(36,27,334,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(167,32,1229,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(167,32,1252,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2329,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2088,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2327,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2331,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2330,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2324,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2328,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2325,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,2087,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,1305,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,1306,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,1308,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,1307,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,1303,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,1309,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(174,32,1304,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(1,25,1236,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(1,25,185,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,25,186,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,8,1835,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,8,1413,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,8,1411,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,8,1414,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,8,1412,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,8,187,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,27,181,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,27,665,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,27,662,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,27,1186,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(1,27,666,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(1,32,2326,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(1,32,885,30, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')		,
+(158,61,2075,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(158,61,2076,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(158,61,2077,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(158,61,2078,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(158,61,2079,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(27,32,1240,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(27,32,705,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(27,32,704,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(27,32,703,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(27,32,702,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(27,32,701,15, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(93,11,269,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,192,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,562,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,564,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,563,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,1536,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,746,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,1316,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,193,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(63,11,194,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(186,27,1465,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(186,27,1463,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(186,27,1466,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(186,27,1464,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(186,27,1467,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,11,566,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,11,539,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,481,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,492,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,480,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,495,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,488,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,486,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,475,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(17,27,472,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
+(210,11,1948,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	

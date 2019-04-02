@@ -1120,9 +1120,17 @@ SharpiTech.SalesBill = (function () {
                                 res.TaxId = parseInt(0);
                                 res.GSTRate = parseFloat(0);
                                 res.TotalItemAmount = parseFloat(0);
-                                
-                                bindBarcodeItem(res);
 
+                                getSalesSchemeDetails( res.ItemId, function (data) {
+
+                                    res.SalesSchemeId = data.SalesSchemeId;
+                                    res.SalesScheme = data.SchemeName;
+                                    res.SchemeDiscountPercent = data.DiscountPercent;
+                                    res.SchemeDiscountAmount = data.DiscountAmount;
+                                    
+                                    bindBarcodeItem(res);
+
+                                });
                             }
 
                             //DOM.qtyInPcs.value = parseInt(1);
@@ -1157,7 +1165,16 @@ SharpiTech.SalesBill = (function () {
                                 res.TotalItemAmount = parseFloat(0);
                                 res.GoodsReceiptItemId = parseInt(DOM.scanBarcode.getAttribute('data-goods-receipt-item-id'));
 
-                                bindBarcodeItem(res);                                
+                                getSalesSchemeDetails(res.ItemId, function (data) {
+
+                                    res.SalesSchemeId = data.SalesSchemeId;
+                                    res.SalesScheme = data.SchemeName;
+                                    res.SchemeDiscountPercent = data.DiscountPercent;
+                                    res.SchemeDiscountAmount = data.DiscountAmount;
+                                    
+                                    bindBarcodeItem(res);
+
+                                });
                             }
 
                             //DOM.qtyInPcs.value = parseInt(1);
@@ -1243,6 +1260,30 @@ SharpiTech.SalesBill = (function () {
 
     }
 
+    function getSalesSchemeDetails(itemId, callback) {
+
+        // Get the sales scheme details by item id and bill date
+
+        var billDate = DOM.billDate.value;
+
+        billDate = billDate.replace(/\//g, "-");
+
+        shared.sendRequest(SERVICE_PATH + "GetSalesSchemeDetails/" + itemId + "/" + billDate, "GET", true, "JSON", null, function (response) {
+
+            if (response.status === 200) {
+
+                if (response.responseText !== undefined) {
+
+                    var res = JSON.parse(response.responseText);
+
+                    callback(res);
+
+                }
+            }
+        });
+
+    }
+
     function bindBarcodeItem(response) {
 
         var table = DOM.salesBillItemsList;
@@ -1261,7 +1302,7 @@ SharpiTech.SalesBill = (function () {
         var saleQty = parseFloat(0);
         var itemSaleRate = parseFloat(0);
         var salesSchemeid = 0;
-        var scheme = null;
+        var salesScheme = null;
         var schemeDiscountPercent = 0;
         var schemeDiscountAmount = 0;
         var typeOfDiscount = null;
@@ -1284,7 +1325,7 @@ SharpiTech.SalesBill = (function () {
         saleQty = response.SaleQty;
         itemSaleRate = response.SaleRate;
         salesSchemeid = response.SalesSchemeId;
-        scheme = response.Scheme;
+        salesScheme = response.SalesScheme;
         schemeDiscountPercent = response.SchemeDiscountPercent;
         schemeDiscountAmount = response.SchemeDiscountAmount;
         typeOfDiscount = response.TypeOfDiscount;
@@ -1336,6 +1377,9 @@ SharpiTech.SalesBill = (function () {
         var DOM_itemRateHistorySpan = createElement('span', undefined, "input-group-addon", undefined, "ItemRateHistory");
         var DOM_itemRateHistory = createElement('i', undefined, "fa fa-history", undefined);
 
+        var DOM_salesSchemeContainer = createElement('td');        
+        var DOM_salesScheme = createElement('input', 'text', 'form-control input-sm text-center', 'SalesScheme', 'SalesScheme' + goodsReceiptItemId);
+        
         var DOM_typeOfDiscountContainer = createElement('td');
         var DOM_typeOfDiscount = createElement('select', '', 'form-control input-sm', 'TypeOfDiscount', 'TypeOfDiscount' + goodsReceiptItemId);
 
@@ -1382,6 +1426,7 @@ SharpiTech.SalesBill = (function () {
         DOM_itemRateHistorySpan.appendChild(DOM_itemRateHistory);
         DOM_itemRateHistoryContainer.appendChild(DOM_itemRateHistorySpan);        
         DOM_sellRateContainer.appendChild(DOM_itemRateHistoryContainer);
+        DOM_salesSchemeContainer.appendChild(DOM_salesScheme);
         DOM_typeOfDiscountContainer.appendChild(DOM_typeOfDiscount);
         DOM_discountRateContainer.appendChild(DOM_discountRate);
         DOM_taxableValueContainer.appendChild(DOM_taxableValue);
@@ -1408,9 +1453,34 @@ SharpiTech.SalesBill = (function () {
         DOM_unitOfMeasurementContainer.innerHTML = unitCode;
         DOM_saleQty.value = parseFloat(saleQty);
         DOM_sellRate.value = parseFloat(itemSaleRate);
+        DOM_salesScheme.value = salesScheme;
+        DOM_salesScheme.setAttribute('data-sales-scheme-id', salesSchemeid);
+        DOM_salesScheme.setAttribute('data-scheme-discount-percent', schemeDiscountPercent);
+        DOM_salesScheme.setAttribute('data-scheme-discount-amount', schemeDiscountAmount);
+        //DOM_salesScheme.disabled = "disabled";
         shared.setSelectValue(DOM_typeOfDiscount, typeOfDiscount, null);
         shared.setSelect2ControlsText(DOM_typeOfDiscount);                    
-        DOM_discountRate.value = parseFloat(cashDiscountPercent);
+
+        if (salesSchemeid > 0) {
+
+            if (schemeDiscountPercent > 0) {
+                DOM_discountRate.value = parseFloat(schemeDiscountPercent);
+                typeOfDiscount = "CASH DISCOUNT";
+            }
+            else {
+                DOM_discountRate.value = parseFloat(schemeDiscountAmount);
+                typeOfDiscount = "RATE DIFFERENCE";
+            }
+        }
+        else {
+
+            typeOfDiscount = response.TypeOfDiscount;
+            DOM_discountRate.value = parseFloat(cashDiscountPercent);
+        }
+
+        shared.setSelectValue(DOM_typeOfDiscount, typeOfDiscount, null);
+        shared.setSelect2ControlsText(DOM_typeOfDiscount);                    
+
         DOM_taxableValue.value = parseFloat(taxableValue);
         DOM_GSTRate.value = parseFloat(GSTRate);
         DOM_GSTAmount.value = parseFloat(GSTAmount);
@@ -1423,6 +1493,7 @@ SharpiTech.SalesBill = (function () {
         tr.appendChild(DOM_unitOfMeasurementContainer);
         tr.appendChild(DOM_saleQtyContainer);
         tr.appendChild(DOM_itemRateHistoryContainer);
+        tr.appendChild(DOM_salesSchemeContainer);
         tr.appendChild(DOM_typeOfDiscountContainer);
         tr.appendChild(DOM_discountRateContainer);
         tr.appendChild(DOM_taxableValueContainer);
@@ -1433,9 +1504,20 @@ SharpiTech.SalesBill = (function () {
         tableBody.appendChild(tr);
 
         if (salesBillItemId === 0) {
+
+            
             var event = new Event('onblur');
             DOM_sellRate.addEventListener('onblur', calculateItemAmount);
             DOM_sellRate.dispatchEvent(event);
+
+
+            DOM_salesScheme.onclick = function (e) {
+                removeScheme(e);
+            };
+
+            //var event = new Event('onblur');
+            //DOM_salesScheme.addEventListener('onblur', removeScheme);
+            //DOM_salesScheme.dispatchEvent(event);
 
             DOM.scanBarcode.focus();
         }
@@ -1608,12 +1690,27 @@ SharpiTech.SalesBill = (function () {
         calculateItemAmount();
     }
 
+
+    function removeScheme(e) {
+
+        e.value = "";
+
+        e.target.setAttribute('data-sales-scheme-id', 0);
+        e.target.setAttribute('data-scheme-discount-percent', 0);
+        e.target.setAttribute('data-scheme-discount-amount', 0);
+
+        calculateItemAmount(e);
+    }
+
     function calculateItemAmount(e) {
 
         var itemId = parseInt(0);        
         var saleQty = parseFloat(0);
         var saleRate = parseFloat(0);
         var amount = parseFloat(0);
+        var schemeDiscountPercent = parseFloat(0);
+        var schemeDiscountAmount = parseFloat(0);
+        var rateAfterSchemeDiscount = 0;
         var cashDiscountPercent = parseFloat(0);
         var cashDiscountAmt = parseFloat(0);
         var rateDifference = parseFloat(0);
@@ -1639,14 +1736,56 @@ SharpiTech.SalesBill = (function () {
         HSNCode = tableRow.children[2].innerHTML;
         saleQty = parseFloat(inputs[1].value);
         saleRate = parseFloat(inputs[2].value);
+        schemeDiscountPercent = parseFloat(inputs[3].getAttribute('data-scheme-discount-percent'));
+        schemeDiscountAmount = parseFloat(inputs[3].getAttribute('data-scheme-discount-amount'));
+
+
+        if (isNaN(schemeDiscountPercent)) { schemeDiscountPercent = 0; }
+        if (isNaN(schemeDiscountAmount)) { schemeDiscountAmount = 0; }
+
         typeOfDiscount = select[0].options[select[0].selectedIndex].text;
+
+        if (schemeDiscountPercent > 0) {
+            typeOfDiscount = "CASH DISCOUNT";
+            inputs[4].value = schemeDiscountPercent;
+        }
+        else {
+            typeOfDiscount = "RATE DIFFERENCE";
+            inputs[4].value = schemeDiscountAmount;
+        }
+
         if (typeOfDiscount.toUpperCase() === "CASH DISCOUNT") {
-            cashDiscountPercent = parseFloat(inputs[3].value);
+            cashDiscountPercent = parseFloat(inputs[4].value);
             //cashDiscountAmt = saleRate * (cashDiscountPercent / 100);        
         }
         else {
-            rateDifference = parseFloat(inputs[3].value);
+            rateDifference = parseFloat(inputs[4].value);
         }
+
+        ////SCHEME DISCOUNT APPLICABLE
+        //if (schemeDiscountPercent > 0) {
+
+        //    var schemeDisc = parseFloat(parseFloat(saleRate * (schemeDiscountPercent / 100)).toFixed(2));
+
+        //    //DOM.cashDiscountAmt.value = cashDiscountAmt;
+
+        //    rateAfterSchemeDiscount = parseFloat(saleRate - schemeDisc);
+
+        //    amount = parseFloat(saleQty * rateAfterSchemeDiscount);
+        //}
+        //else if (schemeDiscountAmount > 0) {
+
+        //    rateAfterSchemeDiscount = parseFloat(saleRate - schemeDiscountAmount);
+
+        //    amount = parseFloat(saleQty * rateAfterSchemeDiscount);
+        //}
+        //else {
+
+        //    rateAfterSchemeDiscount = parseFloat(saleRate);
+
+        //    amount = parseFloat(saleQty * (parseFloat(rateAfterSchemeDiscount)));
+
+        //}
 
         //DOM.rateDifference.value = rateDifference;
         //DOM.rateAfterCDRD.value = rateAfterCDRD;
@@ -1675,10 +1814,12 @@ SharpiTech.SalesBill = (function () {
         }
         else {
 
-            rateAfterCDRD = parseFloat(saleRate);
+            //if (rateAfterSchemeDiscount === 0) {
 
-            amount = parseFloat(saleQty * (parseFloat(rateAfterCDRD)));
-            
+                rateAfterCDRD = parseFloat(saleRate);
+
+                amount = parseFloat(saleQty * (parseFloat(rateAfterCDRD)));
+            //}            
         }
 
         //DOM.amount.value = amount;
@@ -1722,10 +1863,10 @@ SharpiTech.SalesBill = (function () {
 
                     totalItemAmount = parseFloat(parseFloat(taxableValue + GSTAmount).toFixed(2));
 
-                    inputs[4].value = taxableValue;
-                    inputs[5].value = GSTRate,
-                    inputs[6].value = GSTAmount;                    
-                    inputs[7].value = totalItemAmount;
+                    inputs[5].value = taxableValue;
+                    inputs[6].value = GSTRate,
+                    inputs[7].value = GSTAmount;                    
+                    inputs[8].value = totalItemAmount;
                     
                     showGSTBreakup();
 
@@ -1802,7 +1943,7 @@ SharpiTech.SalesBill = (function () {
 
                 if (tableRows[tr].style.display !== "none") {
 
-                    var totalItemAmount = tableRows[tr].children[12].children[0];
+                    var totalItemAmount = tableRows[tr].children[13].children[0];
 
                     totalBillAmount += parseFloat(totalItemAmount.value);
                 }
@@ -3295,6 +3436,10 @@ SharpiTech.SalesBill = (function () {
                     HSNCode: billItems[i].HSNCode,
                     SaleQty: billItems[i].SaleQty,
                     SaleRate: billItems[i].SaleRate,
+                    SalesSchemeId: billItems[i].SalesSchemeId,
+                    SalesScheme: billItems[i].SchemeName,
+                    SchemeDiscountPercent: billItems[i].SchemeDiscountPercent,
+                    SchemeDiscountAmount: billItems[i].SchemeDiscountAmount,
                     TypeOfDiscount: billItems[i].TypeOfDiscount,
                     CashDiscountPercent: billItems[i].CashDiscountPercent,
                     TaxableValue: billItems[i].TaxableValue,
@@ -3423,6 +3568,9 @@ SharpiTech.SalesBill = (function () {
             var taxId = parseInt(0);
             var gstRateId = parseInt(0);
             var srNo = parseInt(0);
+            var salesSchemeId = 0;
+            var schemeDiscountPercent = 0;
+            var schemeDiscountAmount = 0;
 
             salesBillId = parseInt(DOM.billNo.getAttribute('data-sales-bill-id'));
 
@@ -3441,18 +3589,35 @@ SharpiTech.SalesBill = (function () {
 
                     if (inputs.length) {
 
-                        if (parseFloat(inputs[4].value) > parseFloat(0)) {
+                        if (parseFloat(inputs[5].value) > parseFloat(0)) {
                             goodsReceiptItemId = parseInt(inputs[0].value);
                             itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
                             saleQty = parseFloat(parseFloat(inputs[1].value).toFixed(2));
                             saleRate = parseFloat(parseFloat(inputs[2].value).toFixed(2));
-                            cashDiscountPercent = parseFloat(parseFloat(inputs[3].value).toFixed(2));
+                            cashDiscountPercent = parseFloat(parseFloat(inputs[4].value).toFixed(2));
+                            salesSchemeId = parseInt(inputs[3].getAttribute('sales-scheme-id'));
+                            schemeDiscountPercent = parseFloat(inputs[3].getAttribute('scheme-discount-percent'));
+                            schemeDiscountAmount = parseFloat(inputs[3].getAttribute('scheme-discount-amount'));
+
+                            if (salesSchemeId > 0) {
+
+                                if (schemeDiscountPercent > 0) {
+
+                                    typeOfDiscount = "CASH DISCOUNT";
+                                }
+                                else {
+                                    typeOfDiscount = "RATE DIFF";
+                                }
+                            }
+
                             if (select[0].selectedIndex > 0) {
                                 typeOfDiscount = select[0].options[select[0].selectedIndex].text.toUpperCase();
                             }
+
                             if (typeOfDiscount === null) {
                                 discountAmount = parseFloat(0);
                             }
+
                             else if (typeOfDiscount === "CASH DISCOUNT") {
                                 discountAmount = (saleQty * (saleRate * (cashDiscountPercent / 100)));
                             }
@@ -3463,12 +3628,15 @@ SharpiTech.SalesBill = (function () {
                             taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
                             gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
                             unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
+                            salesSchemeId = parseInt(inputs[3].getAttribute('data-sales-scheme-id'));
 
                             if (isNaN(salesBillItemId)) { salesBillItemId = parseInt(0); }
                             if (isNaN(salesBillId)) { salesBillId = parseInt(0); }
                             if (isNaN(itemId)) { itemId = parseInt(0); }
                             if (isNaN(srNo)) { srNo = parseInt(0); }
                             if (isNaN(unitOfMeasurementId)) { unitOfMeasurementId = parseInt(0); }
+                            if (isNaN(salesSchemeId)) { salesSchemeId = 0; }
+
 
                             var billItem = {};
 
@@ -3482,6 +3650,7 @@ SharpiTech.SalesBill = (function () {
                                 UnitCode: unitCode,
                                 SaleQty: saleQty,
                                 SaleRate: saleRate,
+                                SalesSchemeId: salesSchemeId,
                                 TypeOfDiscount: typeOfDiscount,
                                 CashDiscountPercent: cashDiscountPercent,
                                 DiscountAmount: discountAmount,

@@ -22,6 +22,13 @@ namespace SharpiTech.POS.API.Controllers
             return _salesScheme.GetAllSalesSchemes();
         }
 
+        [Route("GetSalesSchemeDetails/{itemId}/{effectiveDate}")]
+        public Entities.SalesScheme GetSalesSchemeDetails(Int32 itemId, string effectiveDate)
+        {
+            return _salesScheme.GetSalesSchemeDetails(itemId, effectiveDate);
+        }
+
+
         [HttpPost]
         [Route("SaveSalesScheme")]
         public Int32 SaveSalesScheme(Entities.SalesScheme salesScheme)

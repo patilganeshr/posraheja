@@ -604,6 +604,7 @@ namespace SharpiTech.POS.DataModel
         public static string UpdateSalesScheme { get { return "usp_sales_schemes_update_sales_scheme"; } }
         public static string DeleteSalesScheme { get { return "usp_sales_schemes_delete_sales_scheme"; } }
         public static string GetAllSalesSchemes { get { return "usp_sales_schemes_get_all_sales_schemes"; } }
+        public static string GetSalesSchemeDetailsByItem { get { return "usp_sales_schemes_get_scheme_details_by_item"; } }
 
         public static string GetSalesSchemesRegister { get { return "usp_sales_schemes_get_register"; } }
 
