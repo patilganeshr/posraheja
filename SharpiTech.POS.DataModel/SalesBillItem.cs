@@ -212,6 +212,7 @@ namespace SharpiTech.POS.DataModel
                         while (reader.Read())
                         {
                             SalesBillItemChargesDetails billItemChargesDetails = new SalesBillItemChargesDetails();
+                            SalesBillItemSalesScheme salesBillItemSalesScheme = new SalesBillItemSalesScheme();
 
                             var salesBillItem = new Entities.SalesBillItem
                             {
@@ -246,6 +247,7 @@ namespace SharpiTech.POS.DataModel
                                 SchemeDiscountAmount = DRE.GetNullableDecimal(reader, "scheme_discount_amount", null),
                                 guid = DRE.GetNullableGuid(reader, "row_guid", null),
                                 SrNo = DRE.GetNullableInt64(reader, "sr_no", null),
+                                SalesSchemes = salesBillItemSalesScheme.GetSalesSchemeDetails(DRE.GetInt32(reader, "sales_bill_item_id")),
                                 SalesBillItemCharges = billItemChargesDetails.GetBillitemChargesDetailsBySalesBillItemId(DRE.GetInt32(reader, "sales_bill_item_id"))
                             };
 

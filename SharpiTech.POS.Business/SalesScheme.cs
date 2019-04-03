@@ -20,7 +20,12 @@ namespace SharpiTech.POS.Business
             return _salesScheme.GetAllSalesSchemes();
         }
 
-        public Entities.SalesScheme GetSalesSchemeDetails(Int32 itemId, string effectiveDate)
+        //public Entities.SalesScheme GetSalesSchemeDetails(Int32 itemId, string effectiveDate)
+        //{
+        //    return _salesScheme.GetSalesSchemeDetails(itemId, effectiveDate);
+        //}
+
+        public List<Entities.SalesScheme> GetSalesSchemeDetails(Int32 itemId, string effectiveDate)
         {
             return _salesScheme.GetSalesSchemeDetails(itemId, effectiveDate);
         }

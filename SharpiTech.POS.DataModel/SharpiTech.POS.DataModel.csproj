@@ -106,6 +106,7 @@
     <Compile Include="PurchaseOrderItem.cs" />
     <Compile Include="SaleQtyReport.cs" />
     <Compile Include="SalesBillItemRegister.cs" />
+    <Compile Include="SalesBillItemSalesScheme.cs" />
     <Compile Include="SalesBillRegister.cs" />
     <Compile Include="PurchaseBillRegister.cs" />
     <Compile Include="SalesmanwiseReport.cs" />

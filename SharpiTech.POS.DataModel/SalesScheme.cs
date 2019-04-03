@@ -199,9 +199,51 @@ namespace SharpiTech.POS.DataModel
             return salesSchemes;
         }
 
-        public Entities.SalesScheme GetSalesSchemeDetails(Int32 itemId, string effectiveDate)
+        //public Entities.SalesScheme GetSalesSchemeDetails(Int32 itemId, string effectiveDate)
+        //{
+        //    var salesScheme = new Entities.SalesScheme();
+
+        //    DbCommand dbCommand = null;
+
+        //    try
+        //    {
+        //        using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSalesSchemeDetailsByItem))
+        //        {
+        //            database.AddInParameter(dbCommand, "@item_id", DbType.Int32, itemId);
+        //            database.AddInParameter(dbCommand, "@effective_date", DbType.String, effectiveDate);
+
+        //            using (IDataReader reader = database.ExecuteReader(dbCommand))
+        //            {
+        //                while (reader.Read())
+        //                {
+        //                    var salesSchemeDetails = new Entities.SalesScheme
+        //                    {
+        //                        SalesSchemeId = DRE.GetNullableInt32(reader, "sales_scheme_id", 0),
+        //                        SchemeName = DRE.GetNullableString(reader, "sales_scheme", null),
+        //                        DiscountPercent = DRE.GetNullableDecimal(reader, "discount_percent", null),
+        //                        DiscountAmount = DRE.GetNullableDecimal(reader, "discount_amount", null)
+        //                    };
+
+        //                    salesScheme = salesSchemeDetails;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+        //        dbCommand = null;
+        //    }
+
+        //    return salesScheme;
+        //}
+
+        public List<Entities.SalesScheme> GetSalesSchemeDetails(Int32 itemId, string effectiveDate)
         {
-            var salesScheme = new Entities.SalesScheme();
+            var salesSchemes = new List<Entities.SalesScheme>();
 
             DbCommand dbCommand = null;
 
@@ -224,7 +266,7 @@ namespace SharpiTech.POS.DataModel
                                 DiscountAmount = DRE.GetNullableDecimal(reader, "discount_amount", null)
                             };
 
-                            salesScheme = salesSchemeDetails;
+                            salesSchemes.Add(salesSchemeDetails);
                         }
                     }
                 }
@@ -238,7 +280,7 @@ namespace SharpiTech.POS.DataModel
                 dbCommand = null;
             }
 
-            return salesScheme;
+            return salesSchemes;
         }
 
         public Int32 SaveSalesScheme(Entities.SalesScheme salesScheme)
