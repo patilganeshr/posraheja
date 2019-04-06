@@ -3698,9 +3698,9 @@ SharpiTech.SalesBill = (function () {
                             saleQty = parseFloat(parseFloat(inputs[1].value).toFixed(2));
                             saleRate = parseFloat(parseFloat(inputs[2].value).toFixed(2));
                             cashDiscountPercent = parseFloat(parseFloat(inputs[3].value).toFixed(2));
-                            salesSchemeId = parseInt(select[0].value);
-                            schemeDiscountPercent = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('scheme-discount-percent'));
-                            schemeDiscountAmount = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('scheme-discount-amount'));
+                            salesSchemeId = parseInt(select[0].options[select[0].selectedIndex].value);
+                            schemeDiscountPercent = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountpercent'));
+                            schemeDiscountAmount = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountamount'));
 
                             if (salesSchemeId > 0) {
 
@@ -3733,7 +3733,7 @@ SharpiTech.SalesBill = (function () {
                             taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
                             gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
                             unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
-                            salesSchemeId = parseInt(inputs[3].getAttribute('data-sales-scheme-id'));
+                            //salesSchemeId = parseInt(inputs[3].getAttribute('data-sales-scheme-id'));
 
                             if (isNaN(salesBillItemId)) { salesBillItemId = parseInt(0); }
                             if (isNaN(salesBillId)) { salesBillId = parseInt(0); }
