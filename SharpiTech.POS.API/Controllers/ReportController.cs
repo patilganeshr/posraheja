@@ -14,6 +14,7 @@ namespace SharpiTech.POS.API.Controllers
         private readonly Business.SaleQtyReport _saleQtyReport;
         private readonly Business.SalesmanwiseReport _salesmanwiseReport;
         private readonly Business.JobWorkReport _jobWorkReport;
+        private readonly Business.SalesValueReportInSalesPeriod _salesValueReportInSalesPeriod;
 
         public ReportController()
         {
@@ -208,7 +209,13 @@ namespace SharpiTech.POS.API.Controllers
         {
             return _jobWorkReport.GetJobWorkItemsBalanceQtyDetails();
         }
-        
+
+        [Route("GetSalesByValueReportInSalePeriod")]
+        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesByValueReportInSalePeriod(Entities.SalesByValueReportInSalesPeriod salesByValueReport)
+        {
+            return _salesValueReportInSalesPeriod.GetSalesValueReport(salesByValueReport);
+        }
+
 
     }
 }

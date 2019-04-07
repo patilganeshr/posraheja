@@ -48,7 +48,7 @@ SharpiTech.StockReport = (function () {
         DOM.generateStockReport.addEventListener('click', generateStockReport);
         DOM.printStockReport.addEventListener('click', printStockReport);
      //   DOM.filterStockReport.addEventListener('click', filterStockReport);
-        DOM.exportStockReport.addEventListener('click', exportStockReport);        
+        DOM.exportStockReport.addEventListener('click', exportStockReport);
 
         DOM.reportFilterOption.onchange = function () {
             enableDisableControls();
@@ -80,7 +80,7 @@ SharpiTech.StockReport = (function () {
         ];
 
         shared.fillDropdownWithArrayData(reportFilterOptions, DOM.reportFilterOption, "filterOption", "filterOptionValue", "Choose Filter Option")
-                
+
         getItem();
 
         enableDisableControls();
@@ -156,7 +156,7 @@ SharpiTech.StockReport = (function () {
                     option.innerHTML = "All";
                     option.value = 0;
                     DOM.itemCategory.insertBefore(option, DOM.itemCategory.childNodes[1]);
-                                        
+
                     shared.setSelectOptionByIndex(DOM.itemCategory, parseInt(0));
                     shared.setSelect2ControlsText(DOM.itemCategory);
                 }
@@ -183,7 +183,7 @@ SharpiTech.StockReport = (function () {
                     option.innerHTML = "All";
                     option.value = 0;
                     DOM.location.insertBefore(option, DOM.location.childNodes[1]);
-                                                            
+
                     shared.setSelectOptionByIndex(DOM.location, parseInt(0));
                     shared.setSelect2ControlsText(DOM.location);
                 }
@@ -197,7 +197,7 @@ SharpiTech.StockReport = (function () {
     function generateStockReport() {
 
         shared.showLoader(DOM.loader);
-                
+
         stockReportData.length = 0;
 
         getStockData();
@@ -231,7 +231,7 @@ SharpiTech.StockReport = (function () {
 
                     tableHeaderRow.appendChild(tableHeaderCaption);
                 }
-                //}         
+                //}
                 //}
             }
         }
@@ -357,14 +357,12 @@ SharpiTech.StockReport = (function () {
                 }
                 else if (reportFilterOptionValue === "2") {
 
-                    excludeListOfTableHeaders.push("ItemQuality");                    
+                    excludeListOfTableHeaders.push("ItemQuality");
                     excludeListOfTableHeaders.push("ItemName");
                     excludeListOfTableHeaders.push("LocationName");
                     excludeListOfTableHeaders.push("UnitCode");
                 }
                 else if (reportFilterOptionValue === "3") {
-
-        
                     excludeListOfTableHeaders.push("ItemCategoryName");
                 }
             }
@@ -387,7 +385,7 @@ SharpiTech.StockReport = (function () {
 
             DOM.stockReport.appendChild(tableHeader);
 
-            DOM.stockReport.appendChild(tableBody);            
+            DOM.stockReport.appendChild(tableBody);
         }
     }
 
@@ -407,7 +405,7 @@ SharpiTech.StockReport = (function () {
 
     };
 
-    var getReportURL = function() {
+    var getReportURL = function () {
 
         var url = "";
         var reportFilterOptionValue = null;
@@ -423,7 +421,7 @@ SharpiTech.StockReport = (function () {
 
         if (reportFilterOptionValue === "0") {
             url = "GetStockOfAllItems";
-            
+
         }
         else if (reportFilterOptionValue === "1") {
             if (itemSelectedIndex > 0) {
@@ -437,22 +435,22 @@ SharpiTech.StockReport = (function () {
                 }
                 else {
                     url = "GetStockItemCategoryWiseByItemCategoryId/" + DOM.itemCategory.options[itemCategorySelectedIndex].value;
-                }                
+                }
             }
         }
-        else if (reportFilterOptionValue === "3") {            
+        else if (reportFilterOptionValue === "3") {
             if (locationSelectedIndex >= 0) {
                 if (DOM.location.options[locationSelectedIndex].text.toLowerCase() === "all") {
                     url = "GetStockLocationWiseItemQualitWiseAndItemWise";
                 }
                 else {
                     url = "GetStockLocationWiseAndItemWiseByLoctionId/" + DOM.location.options[locationSelectedIndex].value;
-                }                
+                }
             }
         }
 
         return url;
-    }
+    };
 
     function getStockData() {
 
@@ -475,12 +473,12 @@ SharpiTech.StockReport = (function () {
                         if (res !== undefined) {
 
                             if (res.length > 0) {
-                                
+
                                 stockReportData = res;
 
                                 bindStockData();
                             }
-                        }                        
+                        }
                     }
 
                     shared.hideLoader(DOM.loader);
@@ -499,7 +497,7 @@ SharpiTech.StockReport = (function () {
             shared.hideLoader(DOM.loader);
         }
     }
-    
+
     function printStockReport() {
 
     }
@@ -546,7 +544,7 @@ SharpiTech.StockReport = (function () {
         cacheDOM();
         applyPlugins();
         bindEvents();
-        loadData();        
+        loadData();
     }
 
     return {

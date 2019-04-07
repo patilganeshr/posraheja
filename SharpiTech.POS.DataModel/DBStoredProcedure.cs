@@ -164,7 +164,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetAllItemCategories { get { return "usp_item_categories_get_all_item_categories"; } }
         public static string GetItemCategoryById { get { return "usp_item_categories_get_item_category_by_id"; } }
         public static string GetItemCategoryByName { get { return "usp_item_categories_get_item_category_by_name"; } }
-        
+
         public static string GetLocationAndLocationType { get { return "usp_locations_get_all_location_and_location_type"; } }
 
         public static string InsertItem { get { return "usp_items_insert_item"; } }
@@ -275,7 +275,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetGoodsReceiptItemsByGoodsReceiptId { get { return "usp_goods_receipt_items_get_goods_receipt_item_by_goods_receipt_id"; } }
         public static string GetPendingPurchaseBills { get { return "usp_goods_receipts_get_pending_purchase_bills_by_vendor_id"; } }
         public static string GetPurchaseBillItemsForGoodsReceipts { get { return "usp_goods_receipts_get_purchase_bill_items_by_purchase_bill_id"; } }
-        
+
         public static string GetAllCompanies { get { return "usp_companies_get_all_companies"; } }
         public static string GetCompanyDetailsByCompanyId { get { return "ups_companies_get_company_details_by_id"; } }
 
@@ -488,7 +488,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetInwardGoodsDetailsByGoodsReceiptId { get { return "usp_inwards_get_inward_goods_details_by_goods_receipt_id"; } }
         public static string GetInwardGoodsDetailsByOutwardId { get { return "usp_inwards_get_inward_goods_details_by_outward_id"; } }
 
-        public static string GetStockReportAsOnDate { get { return "usp_stock_as_on_date"; } }        
+        public static string GetStockReportAsOnDate { get { return "usp_stock_as_on_date"; } }
         public static string GetStockReportAsOnDateByItemWiseWithPurchaseCost { get { return "usp_stock_report_get_as_on_date_item_wise_qty_with_purchase_cost"; } }
         public static string GetStockAsOnDate { get { return "usp_stock_report_get_stock_as_on_date"; } }
         public static string GetStockByItemId { get { return "usp_stock_report_get_stock_by_item_id"; } }
@@ -510,7 +510,7 @@ namespace SharpiTech.POS.DataModel
         public static string InsertSalesReturnBillAdjustment { get { return "usp_sales_return_bill_adjustment_insert"; } }
         public static string DeleteSalesReturnBillAdjustment { get { return "usp_sales_return_bill_adjustment_delete"; } }
         public static string UpdateSalesReturnBillAdjustment { get { return "usp_sales_return_bill_adjustment_update"; } }
-        
+
         public static string GetStockInTransitDetails { get { return "usp_stock_in_transit_report"; } }
 
         public static string GetSalesBillRegisterComplete { get { return "usp_sales_bills_print_sales_bill_register_complete"; } }
@@ -550,7 +550,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetJobWorkItemsByJobWorkId { get { return "usp_job_work_items_get_job_work_item_by_job_work_id"; } }
 
         public static string GetJobWorkItemMtrAdjustmentDetails { get { return "usp_job_work_items_get_mtr_adjustment_details"; } }
-            
+
         public static string InsertJobWorkItemsDetails { get { return "usp_job_work_items_insert_job_work_item_details"; } }
         public static string UpdateJobWorkItemsDetails { get { return "usp_job_work_items_update_job_work_item_details"; } }
         public static string DeleteJobWorkItemsDetails { get { return "usp_job_work_items_delete_job_work_item_details"; } }
@@ -583,7 +583,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetPurchaseOrdersByVendorId { get { return "usp_purchase_orders_get_orders_by_vendor_id"; } }
         public static string GetPurchaseOrdersByVendorName { get { return "usp_purchase_orders_get_orders_by_vendor_name"; } }
         public static string GetPurchaseOrderDetailsByOrderId { get { return "usp_purchase_orders_get_order_details_by_order_id"; } }
-        public static string GetPurchaseOrderDetailsByOrderNoAndWorkingPeriod { get { return "usp_purchase_orders_get_order_details_by_purchase_order_no_and_working_period"; } }        
+        public static string GetPurchaseOrderDetailsByOrderNoAndWorkingPeriod { get { return "usp_purchase_orders_get_order_details_by_purchase_order_no_and_working_period"; } }
         public static string GetVendorsByPurchaseOrderNo { get { return "usp_purchase_orders_get_vendors_by_purchase_order_no"; } }
 
         public static string InsertPurchaseOrderItem { get { return "usp_purchase_order_items_insert_purchase_order_item"; } }
@@ -599,7 +599,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetAllPaymentTerms { get { return "usp_payment_terms_get_all_payment_terms"; } }
 
         public static string GetItemMarginReportByCategorywiseQualitywiseCostwise { get { return "usp_item_margin_report_by_categorywise_qualitywise_costwise"; } }
-        
+
         public static string InsertSalesScheme { get { return "usp_sales_schemes_insert_sales_scheme"; } }
         public static string UpdateSalesScheme { get { return "usp_sales_schemes_update_sales_scheme"; } }
         public static string DeleteSalesScheme { get { return "usp_sales_schemes_delete_sales_scheme"; } }
@@ -608,7 +608,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetSalesBillItemsSalesSchemeDetails{ get { return "usp_sales_bill_items_get_sales_schemes"; } }
 
         public static string GetSalesSchemesRegister { get { return "usp_sales_schemes_get_register"; } }
-
+        public static string GetSalesByValueReportInSalesPeriod { get { return "usp_sales_value_in_sale_period_report_get"; } }
     }
 
 

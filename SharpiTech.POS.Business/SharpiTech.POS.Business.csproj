@@ -131,6 +131,7 @@
     <Compile Include="SalesReturnBillItem.cs" />
     <Compile Include="SalesScheme.cs" />
     <Compile Include="SalesSchemeRegister.cs" />
+    <Compile Include="SalesValueReportInSalesPeriod.cs" />
     <Compile Include="StockDetails.cs" />
     <Compile Include="PkgSlip.cs" />
     <Compile Include="PkgSlipItem.cs" />

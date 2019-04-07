@@ -12,7 +12,7 @@ using DRE = DataRecordExtensions.DataRecordExtensions;
 using System.Reflection;
 
 namespace SharpiTech.POS.DataModel
-{
+{   
     public class SalesmanwiseReport
     {
         private readonly Database database;

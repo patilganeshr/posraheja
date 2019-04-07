@@ -9,7 +9,6 @@ namespace SharpiTech.POS.Business
     public class SalesSchemeRegister
     {
         private readonly DataModel.SalesSchemeRegister _salesSchemeRegister;
-
         public SalesSchemeRegister()
         {
             _salesSchemeRegister = new DataModel.SalesSchemeRegister();
@@ -19,7 +18,7 @@ namespace SharpiTech.POS.Business
         {
             return _salesSchemeRegister.GetSalesSchemesRegister();
         }
-        
+
 
     }
 }

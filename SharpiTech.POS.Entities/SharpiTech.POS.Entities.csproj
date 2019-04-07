@@ -116,6 +116,7 @@
     <Compile Include="SalesBillItemChargesDetails.cs" />
     <Compile Include="SalesBillPaymentDetails.cs" />
     <Compile Include="SalesmanwiseReport.cs" />
+    <Compile Include="SalesByValueReportInSalesPeriod.cs" />
     <Compile Include="SalesReturnBill.cs" />
     <Compile Include="SalesReturnBillAdjustment.cs" />
     <Compile Include="SalesReturnBillItem.cs" />
