@@ -193,7 +193,7 @@ namespace SharpiTech.POS.DataModel
             return isDeleted;
         }
 
-        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId, Int32 purchaseBillItemId)
+        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId)
         {
             var pkgSlips = new List<Entities.OutwardGoodsDetails>();
 
@@ -204,7 +204,6 @@ namespace SharpiTech.POS.DataModel
                 using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetPkgSlipItemsForOutwardByPkgSlipId))
                 {
                     database.AddInParameter(dbCommand, "@pkg_slip_id", DbType.Int32, pkgSlipId);
-                    database.AddInParameter(dbCommand, "@purchase_bill_item_id", DbType.Int32, purchaseBillItemId);
 
                     using (IDataReader reader = database.ExecuteReader(dbCommand))
                     {

@@ -34,6 +34,12 @@ namespace SharpiTech.POS.API.Controllers
             return _outwardDetails.GetBaleNos();
         }
 
+        [Route("GetPendingPkgSlipNos")]
+        public List<Entities.OutwardDetails> GetPendingPkgSlipNos()
+        {
+            return _outwardDetails.GetPendingPkgSlipNos();
+        }
+
         [Route("GetPkgSlipAdditionalDetails/{pkgSlipId}")]
         public Entities.OutwardDetails GetPkgSlipAdditionalDetails(Int32 pkgSlipId)
         {
@@ -44,10 +50,10 @@ namespace SharpiTech.POS.API.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
-        [Route("GetPkgSlipItems/{pkgSlipId}/{purchaseBillItemId}")]
-        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId, Int32 purchaseBillItemId)
+        [Route("GetPkgSlipItems/{pkgSlipId}")]
+        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId)
         {
-            return _outwardGoodsDetails.GetPkgSlipItems(pkgSlipId, purchaseBillItemId);
+            return _outwardGoodsDetails.GetPkgSlipItems(pkgSlipId);
         }
 
         /// <summary>

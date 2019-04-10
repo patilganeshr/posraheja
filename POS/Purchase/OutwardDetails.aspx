@@ -98,8 +98,8 @@
 
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                         <div class="form-group form-group-sm">
-                                            <label for="BaleNo">Bale No.</label>
-                                            <select id="BaleNo" class="form-control"></select>
+                                            <label for="PkgSlipNo">Pkg Slip No.</label>
+                                            <select id="PkgSlipNo" class="form-control"></select>
                                         </div>
                                     </div>
 

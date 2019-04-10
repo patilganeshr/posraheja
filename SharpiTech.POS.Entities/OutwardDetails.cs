@@ -40,7 +40,7 @@ namespace SharpiTech.POS.Entities
         public Int32? BranchId { get; set; }
 
         public string BranchName { get; set; }
-
+        public string PkgSlipNo { get; set; }
         public string BaleNo { get; set; }
 
         public Int32? PurchaseBillItemId { get; set; }

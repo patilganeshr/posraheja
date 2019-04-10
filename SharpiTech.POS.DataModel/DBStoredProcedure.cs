@@ -311,6 +311,7 @@ namespace SharpiTech.POS.DataModel
         public static string DeleteOutwardGoodsDetails { get { return "usp_outward_goods_details_delete_outward_goods"; } }
         public static string GetOutwardGoodsDetailsByOutwardId { get { return "usp_outward_goods_details_get_goods_details_by_outward_id"; } }
         public static string GetBaleNosForOutward { get { return "usp_outwards_get_bale_no_from_pkg_slip"; } }
+        public static string GetPendingPkgSlipNosForOutward { get { return "usp_outwards_get_pending_pkg_slip_nos"; } }
         public static string GetPkgSlipAdditionalDetailsByPkgSlipId { get { return "usp_outward_get_pkg_slip_additional_details_by_pkg_slip_id"; } }
         public static string GetPkgSlipItemsForOutwardByPkgSlipId { get { return "usp_outward_goods_details_get_pkg_slip_items_by_pkg_slip_id"; } }
 

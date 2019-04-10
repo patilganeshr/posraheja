@@ -295,6 +295,42 @@ namespace SharpiTech.POS.DataModel
             return baleNos;
         }
 
+        public List<Entities.OutwardDetails> GetPendingPkgSlipNos()
+        {
+            var pkgSlipNos = new List<Entities.OutwardDetails>();
+
+            DbCommand dbCommand = null;
+
+            try
+            {
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetPendingPkgSlipNosForOutward))
+                {
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+                            var outwardDetails = new Entities.OutwardDetails
+                            {
+                                PkgSlipId = DRE.GetNullableInt32(reader, "pkg_slip_id", null),
+                                PkgSlipNo = DRE.GetNullableString(reader, "pkg_slip_no", null)                                
+                            };
+
+                            pkgSlipNos.Add(outwardDetails);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                dbCommand = null;
+            }
+
+            return pkgSlipNos;
+        }
         public Entities.OutwardDetails GetPkgSlipAdditionalDetails(Int32 pkgSlipId)
         {
             var pkgSlipDetails = new Entities.OutwardDetails();

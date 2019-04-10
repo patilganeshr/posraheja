@@ -26,6 +26,10 @@ namespace SharpiTech.POS.Business
         {
             return _outwardDetails.GetBaleNos();
         }
+        public List<Entities.OutwardDetails> GetPendingPkgSlipNos()
+        {
+            return _outwardDetails.GetPendingPkgSlipNos();
+        }
 
         public Entities.OutwardDetails GetPkgSlipAdditionalDetails(Int32 pkgSlipId)
         {

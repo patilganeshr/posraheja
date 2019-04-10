@@ -15,9 +15,9 @@ namespace SharpiTech.POS.Business
             _outwardGoodsDetails = new DataModel.OutwardGoodsDetails();
         }
 
-        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId, Int32 purchaseBillItemId)
+        public List<Entities.OutwardGoodsDetails> GetPkgSlipItems(Int32 pkgSlipId)
         {
-            return _outwardGoodsDetails.GetPkgSlipItems(pkgSlipId, purchaseBillItemId);
+            return _outwardGoodsDetails.GetPkgSlipItems(pkgSlipId);
         }
 
         public List<Entities.OutwardGoodsDetails> GetOutwardGoodsDetailsByOutwardId(Int32 outwardId)
