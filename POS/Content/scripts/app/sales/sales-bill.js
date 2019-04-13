@@ -1839,31 +1839,33 @@ SharpiTech.SalesBill = (function () {
 
         typeOfDiscount = select[1].options[select[1].selectedIndex].text;
 
-        if (schemeDiscountPercent > 0) {
-            typeOfDiscount = "CASH DISCOUNT";
-            inputs[3].value = schemeDiscountPercent;
-        }
-        else if (schemeDiscountAmount > 0) {
-            typeOfDiscount = "RATE DIFFERENCE";
-            inputs[3].value = schemeDiscountAmount;
-        }
-        else {
-            typeOfDiscount = null;
-            inputs[3].value = 0;
+        if (parseInt(select[0].options[select[0].selectedIndex].value) > 0) {
 
-            shared.setSelectOptionByIndex(select[1], parseInt(0));
-            shared.setSelect2ControlsText(select[1]);
-
-
-        }
-
-        if (typeOfDiscount !== null) {
-            if (typeOfDiscount.toUpperCase() === "CASH DISCOUNT") {
-                cashDiscountPercent = parseFloat(inputs[3].value);
-                //cashDiscountAmt = saleRate * (cashDiscountPercent / 100);        
+            if (schemeDiscountPercent > 0) {
+                typeOfDiscount = "CASH DISCOUNT";
+                inputs[3].value = schemeDiscountPercent;
+            }
+            else if (schemeDiscountAmount > 0) {
+                typeOfDiscount = "RATE DIFFERENCE";
+                inputs[3].value = schemeDiscountAmount;
             }
             else {
-                rateDifference = parseFloat(inputs[3].value);
+                typeOfDiscount = null;
+                inputs[3].value = 0;
+
+                shared.setSelectOptionByIndex(select[1], parseInt(0));
+                shared.setSelect2ControlsText(select[1]);
+            }
+        }
+        else {
+            if (typeOfDiscount !== null) {
+                if (typeOfDiscount.toUpperCase() === "CASH DISCOUNT") {
+                    cashDiscountPercent = parseFloat(inputs[3].value);
+                    //cashDiscountAmt = saleRate * (cashDiscountPercent / 100);        
+                }
+                else {
+                    rateDifference = parseFloat(inputs[3].value);
+                }
             }
         }
 
