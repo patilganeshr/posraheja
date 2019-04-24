@@ -739,7 +739,7 @@ SharpiTech.PurchaseOrder = (function () {
 
                 for (var r = 0; r < rowsCount; r++) {
 
-                    if (parseInt(tableRows[r].getAttribute('data-item-id')) === parseInt(itemId)) {
+                    if (parseInt(tableRows[r].getAttribute('data-item-id')) === parseInt(purchaseOrderItems.ItemId)) {
                         DOM.itemName.value = "";
                         DOM.itemName.focus();
                         swal("Error", "This item is alredy exists.", "error");
@@ -1407,7 +1407,7 @@ SharpiTech.PurchaseOrder = (function () {
 
                     if (isNaN(purchaseOrderId)) { purchaseOrderId = 0; }
 
-                    DOM.purchaseOrderId.value = purchaseOrderId;
+                    //DOM.purchaseOrderId.value = purchaseOrderId;
 
                     showPurchaseOrderDetails(purchaseOrderId);
                 }

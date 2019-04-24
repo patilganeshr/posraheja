@@ -4638,3 +4638,121 @@ values
 (17,27,475,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
 (17,27,472,25, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	,
 (210,11,1948,20, 0, 0, 0, 0, '02/Apr/2019', '16/Apr/2019', 1, 0, 1, '::1')	
+
+
+
+
+
+-- -- UPDATED ON 13/04/2019 20:33 DUE TO ISSUE IN SALES SCHEME IS NOT APPLIED
+
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 30.00, discount_amount = 429.000000,	 sales_scheme_id =	883		where sales_bill_item_id = 26019
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 88.000000	,	 sales_scheme_id =	1737	where sales_bill_item_id = 26018
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 140.000000,	 sales_scheme_id =	1063	where sales_bill_item_id = 26010
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 300.000000,	 sales_scheme_id =	373		where sales_bill_item_id = 26012
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 88.000000,	sales_scheme_id =	1059	where sales_bill_item_id = 26013
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 176.000000, sales_scheme_id =	53			where sales_bill_item_id = 26014
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 132.000000, sales_scheme_id =	1333		where sales_bill_item_id = 26015
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 200.000000, sales_scheme_id =	974			where sales_bill_item_id = 26016
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 200.000000, sales_scheme_id =	978			where sales_bill_item_id = 26017
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 28.000000	, sales_scheme_id =	509			where sales_bill_item_id = 26009
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 15.00, discount_amount = 57.750000	, sales_scheme_id =	573			where sales_bill_item_id = 25994
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 44.000000	, sales_scheme_id =	1705		where sales_bill_item_id = 25995
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 32.000000	, sales_scheme_id =	307			where sales_bill_item_id = 25996
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 15.00, discount_amount = 25.500000	, sales_scheme_id =	44			where sales_bill_item_id = 25997
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 30.00, discount_amount = 1530.000000, sales_scheme_id =	255		where sales_bill_item_id = 25991
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 30.00, discount_amount = 360.000000, sales_scheme_id =	565			where sales_bill_item_id = 25992
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 30.00, discount_amount = 360.000000, sales_scheme_id =	566			where sales_bill_item_id = 25993
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 400.000000, sales_scheme_id =	952			where sales_bill_item_id = 25989
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 15.00, discount_amount = 57.750000, sales_scheme_id =	573			where sales_bill_item_id = 25984
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 128.000000, sales_scheme_id =	1061		where sales_bill_item_id = 25985
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 128.000000, sales_scheme_id =	1063		where sales_bill_item_id = 25986
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 88.000000, sales_scheme_id =	53			where sales_bill_item_id = 25987
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 24.000000, sales_scheme_id =	1333		where sales_bill_item_id = 25982
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 37.000000, sales_scheme_id =	1309		where sales_bill_item_id = 25983
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 30.00, discount_amount = 105.000000, sales_scheme_id =	277			where sales_bill_item_id = 25981
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 264.000000, sales_scheme_id =	1059		where sales_bill_item_id = 25980
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 48.000000, sales_scheme_id =	459			where sales_bill_item_id = 25975
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 48.000000, sales_scheme_id =	369			where sales_bill_item_id = 25976
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 112.500000, sales_scheme_id =	378			where sales_bill_item_id = 25977
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 176.000000, sales_scheme_id =	53			where sales_bill_item_id = 25978
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 10.00, discount_amount = 6.000000		, sales_scheme_id =	1165	where sales_bill_item_id = 25979
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 280.000000, sales_scheme_id =	373			where sales_bill_item_id = 25972
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 88.000000, sales_scheme_id =	1802		where sales_bill_item_id = 25973
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 15.00, discount_amount = 76.500000, sales_scheme_id =	46			where sales_bill_item_id = 25968
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 15.00, discount_amount = 38.250000, sales_scheme_id =	30			where sales_bill_item_id = 25969
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 144.000000, sales_scheme_id =	51			where sales_bill_item_id = 25970
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 36.000000, sales_scheme_id =	939			where sales_bill_item_id = 25933
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 192.000000, sales_scheme_id =	369			where sales_bill_item_id = 25934
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 96.000000, sales_scheme_id =	534			where sales_bill_item_id = 25935
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 30.00, discount_amount = 90.000000, sales_scheme_id =	484			where sales_bill_item_id = 25936
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 15.00, discount_amount = 25.500000, sales_scheme_id =	504			where sales_bill_item_id = 25938
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 140.750000, sales_scheme_id =	373			where sales_bill_item_id = 25961
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 24.000000, sales_scheme_id =	51			where sales_bill_item_id = 25930
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 48.000000, sales_scheme_id =	52			where sales_bill_item_id = 25931
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 80.000000, sales_scheme_id =	1675		where sales_bill_item_id = 	25924
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 96.000000, sales_scheme_id =	369			where sales_bill_item_id = 25914
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 192.000000, sales_scheme_id =	977			where sales_bill_item_id = 25964
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 15.00, discount_amount = 115.500000, sales_scheme_id =	573			where sales_bill_item_id = 25965
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 48.000000, sales_scheme_id =	51			where sales_bill_item_id = 25966
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 162.500000, sales_scheme_id =	63			where sales_bill_item_id = 25967
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 48.000000, sales_scheme_id =	369			where sales_bill_item_id = 25903
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 192.000000, sales_scheme_id =	369			where sales_bill_item_id = 25897
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 96.000000, sales_scheme_id =	369			where sales_bill_item_id = 25883
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 176.000000, sales_scheme_id =	1059		where sales_bill_item_id = 	25884
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 125.000000, sales_scheme_id =	748			where sales_bill_item_id = 25885
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 225.000000, sales_scheme_id =	376			where sales_bill_item_id = 25886
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 300.000000, sales_scheme_id =	305			where sales_bill_item_id = 25887
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 350.000000, sales_scheme_id =	487			where sales_bill_item_id = 25888
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 250.000000, sales_scheme_id =	363			where sales_bill_item_id = 25889
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 108.000000, sales_scheme_id =	1411		where sales_bill_item_id = 	25842
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 20.00, discount_amount = 312.000000, sales_scheme_id =	1464		where sales_bill_item_id = 	25843
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 40.00, discount_amount = 2880.00000, sales_scheme_id =	249			where sales_bill_item_id = 25844
+--UPDATE dbo.sales_bills_items set type_of_discount = 'CASH DISCOUNT', cash_discount_percent = 25.00, discount_amount = 1687.50000, sales_scheme_id =	141			where sales_bill_item_id = 25845
+
+insert into dbo.sales_schemes
+(brand_id, item_category_id, item_id, discount_percent, discount_amount, max_discount_amount, buy_qty, free_qty,
+sale_start_date, sale_end_date, branch_id, is_deleted, created_by, created_by_ip)
+values
+(213,29,2431,15, 0, 0, 0, 0, '22/Apr/2019', '30/Apr/2019', 1, 0, 1, '::1'),
+(213,29,2432,15, 0, 0, 0, 0, '22/Apr/2019', '30/Apr/2019', 1, 0, 1, '::1'),
+(213,29,2433,15, 0, 0, 0, 0, '22/Apr/2019', '30/Apr/2019', 1, 0, 1, '::1'),
+(213,29,2434,15, 0, 0, 0, 0, '22/Apr/2019', '30/Apr/2019', 1, 0, 1, '::1')
+
+insert into dbo.sales_schemes
+(brand_id, item_category_id, item_id, discount_percent, discount_amount, max_discount_amount, buy_qty, free_qty,
+sale_start_date, sale_end_date, branch_id, is_deleted, created_by, created_by_ip)
+values
+(234,29,2456,20, 0, 0, 0, 0, '22/Apr/2019', '30/Apr/2019', 1, 0, 1, '::1')
+
+
+
+
+-- -- QUERY TO GET THE INWARD NO.'S FOR PKG SLIPS
+
+	SELECT
+		CAST(inw.inward_no AS nvarchar(25)) + '/' + wp.financial_year AS reference_no,
+		inw.inward_id AS reference_id,
+		inw.reference_type
+	FROM
+		dbo.inwards inw
+	INNER JOIN
+		dbo.inward_goods_details igd ON inw.inward_id = igd.inward_id AND igd.is_deleted = 0
+	INNER JOIN
+		dbo.goods_receipts gr ON inw.reference_id = gr.goods_receipt_id AND gr.is_deleted = 0
+	INNER JOIN
+		dbo.goods_receipt_items gri ON gr.goods_receipt_id = gri.goods_receipt_id
+	LEFT JOIN
+		dbo.pkg_slips ps ON inw.inward_id = ps.inward_id AND ps.is_deleted = 0 
+	LEFT JOIN
+		dbo.pkg_slip_items psi ON ps.pkg_slip_id = psi.pkg_slip_id AND gri.goods_receipt_item_id = psi.goods_receipt_item_id 
+		AND psi.is_deleted = 0
+	INNER JOIN
+		dbo.working_periods wp ON inw.working_period_id = wp.working_period_id
+	WHERE
+		inw.is_deleted = 0
+		AND igd.inward_qty - ISNULL(psi.pkg_qty,0) > 0 
+		--AND inw.working_period_id = 3
+	GROUP BY
+		inw.inward_id, inw.inward_no, wp.financial_year, inw.reference_type
+	ORDER BY
+		inw.inward_no, wp.financial_year

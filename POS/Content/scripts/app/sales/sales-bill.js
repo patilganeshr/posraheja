@@ -1076,8 +1076,8 @@ SharpiTech.SalesBill = (function () {
                 lastIndex = DOM.scanBarcode.value.indexOf("-");
 
                 if (lastIndex > 0) {
-                    inwardGoodsId = DOM.scanBarcode.value.substring(lastIndex + 1);
-                    goodsReceiptItemId = DOM.scanBarcode.value.substring(0, lastIndex);
+                    inwardGoodsId = parseInt(DOM.scanBarcode.value.substring(lastIndex + 1));
+                    goodsReceiptItemId = parseInt(DOM.scanBarcode.value.substring(0, lastIndex));
                 }
             }
             else {
@@ -1120,6 +1120,7 @@ SharpiTech.SalesBill = (function () {
                                 res.TaxId = parseInt(0);
                                 res.GSTRate = parseFloat(0);
                                 res.TotalItemAmount = parseFloat(0);
+                                //res.InwardGoodsId = inwardGoodsId;
 
                                 getSalesSchemeDetails(res.ItemId, function (data) {
 
@@ -1182,7 +1183,7 @@ SharpiTech.SalesBill = (function () {
         DOM.scanBarcode.value = "";
     }
 
-    var checkIsItemExistsInTable = function (goodsReceiptItemId) {
+    var checkIsItemExistsInTable = function (goodsReceiptItemId, inwardGoodsId) {
 
         var isItemExists = false;
 
@@ -1204,7 +1205,8 @@ SharpiTech.SalesBill = (function () {
 
                     //for (var i = 0; i < inputs.length; i++) {
                     //if (parseInt(inputs[i].value) === goodsReceiptItemId) {
-                    if (parseInt(tableRows[r].getAttribute('data-goods-receipt-item-id')) === goodsReceiptItemId) {
+                    if (parseInt(tableRows[r].getAttribute('data-goods-receipt-item-id')) === goodsReceiptItemId
+                        && parseInt(tableRows[r].getAttribute('data-inward-goods-id')) === inwardGoodsId) {
                         isItemExists = true;
                     }
                     //}
@@ -1288,6 +1290,7 @@ SharpiTech.SalesBill = (function () {
 
         var salesBillItemId = parseInt(0);
         var goodsReceiptItemId = parseInt(0);
+        var inwardGoodsId = 0;
         var itemId = parseInt(0);
         var itemName = null;
         var unitOfMeasurementId = parseInt(0);
@@ -1311,6 +1314,7 @@ SharpiTech.SalesBill = (function () {
 
         salesBillItemId = parseInt(response.SalesBillItemId);
         goodsReceiptItemId = parseInt(response.GoodsReceiptItemId);
+        inwardGoodsId = parseInt(response.InwardGoodsId);
         itemId = parseInt(response.ItemId);
         itemName = response.ItemName;
         unitOfMeasurementId = response.UnitOfMeasurementId,
@@ -1336,7 +1340,7 @@ SharpiTech.SalesBill = (function () {
 
         if (salesBillItemId === 0) {
             if (goodsReceiptItemId > 0) {
-                if (checkIsItemExistsInTable(goodsReceiptItemId)) {
+                if (checkIsItemExistsInTable(goodsReceiptItemId, inwardGoodsId)) {
                     DOM.scanBarcode.focus();
                     swal("Warning", "This Item Name is already exists.", "warning");
                     return;
@@ -1435,6 +1439,7 @@ SharpiTech.SalesBill = (function () {
         // Set Item
         tr.setAttribute('data-sales-bill-item-id', salesBillItemId);
         tr.setAttribute('data-goods-receipt-item-id', goodsReceiptItemId);
+        tr.setAttribute('data-inward-goods-id', inwardGoodsId);
         tr.setAttribute('data-item-id', itemId);
         tr.setAttribute('data-unit-of-measurement-id', unitOfMeasurementId);
         tr.setAttribute('data-tax-id', taxId);
@@ -1844,14 +1849,18 @@ SharpiTech.SalesBill = (function () {
             if (schemeDiscountPercent > 0) {
                 typeOfDiscount = "CASH DISCOUNT";
                 inputs[3].value = schemeDiscountPercent;
+                cashDiscountPercent = inputs[3].value;
             }
             else if (schemeDiscountAmount > 0) {
                 typeOfDiscount = "RATE DIFFERENCE";
                 inputs[3].value = schemeDiscountAmount;
+                rateDifference = inputs[3].value;
             }
             else {
                 typeOfDiscount = null;
                 inputs[3].value = 0;
+                cashDiscountPercent = 0;
+                rateDifference = 0;
 
                 shared.setSelectOptionByIndex(select[1], parseInt(0));
                 shared.setSelect2ControlsText(select[1]);
@@ -1925,7 +1934,7 @@ SharpiTech.SalesBill = (function () {
 
                 rateAfterCDRD = parseFloat(saleRate);
 
-                amount = parseFloat(saleQty * (parseFloat(rateAfterCDRD)));
+                amount = parseFloat(saleQty * parseFloat(rateAfterCDRD));
             //}            
         }
 
