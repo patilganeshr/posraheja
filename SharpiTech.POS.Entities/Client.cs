@@ -26,6 +26,8 @@ namespace SharpiTech.POS.Entities
         [DatabaseColumn("pan_no")]
         public string PANNo { get; set; }
 
+        public string GSTNo { get; set; }
+
         public List<SharpiTech.POS.Entities.ClientAddress> ClientAddressess { get; set; }
 
     }

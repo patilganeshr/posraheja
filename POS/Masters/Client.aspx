@@ -65,23 +65,23 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label>Client Type</label>
-                                                <select id="ClientType" class="form-control input-sm"></select>
+                                                <select id="ClientType" class="form-control "></select>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label>Client Name</label>
-                                                <input type="text" id="ClientName" class="form-control input-sm" />
+                                                <input type="text" id="ClientName" class="form-control " />
                                             </div>
                                         </div>
 
                                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label>PAN No.</label>
-                                                <input type="text" id="PANNo" class="form-control input-sm" maxlength="10" />
+                                                <input type="text" id="PANNo" class="form-control " maxlength="10" />
                                             </div>
                                         </div>
                                     </div>
@@ -153,23 +153,23 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                         
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label>Address Type</label>
-                                                <select id="AddressType" class="form-control input-sm"></select>
+                                                <select id="AddressType" class="form-control "></select>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label>Client Address Name</label>
-                                                <input type="text" id="ClientAddressName" class="form-control input-sm" />
+                                                <input type="text" id="ClientAddressName" class="form-control " />
                                             </div>
                                         </div>
                                         
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label>Address</label>
-                                                <textarea id="Address" class="form-control input-sm" rows="2"></textarea>
+                                                <textarea id="Address" class="form-control " rows="2"></textarea>
                                             </div>
                                         </div>
 
@@ -180,22 +180,22 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label>Country</label>
-                                                <select id="Country" class="form-control input-sm"></select>
+                                                <select id="Country" class="form-control "></select>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label>State</label>
-                                                <select id="State" class="form-control input-sm"></select>
+                                                <select id="State" class="form-control "></select>
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label>City</label>
-                                                <div class="input-group input-group-sm">
-                                                    <select id="City" class="form-control input-sm"></select>
+                                                <div class="input-group input-group-md">
+                                                    <select id="City" class="form-control "></select>
                                                     <span class="input-group-btn">
                                                         <button type="button" id="AddNewCity" name="NEW_CITY" class="btn btn-info">
                                                             <i class="fa fa-plus"></i>
@@ -211,14 +211,14 @@
                                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                             <div class="form-group">
                                                 <label>Area</label>
-                                                <input type="text" id="Area" class="form-control input-sm" />
+                                                <input type="text" id="Area" class="form-control " />
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                             <div class="form-group">
                                                 <label>Pin Code</label>
-                                                <input type="text" id="PinCode" class="form-control input-sm" />
+                                                <input type="text" id="PinCode" class="form-control " />
                                             </div>
                                         </div>
 
@@ -229,28 +229,42 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label>Contact No.'s</label>
-                                                <input type="text" id="ContactNos" class="form-control input-sm" />
+                                                <input type="text" id="ContactNos" class="form-control " />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Mobile No. 1</label>
+                                                <input type="text" id="MobileNo1" class="form-control " />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label>Mobile No. 2</label>
+                                                <input type="text" id="MobileNo2" class="form-control " />
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label>Email Id</label>
-                                                <input type="text" id="EmailId" class="form-control input-sm" />
+                                                <input type="text" id="EmailId" class="form-control " />
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label>Website</label>
-                                                <input type="text" id="Website" class="form-control input-sm" />
+                                                <input type="text" id="Website" class="form-control " />
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group">
                                                 <label>GST No.</label>
-                                                <input type="text" id="GSTNo" class="form-control input-sm" />
+                                                <input type="text" id="GSTNo" class="form-control " />
                                             </div>
                                         </div>
 
@@ -259,22 +273,22 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                         
                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label>Transporter</label>
-                                                <select id="Transporter" class="form-control input-sm"></select>
+                                                <select id="Transporter" class="form-control "></select>
                                             </div>
                                         </div>
 
                                         
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                            <div class="form-group form-group-sm">
+                                            <div class="form-group form-group-md">
                                                 <label></label>
                                                 <button type="button" id="AddTransporter" class="btn btn-sm btn-info">Add</button>
                                             </div>
                                         </div>
 
                                           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-sm">                                      
+                                            <div class="form-group form-group-md">                                      
                                                 <div id="TransportersListContainer">
                                                     <ul id="TransportersList" class="list-group"></ul>
                                                     </div>
@@ -341,42 +355,62 @@
 
             <div id="ViewMode">
 
-                <div class="panel panel-info">
+                <div class="row">
 
-                    <div class="panel-heading">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                        <div class="row">
+                        <!-- Filter Options -->
 
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-default hide" id="SearchPanel">
 
-                                <h4 class="panel-title panel-title-align-middle">Client Details</h4>
+                            <div class="panel-heading">
+
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        <h4 class="panel-title panel-title-align-middle">Search Client</h4>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                            <div class="panel-body">
 
-                    </div>
+                                <div class="row">
 
-                    <div class="panel-body">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                        <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                            <div class="form-group form-group-md">
+                                                <label>Client Type</label>
+                                                <select id="FilterClientType" class="form-control"></select>
+                                            </div>
+                                        </div>
 
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                                            <div class="form-group form-group-md">
+                                                <label>Search Options</label>
+                                                <select id="SearchOptions" class="form-control"></select>
+                                            </div>
+                                        </div>
 
-                                <div class="table-responsive">
-                                    <table id="ClientList" class="table table-condesed">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">Action</th>
-                                                <th>Sr</th>
-                                                <th>Client Type</th>
-                                                <th>Client Code</th>
-                                                <th>Client Name</th>                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="form-group form-group-md">
+                                                <label>Search Value</label>
+                                                <input type="text" id="SearchValue" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="form-group form-group-md">
+                                                <button type="button" id="Search" class="btn btn-info btn-md" style="margin-top: 26px;">Search</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
@@ -384,27 +418,80 @@
 
                         </div>
 
+                        <!-- Filter Options -->
+
                     </div>
 
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Page 1 of 5</div>
-                            <div class="col-lg-8 col-lg-8 col-sm-8 col-xs-12">
-                                <ul class="pagination pagination-sm pull-right">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                        <div class="panel panel-info">
+
+                            <div class="panel-heading">
+
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        <h4 class="panel-title panel-title-align-middle">Client Details</h4>
+
+                                    </div>
+
+                                </div>
+
                             </div>
+
+                            <div class="panel-body">
+
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                        <div class="table-responsive">
+                                            <table id="ClientList" class="table table-condensed table-fixed">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-lg-1 col-md-1 col-sm-2 col-xs-1 text-center">Action</th>
+                                                        <th class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center">Sr</th>
+                                                        <th class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-center">Client Type</th>
+                                                        <th class="col-lg-2 col-md-2 col-sm-2 col-xs-1 text-center">Client Code</th>
+                                                        <th class="col-lg-6 col-md-6 col-sm-6 col-xs-1 text-center">Client Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Page 1 of 5</div>
+                                    <div class="col-lg-8 col-lg-8 col-sm-8 col-xs-12">
+                                        <ul class="pagination pagination-sm pull-right">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+
                     </div>
 
                 </div>
-
+                
             </div>
 
             <!-- VIEW PANEL -->

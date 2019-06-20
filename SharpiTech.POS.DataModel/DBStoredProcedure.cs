@@ -34,13 +34,22 @@ namespace SharpiTech.POS.DataModel
         public static string GetAllCustomerTransporterMapping { get { return "usp_customer_transporter_mapping_get_all_customer_transporter_mapping_list"; } }
 
         public static string DeleteClientById { get { return "usp_client_addressess_delete_by_client_id"; } }
+
         public static string InsertClient { get { return "usp_clients_insert_client"; } }
+
         public static string UpdateClient { get { return "usp_clients_update_client"; } }
+
         public static string DeleteClient { get { return "usp_clients_delete_client"; } }
+
         public static string GetAllClients { get { return "usp_clients_get_all_clients"; } }
+
         public static string GetClientById { get { return "usp_clients_get_client_by_id"; } }
+
         public static string GetClientByName { get { return "usp_clients_get_client_by_name"; } }
+
         public static string CheckClientNameIsExists { get { return "usp_clients_check_client_name_is_exists"; } }
+
+        public static  string SearchClients { get { return "usp_clients_search_client"; } }
 
         public static string InsertClientType { get { return "usp_client_types_insert_client_type"; } }
         public static string UpdateClientType { get { return "usp_client_types_update_client_type"; } }
@@ -609,7 +618,27 @@ namespace SharpiTech.POS.DataModel
         public static string GetSalesBillItemsSalesSchemeDetails{ get { return "usp_sales_bill_items_get_sales_schemes"; } }
 
         public static string GetSalesSchemesRegister { get { return "usp_sales_schemes_get_register"; } }
-        public static string GetSalesByValueReportInSalesPeriod { get { return "usp_sales_value_in_sale_period_report_get"; } }
+
+        public static string GetSalesByValueReportInSalesPeriod { get { return "usp_sales_value_report_in_sale_period"; } }
+
+
+        public static string InsertItemImage { get { return "usp_item_images_insert"; } }
+
+        public static string UpdateItemImage { get { return "usp_item_images_update"; } }
+
+        public static string DeleteItemImage { get { return "usp_item_images_delete"; } }
+
+        public static string GetAllItemImages { get { return "usp_item_images_get_all_item_images_list"; } }
+
+        public static string GetItemImagesByItemId { get { return "usp_item_images_get_item_images_by_item_id"; } }
+
+
+        public static string InsertColor { get { return "usp_colors_insert_color"; } }
+        public static string UpdateColor { get { return "usp_colors_update_color"; } }
+        public static string DeleteColor { get { return "usp_colors_delete_color"; } }
+        public static string GetAllColorsName { get { return "usp_colors_get_all_colors_name"; } }
+
+
     }
 
 

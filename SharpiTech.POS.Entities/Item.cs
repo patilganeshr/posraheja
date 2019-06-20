@@ -65,7 +65,7 @@ namespace SharpiTech.POS.Entities
 
         public List<ItemSetSubItem> ItemSetSubItems { get; set; }
 
-        public List<ItemPicture> ItemPictures { get; set; }
+        public List<ItemImage> ItemPictures { get; set; }
 
         public List<ItemRate> ItemRates { get; set; }
 

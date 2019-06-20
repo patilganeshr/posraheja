@@ -233,7 +233,7 @@
 
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
-                        <div class="panel panel-info" style="display: none;">
+                        <div class="panel panel-info">
 
                             <div class="panel-heading">
                                 <h4 class="panel-title">Item Picture Details </h4>
@@ -247,6 +247,11 @@
                                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                                             <input type="file" name="ItemPictureUploader" id="ItemPictureUploader" class="btn btn-sm btn-default" multiple />
                                         </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <button type="button" id="UploadFiles" class="btn btn-md btn-info">Upload Files</button>
+                                        </div>
+
                                     </div>
                                     <div class="row">
                                         <div id="UploadedFiles"></div>
@@ -544,6 +549,8 @@
                 </div>
 
             </div>
+
+            <!-- View Mode -->
 
         </div>
 

@@ -541,6 +541,7 @@ namespace SharpiTech.POS.DataModel
                             {
                                 ItemId = DRE.GetNullableInt32(reader, "item_id", 0),
                                 ItemName = DRE.GetNullableString(reader, "item_name", null),
+                                ItemCode = DRE.GetNullableString(reader, "item_code", null),
                                 UnitCode = DRE.GetNullableString(reader, "unit_code", null),
                                 UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null)
                             };
@@ -740,30 +741,33 @@ namespace SharpiTech.POS.DataModel
                                     }
                                 }
 
-                                if(item.ItemPictures != null)
-                                {
-                                    if(item.ItemPictures.Count > 0)
-                                    {
-                                        ItemPicture itemPictureDL = new ItemPicture();
+                                //if(item.ItemPictures != null)
+                                //{
+                                //    if(item.ItemPictures.Count > 0)
+                                //    {
+                                //        ItemImage itemPictureDL = new ItemImage();
 
-                                        foreach(Entities.ItemPicture itemPicture in item.ItemPictures)
+                                //        foreach(Entities.ItemImage itemPicture in item.ItemPictures)
+                                //        {
+                                //            itemPicture.ItemId = itemId;
+
+                                //            itemPictureId = itemPictureDL.SaveItemPicture(itemPicture, transaction);
+                                //        }
+                                //    }
+                                //}
+
+                                if (item.ItemSetSubItems != null) {
+
+                                    if (item.ItemSetSubItems.Count > 0)
+                                    {
+                                        ItemSetSubItem issiDL = new ItemSetSubItem();
+
+                                        foreach (Entities.ItemSetSubItem itemSetSubItem in item.ItemSetSubItems)
                                         {
-                                            itemPicture.ItemId = itemId;
+                                            itemSetSubItem.ItemId = itemId;
 
-                                            itemPictureId = itemPictureDL.SaveItemPicture(itemPicture, transaction);
+                                            itemSetSubItemId = issiDL.SaveItemSet(itemSetSubItem, transaction);
                                         }
-                                    }
-                                }
-
-                                if (item.ItemSetSubItems.Count > 0)
-                                {
-                                    ItemSetSubItem issiDL = new ItemSetSubItem();
-
-                                    foreach (Entities.ItemSetSubItem itemSetSubItem in item.ItemSetSubItems)
-                                    {
-                                        itemSetSubItem.ItemId = itemId;
-
-                                        itemSetSubItemId = issiDL.SaveItemSet(itemSetSubItem, transaction);
                                     }
                                 }
                             }

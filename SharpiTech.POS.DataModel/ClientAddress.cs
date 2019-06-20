@@ -104,6 +104,8 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@fax_no", DbType.String, string.IsNullOrEmpty(clientAddress.FaxNo) ? (object)DBNull.Value : clientAddress.FaxNo);
                     database.AddInParameter(dbCommand, "@email_id", DbType.String, string.IsNullOrEmpty(clientAddress.EmailId) ? (object)DBNull.Value : clientAddress.EmailId);
                     database.AddInParameter(dbCommand, "@contact_nos", DbType.String, string.IsNullOrEmpty(clientAddress.ContactNos) ? (object)DBNull.Value : clientAddress.ContactNos);
+                    database.AddInParameter(dbCommand, "@mobile_no_1", DbType.String, string.IsNullOrEmpty(clientAddress.MobileNo1) ? (object)DBNull.Value : clientAddress.MobileNo1);
+                    database.AddInParameter(dbCommand, "@mobile_no_2", DbType.String, string.IsNullOrEmpty(clientAddress.MobileNo2) ? (object)DBNull.Value : clientAddress.MobileNo2);
                     database.AddInParameter(dbCommand, "@service_tax_no", DbType.String, string.IsNullOrEmpty(clientAddress.ServiceTaxNo) ? (object)DBNull.Value : clientAddress.ServiceTaxNo);
                     database.AddInParameter(dbCommand, "@vat_no", DbType.String, string.IsNullOrEmpty(clientAddress.VATNo) ? (object)DBNull.Value : clientAddress.VATNo);
                     database.AddInParameter(dbCommand, "@tin_no", DbType.String, string.IsNullOrEmpty(clientAddress.TINNo) ? (object)DBNull.Value : clientAddress.TINNo);
@@ -284,6 +286,8 @@ namespace SharpiTech.POS.DataModel
                                 Area = DRE.GetNullableString(reader, "area", null),
                                 EmailId = DRE.GetNullableString(reader, "email_id", null),
                                 ContactNos = DRE.GetNullableString(reader, "contact_nos", null),
+                                MobileNo1 = DRE.GetNullableString(reader, "mobile_no_1", null),
+                                MobileNo2 = DRE.GetNullableString(reader, "mobile_no_2", null),
                                 GSTNo = DRE.GetNullableString(reader, "gst_no", null),
                                 SrNo = DRE.GetNullableInt64(reader, "sr_no", null)
                             };
@@ -436,6 +440,8 @@ namespace SharpiTech.POS.DataModel
                                 Area = DRE.GetNullableString(reader, "area", null),
                                 EmailId = DRE.GetNullableString(reader, "email_id", null),
                                 ContactNos = DRE.GetNullableString(reader, "contact_nos", null),
+                                MobileNo1 = DRE.GetNullableString(reader, "mobile_no_1", null),
+                                MobileNo2 = DRE.GetNullableString(reader, "mobile_no_2", null),
                                 GSTNo = DRE.GetNullableString(reader, "gst_no", null),
                                 SrNo = DRE.GetNullableInt64(reader, "sr_no", null),
                                 CustomerAndTransporterMapping = customerAndTransporterMapping.GetTransportersListByCustomerAddressId(DRE.GetInt32(reader, "client_address_id"))
@@ -498,6 +504,8 @@ namespace SharpiTech.POS.DataModel
                             Area = DRE.GetNullableString(reader, "area", null),
                             EmailId = DRE.GetNullableString(reader, "email_id", null),
                             ContactNos = DRE.GetNullableString(reader, "contact_nos", null),
+                            MobileNo1  = DRE.GetNullableString(reader, "mobile_no_1", null),
+                            MobileNo2 = DRE.GetNullableString(reader, "mobile_no_2", null),
                             GSTNo = DRE.GetNullableString(reader, "gst_no", null),
                             SrNo = DRE.GetNullableInt64(reader, "sr_no", null)
                         };
@@ -549,6 +557,8 @@ namespace SharpiTech.POS.DataModel
                             Area = DRE.GetNullableString(reader, "area", null),
                             EmailId = DRE.GetNullableString(reader, "email_id", null),
                             ContactNos = DRE.GetNullableString(reader, "contact_nos", null),
+                            MobileNo1 = DRE.GetNullableString(reader, "mobile_no_1", null),
+                            MobileNo2 = DRE.GetNullableString(reader, "mobile_no_2", null),
                             GSTNo = DRE.GetNullableString(reader, "gst_no", null),
                             SrNo = DRE.GetNullableInt64(reader, "sr_no", null)
                         };
@@ -590,6 +600,8 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@fax_no", DbType.String, string.IsNullOrEmpty(clientAddress.FaxNo) ? (object)DBNull.Value : clientAddress.FaxNo);
                     database.AddInParameter(dbCommand, "@email_id", DbType.String, string.IsNullOrEmpty(clientAddress.EmailId) ? (object)DBNull.Value : clientAddress.EmailId);
                     database.AddInParameter(dbCommand, "@contact_nos", DbType.String, string.IsNullOrEmpty(clientAddress.ContactNos) ? (object)DBNull.Value : clientAddress.ContactNos);
+                    database.AddInParameter(dbCommand, "@mobile_no_1", DbType.String, string.IsNullOrEmpty(clientAddress.MobileNo1) ? (object)DBNull.Value : clientAddress.MobileNo1);
+                    database.AddInParameter(dbCommand, "@mobile_no_2", DbType.String, string.IsNullOrEmpty(clientAddress.MobileNo2) ? (object)DBNull.Value : clientAddress.MobileNo2);
                     database.AddInParameter(dbCommand, "@service_tax_no", DbType.String, string.IsNullOrEmpty(clientAddress.ServiceTaxNo) ? (object)DBNull.Value : clientAddress.ServiceTaxNo);
                     database.AddInParameter(dbCommand, "@vat_no", DbType.String, string.IsNullOrEmpty(clientAddress.VATNo) ? (object)DBNull.Value : clientAddress.VATNo);
                     database.AddInParameter(dbCommand, "@tin_no", DbType.String, string.IsNullOrEmpty(clientAddress.TINNo) ? (object)DBNull.Value : clientAddress.TINNo);
@@ -644,6 +656,8 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@fax_no", DbType.String, string.IsNullOrEmpty(clientAddress.FaxNo) ? (object)DBNull.Value : clientAddress.FaxNo);
                     database.AddInParameter(dbCommand, "@email_id", DbType.String, string.IsNullOrEmpty(clientAddress.EmailId) ? (object)DBNull.Value : clientAddress.EmailId);
                     database.AddInParameter(dbCommand, "@contact_nos", DbType.String, string.IsNullOrEmpty(clientAddress.ContactNos) ? (object)DBNull.Value : clientAddress.ContactNos);
+                    database.AddInParameter(dbCommand, "@mobile_no_1", DbType.String, string.IsNullOrEmpty(clientAddress.MobileNo1) ? (object)DBNull.Value : clientAddress.MobileNo1);
+                    database.AddInParameter(dbCommand, "@mobile_no_2", DbType.String, string.IsNullOrEmpty(clientAddress.MobileNo2) ? (object)DBNull.Value : clientAddress.MobileNo2);
                     database.AddInParameter(dbCommand, "@service_tax_no", DbType.String, string.IsNullOrEmpty(clientAddress.ServiceTaxNo) ? (object)DBNull.Value : clientAddress.ServiceTaxNo);
                     database.AddInParameter(dbCommand, "@vat_no", DbType.String, string.IsNullOrEmpty(clientAddress.VATNo) ? (object)DBNull.Value : clientAddress.VATNo);
                     database.AddInParameter(dbCommand, "@tin_no", DbType.String, string.IsNullOrEmpty(clientAddress.TINNo) ? (object)DBNull.Value : clientAddress.TINNo);

@@ -145,6 +145,7 @@
     <Compile Include="Controllers\ClientAddressController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ClientTypeController.cs" />
+    <Compile Include="Controllers\ColorController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\CustomerCategoryController.cs" />
@@ -152,8 +153,10 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EmployerController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\InwardDetailsController.cs" />
     <Compile Include="Controllers\InwardGoodsDetailsController.cs" />
+    <Compile Include="Controllers\ItemImageController.cs" />
     <Compile Include="Controllers\ItemSetSubItemController.cs" />
     <Compile Include="Controllers\ItemRateRegisterController.cs" />
     <Compile Include="Controllers\JobWorkController.cs" />

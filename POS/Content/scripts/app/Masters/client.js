@@ -8,9 +8,9 @@ SharpiTech.Client = (function () {
 
     var shared = new Shared();
 
-    var clients = [];
-    var clientAddressess = [];
-    var transporters = [];
+    var Clients = [];
+    var ClientAddressess = [];
+    var Transporters = [];
 
     /* ---- private method ---- */
     //cache DOM elements
@@ -18,6 +18,13 @@ SharpiTech.Client = (function () {
 
         DOM.loader = document.getElementById('Loader');
         DOM.viewMode = document.getElementById('ViewMode');
+
+        DOM.searchPanel = document.getElementById('SearchPanel');
+        DOM.filterClientType = document.getElementById('FilterClientType');
+        DOM.searchOptions = document.getElementById('SearchOptions');
+        DOM.searchValue = document.getElementById('SearchValue');
+        DOM.search = document.getElementById('Search');
+
         DOM.clientList = document.getElementById('ClientList');
         
         DOM.editMode = document.getElementById('EditMode');
@@ -55,6 +62,8 @@ SharpiTech.Client = (function () {
         DOM.area = document.getElementById('Area');
         DOM.pincode = document.getElementById('PinCode');
         DOM.contactNos = document.getElementById('ContactNos');
+        DOM.mobileNo1 = document.getElementById('MobileNo1');
+        DOM.mobileNo2 = document.getElementById('MobileNo2');
         DOM.emailId = document.getElementById('EmailId');
         DOM.website = document.getElementById('Website');
         DOM.gstno = document.getElementById('GSTNo');
@@ -89,13 +98,15 @@ SharpiTech.Client = (function () {
 
     function bindEvents() {
 
-        DOM.showClientList.addEventListener('click', getClientList);
+        DOM.search.addEventListener('click', searchClient);
+
+        DOM.showClientList.addEventListener('click', showClientList);
         DOM.addNewClient.addEventListener('click', addNewClient);
         DOM.viewClient.addEventListener('click', viewClient);
         DOM.editClient.addEventListener('click', editClient);
         DOM.saveClient.addEventListener('click', saveClient);
         DOM.deleteClient.addEventListener('click', deleteClient);
-        //DOM.filterClient.addEventListener('click', filterClient);
+        DOM.filterClient.addEventListener('click', filterClient);
         //DOM.exportClientList.addEventListener('click', exportClientList);
 
         //DOM.clientAddressList.addEventListener('click', clientAddressList);
@@ -159,19 +170,36 @@ SharpiTech.Client = (function () {
 
         getTransporters();
                 
-        getClientList();
+        //getAllClients();
 
-        //shared.hideLoader(DOM.loader);
+        shared.hideLoader(DOM.loader);
 
     }
 
+    function getMaxSrNo(maxSrNo) {
+
+        //var maxSrNo = maxSrNo;
+
+        if (ClientAddressess.length > 0) {
+
+            for (var ca = 0; ca < ClientAddressess.length; ca++) {
+
+                if (ClientAddressess[ca].SrNo >= maxSrNo) {
+                    maxSrNo = ClientAddressess[ca].SrNo;
+                }
+            }
+        }
+
+        return maxSrNo += 1;
+    }
+    
     function getUrlParameter(name) {
 
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
         var results = regex.exec(location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    };
+    }
 
     function getClientType() {
 
@@ -185,6 +213,14 @@ SharpiTech.Client = (function () {
                     shared.setSelectOptionByIndex(DOM.clientType, parseInt(1));
                     shared.setSelect2ControlsText(DOM.clientType);
                 }
+
+                DOM.filterClientType.innerHTML = DOM.clientType.innerHTML;
+
+                var option = document.createElement('option');
+
+                option.text = "All";
+
+                DOM.filterClientType.add(option, 1);
             }
 
         });
@@ -227,8 +263,7 @@ SharpiTech.Client = (function () {
                 }
             }
 
-        });
-        
+        });        
     }
 
     function getStates(countryId) {
@@ -398,7 +433,40 @@ SharpiTech.Client = (function () {
         getCities();
     }
 
-    var getSelectedRows = function(listObject) {
+    function fillSearchOption() {
+
+        var options = "";
+
+        options += "<option value='null'> Choose Search Option </option>";
+        options += "<option value='name' selected='selected'> Name </option>";
+        options += "<option value='gstno'> GST No. </option>";
+        options += "<option value='panno'> PAN No.</option>";
+        
+        DOM.searchOptions.innerHTML = options;
+    }
+
+    function filterClient() {
+
+        shared.showPanel(DOM.searchPanel);
+
+        shared.clearInputs(DOM.searchPanel);
+
+        fillSearchOption();
+
+        if (DOM.searchPanel.classList.contains("hide")) {
+            DOM.searchPanel.classList.remove('hide');
+            DOM.searchPanel.classList.add('show');
+        }
+        else {
+            DOM.searchPanel.classList.remove('show');
+            DOM.searchPanel.classList.add('hide');
+        }
+
+        DOM.searchValue.focus();
+    }
+
+
+    var getSelectedRows = function (listObject) {
 
         var selectedRows = [];
 
@@ -420,6 +488,99 @@ SharpiTech.Client = (function () {
         }
 
         return selectedRows;
+    };
+
+    function getSelectedClientDetails() {
+
+        shared.showLoader(DOM.loader);
+
+        var selectedRows = getSelectedRows(DOM.clientList);
+
+        if (selectedRows.length > 0) {
+
+            if (selectedRows.length > 1) {
+
+                swal('Warning', "Please select only one record to Edit the Records.", "warning");
+
+                shared.hideLoader(DOM.loader);
+
+                return false;
+            }
+            else {
+
+                var currentTableRow = selectedRows[0];
+
+                var clientId = parseInt(currentTableRow.getAttribute('data-client-id'));
+
+                if (isNaN(clientId)) { clientId = 0; }
+
+                showClientDetailsByClientId(clientId);
+            }
+        }
+        else {
+            swal("error", "No row selected.", "error");
+        }
+
+        shared.hideLoader(DOM.loader);
+
+    }
+
+    function searchClient() {
+
+        shared.showLoader(DOM.loader);
+
+        var clientTypeId = 0;
+        var name = null;
+        var gstno = null;
+        var panno = null;
+
+        clientTypeId = parseInt(DOM.clientType.options[DOM.clientType.selectedIndex].value);
+
+        if (DOM.searchOptions.options[DOM.searchOptions.selectedIndex].value.toLowerCase() === "name") {
+            name = DOM.searchValue.value;
+        }
+        else if (DOM.searchOptions.options[DOM.searchOptions.selectedIndex].value.toLowerCase() === "gstno") {
+            gstno = DOM.searchValue.value;
+        }
+        else if (DOM.searchOptions.options[DOM.searchOptions.selectedIndex].value.toLowerCase() === "panno") {
+            panno = DOM.searchValue.value;
+        }
+
+        if (parseInt(clientTypeId)) { clientTypeId = 0; }
+
+        var client = {
+            ClientTypeId: clientTypeId,
+            ClientName: name,
+            PANNo: panno,
+            GSTNo: gstno
+        };
+
+        var postData = JSON.stringify(client);
+
+        shared.sendRequest(SERVICE_PATH + "SearchClient", "POST", true, "JSON", postData, function (response) {
+
+            if (response.status === 200) {
+
+                shared.showLoader(DOM.loader);
+
+                Clients = JSON.parse(response.responseText);
+
+                bindClientsList();                
+            }
+
+            shared.hideLoader(DOM.loader);
+        });
+
+    }
+
+    function showClientList() {
+
+        shared.showPanel(DOM.viewMode);
+        shared.hidePanel(DOM.editMode);
+
+        filterClient();
+
+        DOM.clientList.tBodies[0].innerHTML = "";
     }
 
     function addNewClient() {
@@ -427,20 +588,20 @@ SharpiTech.Client = (function () {
         shared.showLoader(DOM.loader);
 
         //clear the inputs
-        clients.length = 0;
-        clientAddressess.length = 0;
-        transporters.length = 0;
+        Clients.length = 0;
+        ClientAddressess.length = 0;
+        Transporters.length = 0;
 
         shared.clearInputs(DOM.editMode);
-
+        shared.clearTables(DOM.editMode);
         shared.disableControls(DOM.editMode, false);
 
         DOM.clientName.setAttribute('data-client-id', 0);
         DOM.clientAddressName.setAttribute('data-client-address-id', parseInt(0));
         DOM.clientAddressName.setAttribute('data-sr-no', 0);
 
-        DOM.clientList.tBodies[0].innerHTML = "";
-        DOM.clientAddressList.tBodies[0].innerHTML = "";
+        //DOM.clientList.tBodies[0].innerHTML = "";
+        //DOM.clientAddressList.tBodies[0].innerHTML = "";
 
         //show edit panel;
         shared.showPanel(DOM.editMode);
@@ -454,49 +615,38 @@ SharpiTech.Client = (function () {
         shared.hideLoader(DOM.loader);
     }
 
-    function editClient(currentTableRow) {
+    function editClient() {
 
         shared.showLoader(DOM.loader);
 
-        try {
-            shared.clearInputs(DOM.editMode);
+        shared.clearInputs(DOM.editMode);
 
-            shared.clearTextAreas(DOM.editMode);
+        shared.clearTextAreas(DOM.editMode);
 
-            shared.disableControls(DOM.editMode, false);
-            
-            var selectedRows = getSelectedRows(DOM.clientList);
+        shared.disableControls(DOM.editMode, false);
 
-            if (selectedRows.length > 0) {
-
-                if (selectedRows.length > 1) {
-                    swal('Warning', "Please select only one record to Edit the Records.", "warning");
-                    return false;
-                }
-                else {
-
-                    currentTableRow = selectedRows[0];
-
-                    showSelectedClientDetails(currentTableRow);
-                }
-            }
-            else {
-                swal("error", "No row selected.", "error");
-            }
-        }
-        catch (e) {
-            handleError(e.message);
-        }
-        finally {
-
-            shared.hideLoader(DOM.loader);
-        }
+        getSelectedClientDetails();
 
         // Focus
         DOM.clientName.focus();
     }
 
-    function deleteClient(currentTableRow) {
+    function viewClient() {
+
+        shared.showLoader(DOM.loader);
+
+        shared.clearInputs(DOM.editMode);
+
+        shared.clearTextAreas(DOM.editMode);
+
+        shared.disableControls(DOM.editMode, true);
+
+        getSelectedClientDetails();
+
+        shared.hideLoader(DOM.loader);
+    }
+    
+    function deleteClient() {
 
         var table = DOM.clientList;
 
@@ -524,20 +674,196 @@ SharpiTech.Client = (function () {
         });
     }
 
-    function showSelectedClientDetails(currentTableRow) {
+    function getAllClients() {
+
+        shared.showLoader(DOM.loader);
+        
+        Clients.length = 0;
+
+        ClientAddressess.length = 0;
+
+        //try {
+
+            shared.sendRequest(SERVICE_PATH + "GetAllClients", "GET", true, "JSON", null, function (response) {
+                
+                if (response.status === 200) {
+
+                    shared.showLoader(DOM.loader);
+
+                    if (response.responseText !== undefined) {
+
+                        var _response = JSON.parse(response.responseText);
+
+                        if (_response !== undefined) {
+
+                            if (_response.length > 0) {
+
+                                Clients = _response;
+
+                                //for (var r = 0; r < _response.length; r++) {
+
+                                //    var addressess = _response[r].ClientAddressess;
+                                    
+                                //    addressList = addressess.filter(function (value, index, array) {
+                                //        return value.ClientId === parseInt(_response[r].ClientId);
+                                //    });
+
+                                //    var client = {};
+
+                                //    client = {
+                                //        ClientTypeId: _response[r].ClientTypeId,
+                                //        ClientTypeName: _response[r].ClientTypeName,
+                                //        ClientId: _response[r].ClientId,
+                                //        ClientCode: _response[r].ClientCode,
+                                //        ClientName: _response[r].ClientName,
+                                //        PANNo: _response[r].PANNo,
+                                //        SrNo: _response[r].SrNo
+                                //    };
+
+                                //    Clients.push(client);
+
+                                //    if (addressList.length > 0) {
+
+                                //        for (var ca = 0; ca < addressList.length; ca++) {
+
+                                //            var clientAddress = {};
+
+                                //            clientAddress = {
+                                //                ClientId: addressList[ca].ClientId,
+                                //                ClientName: addressList[ca].ClientName,
+                                //                ClientTypeId: addressList[ca].ClientTypeId,
+                                //                ClientType: addressList[ca].ClientType,
+                                //                ClientAddressCode: addressList[ca].ClientAddressCode,
+                                //                AddressTypeId: addressList[ca].AddressTypeId,
+                                //                AddressTypeName: addressList[ca].AddressType,
+                                //                ClientAddressId: addressList[ca].ClientAddressId,
+                                //                ClientAddressName: addressList[ca].ClientAddressName,
+                                //                Address: addressList[ca].Address,
+                                //                CountryId: addressList[ca].CountryId,
+                                //                CountryName: addressList[ca].CountryName,
+                                //                StateId: addressList[ca].StateId,
+                                //                StateName: addressList[ca].StateName,
+                                //                CityId: addressList[ca].CityId,
+                                //                CityName: addressList[ca].CityName,
+                                //                Area: addressList[ca].Area,
+                                //                Pincode: addressList[ca].PinCode,
+                                //                ContactNos: addressList[ca].ContactNos,
+                                //                EmailId: addressList[ca].EmailId,
+                                //                Website: "",//_addressess[ca].Website,
+                                //                GSTNo: addressList[ca].GSTNo,
+                                //                IsDeleted: false,
+                                //                SrNo: addressList[ca].SrNo
+                                //            };
+
+                                //            ClientAddressess.push(clientAddress);
+
+                                //            var transporterMappingList = addressList[ca].CustomerAndTransporterMapping;
+
+                                //            if (transporterMappingList.length > 0) {
+
+                                //                for (var t = 0; t < transporterMappingList.length; t++) {
+
+                                //                    var transporterMapping = {};
+
+                                //                    transporterMapping = {
+                                //                        MappingId: transporterMappingList[t].MappingId,
+                                //                        CustomerAddressId: transporterMappingList[t].CustomerAddressId,
+                                //                        CustomerName: transporterMappingList[t].CustomerName,
+                                //                        TransporterAddressId: transporterMappingList[t].TransporterAddressId,
+                                //                        TransporterName: transporterMappingList[t].TransporterName
+                                //                    };
+
+                                //                    Transporters.push(transporterMapping);
+                                //                }
+                                //            }
+                                //        }
+                                //    }
+                                //}
+                            }
+
+                            shared.showPanel(DOM.viewMode);
+                            shared.hidePanel(DOM.editMode);
+                        }
+                        else {
+                            shared.showPanel(DOM.editMode);
+                            shared.hidePanel(DOM.viewMode);
+
+                            //shared.hideLoader(DOM.loader);
+                        }
+                    }
+                }
+
+                shared.hideLoader(DOM.loader);
+
+                bindClientsList();
+
+            });
+        //}
+        //catch (e) {
+        //    handleError("Error in application" + e.message);
+        //}
+        //finally {
+        //    shared.hideLoader(DOM.loader);
+        //}
+
+    }
+
+    function bindClientsList() {
+
+        shared.showLoader(DOM.loader);
+
+        DOM.clientList.tBodies[0].innerHTML = "";
+
+        var table = DOM.clientList;
+
+        var tableBody = table.tBodies[0];
+
+        if (Clients.length > 0) {
+
+            var clients = Clients.filter(function (value, index, array) {
+                return value.SrNo >= 1 && value.SrNo <= 20;
+            });
+
+            if (clients.length) {
+
+                var data = "";
+
+                for (var r = 0; r < clients.length; r++) {
+
+                    data += "<tr data-client-id=" + clients[r].ClientId + ">";
+                    data += "<td class='col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center'><label class='label-tick'> <input type='checkbox' id='" + clients[r].ClientId + "' class='label-checkbox' name='SelectClient' /> <span class='label-text'></span> </label>" + "</td>";
+                    data += "<td class='col-lg-1 col-md-1 col-sm-1 col-xs-1 text-center'>" + clients[r].SrNo + "</td>";
+                    data += "<td class='col-lg-2 col-md-2 col-sm-2 col-xs-1 text-center'>" + clients[r].ClientTypeName + "</td>";
+                    data += "<td class='col-lg-2 col-md-2 col-sm-2 col-xs-1 text-center'>" + clients[r].ClientCode + "</td>";
+                    data += "<td class='col-lg-6 col-md-6 col-sm-6 col-xs-1 text-left'>" + clients[r].ClientName + "</td>";
+                    data += "</tr>";
+                }
+
+                tableBody.innerHTML = data;
+            }
+
+            //shared.showPanel(DOM.viewMode);
+            //shared.hidePanel(DOM.editMode);
+            
+        }
+
+        shared.hideLoader(DOM.loader);
+    }
+
+    function showClientDetailsByClientId(clientId) {
 
         /* assign text to input controls */
-        if (clients !== null) {
+        if (Clients !== null) {
 
-            if (clients !== undefined) {
+            if (Clients !== undefined) {
 
-                if (clients.length > 0) {
+                if (Clients.length > 0) {
 
-                    var selectedClients = clients.filter(function (value, index, array) {
-                        return value.ClientId === parseInt(currentTableRow.getAttribute('data-client-id'));
+                    var selectedClients = Clients.filter(function (value, index, array) {
+                        return value.ClientId === parseInt(clientId);
                     });
 
-                    if (selectedClients.length > 0) {
+                    if (selectedClients.length) {
 
                         shared.showPanel(DOM.editMode);
                         shared.hidePanel(DOM.viewMode);
@@ -548,7 +874,16 @@ SharpiTech.Client = (function () {
                         DOM.clientName.setAttribute('data-client-id', selectedClients[0].ClientId);
                         DOM.panno.value = selectedClients[0].PANNo;
 
-                        showClientAddressList();
+                        ClientAddressess.length = 0;
+
+                        var clientAddressess = selectedClients[0].ClientAddressess.filter(function (value, index, array) {
+                            return value.ClientId === parseInt(clientId)
+                                && (value.IsDeleted === false || value.IsDeleted === null);
+                        });
+
+                        ClientAddressess = clientAddressess;
+        
+                        bindClientAddressListByClientId(clientId);
                     }
                 }
             }
@@ -558,66 +893,146 @@ SharpiTech.Client = (function () {
         DOM.addressType.focus();
     }
 
-    function viewClient() {
+    function bindClientAddressListByClientId(clientId) {
 
         shared.showLoader(DOM.loader);
 
-        try {
+        var table = DOM.clientAddressList;
 
-            shared.clearInputs(DOM.editMode);
+        var tableBody = table.tBodies[0];
 
-            shared.clearTextAreas(DOM.editMode);
+        tableBody.innerHTML = "";
 
-            shared.disableControls(DOM.editMode, true);
-            
-            var selectedRows = getSelectedRows(DOM.clientList);
+        var client = Clients.filter(function (value, index, array) {
+            return value.ClientId === clientId;
+        });
 
-            if (selectedRows.length > 0) {
+        if (client.length) {
 
-                if (selectedRows.length > 1) {
-                    swal('Warning', "Please select only one record to View or Edit the Records.", "warning");
-                    return false;
+            var clientAddressess = ClientAddressess.filter(function (value, index, array) {
+                return value.ClientId === parseInt(clientId)
+                    && (value.IsDeleted === false || value.IsDeleted === null);
+            });
+
+            if (clientAddressess.length > 0) {
+
+                var data = "";
+
+                for (var r = 0; r < clientAddressess.length; r++) {
+
+                    data += "<tr data-client-address-id=" + clientAddressess[r].ClientAddressId + " data-sr-no=" + clientAddressess[r].SrNo + ">";
+                    data += "<td><label class='label-tick'> <input type='checkbox' id='" + clientAddressess[r].ClientAddressId + "' class='label-checkbox' name='SelectClientAddress' /> <span class='label-text'></span> </label>" + "</td>";
+                    data += "<td>" + clientAddressess[r].AddressType + "</td>";
+                    data += "<td>" + clientAddressess[r].ClientAddressName + "</td>";
+                    data += "<td>" + clientAddressess[r].CountryName + "</td>";
+                    data += "<td>" + clientAddressess[r].StateName + "</td>";
+                    data += "<td>" + clientAddressess[r].CityName + "</td>";
+                    data += "<td>" + clientAddressess[r].ContactNos + "</td>";
+                    data += "<td>" + clientAddressess[r].GSTNo + "</td>";
+                    data += "</tr>";
                 }
-                else {
 
-                    var currentTableRow = selectedRows[0];
+                tableBody.innerHTML = data;
 
-                    showSelectedClientDetails(currentTableRow);                    
-                }
+                shared.showPanel(DOM.clientAddressViewSection);
+                shared.hidePanel(DOM.clientAddressEditSection);
+
+            }
+        }
+
+        shared.hideLoader(DOM.loader);
+    }
+
+    function getSelectedClientAddressDetails() {
+
+        shared.showLoader(DOM.loader);
+
+        var selectedRows = getSelectedRows(DOM.clientAddressList);
+
+        if (selectedRows.length > 0) {
+
+            if (selectedRows.length > 1) {
+
+                swal('Warning', "Please select only one record to Edit the Records.", "warning");
+
+                shared.hideLoader(DOM.loader);
+
+                return false;
             }
             else {
-                swal("error", "No row selected.", "error");
+
+                var currentTableRow = selectedRows[0];
+
+                var clientAddressId = parseInt(currentTableRow.getAttribute('data-client-address-id'));
+
+                var srNo = parseInt(currentTableRow.rowIndex);
+
+                if (isNaN(clientAddressId)) { clientAddressId = 0; }
+
+                if (isNaN(srNo)) { srNo = 0; }
+
+                showClientAddressDetailsByClientAddressId(clientAddressId, srNo);
             }
         }
-        catch (e) {
-            handleError(e.message);
+        else {
+            swal("error", "No row selected.", "error");
         }
-        finally {
 
-            shared.hideLoader(DOM.loader);
-        }
+        shared.hideLoader(DOM.loader);
     }
-    
-    function addNewClientAddress() {
 
-        // Show/hide panel
-        shared.showPanel(DOM.clientAddressEditSection);
-        shared.hidePanel(DOM.clientAddressViewSection);
+    function showClientAddressDetailsByClientAddressId(clientAddressId, srNo) {
 
-        //clear the inputs
-        shared.clearInputs(DOM.clientAddressEditSection);
-        shared.clearTextAreas(DOM.clientAddressEditSection);
+        var selectedClientAddressess = ClientAddressess.filter(function (value, index, array) {
 
-        DOM.transportersList.innerHTML = "";
+            if (parseInt(clientAddressId) > 0) {
+                return value.ClientAddressId === clientAddressId &&
+                    (value.IsDeleted === false || value.IsDeleted === null);
+            }
+            else {
+                return value.SrNo === parseInt(srNo) &&
+                    (value.IsDeleted === false || value.IsDeleted === null);
+            }
+        });
 
-        //Set default value
-        DOM.clientAddressName.value = DOM.clientName.value;
-        DOM.clientAddressName.setAttribute('data-client-address-id', parseInt(0));
-        DOM.clientAddressName.setAttribute('data-sr-no', parseInt(getMaxSrNo(parseInt(0))));
+        if (selectedClientAddressess.length > 0) {
 
-        appendGSTNo();
+            shared.setSelectValue(DOM.addressType, null, parseInt(selectedClientAddressess[0].AddressTypeId));
+            shared.setSelect2ControlsText(DOM.addressType);
+            DOM.clientAddressName.value = selectedClientAddressess[0].ClientAddressName;
+            DOM.clientAddressName.setAttribute('data-client-address-id', clientAddressId);
+            DOM.clientAddressName.setAttribute('data-sr-no', srNo);
+            DOM.address.value = selectedClientAddressess[0].Address;
+            shared.setSelectValue(DOM.country, null, parseInt(selectedClientAddressess[0].CountryId));
+            shared.setSelect2ControlsText(DOM.country);
+            shared.setSelectValue(DOM.state, null, parseInt(selectedClientAddressess[0].StateId));
+            shared.setSelect2ControlsText(DOM.state);
 
-        DOM.clientAddressName.focus();
+            var cityId = parseInt(selectedClientAddressess[0].CityId);
+
+            getCitiesWithCallback(parseInt(selectedClientAddressess[0].StateId), function (response) {
+                shared.setSelectValue(DOM.city, null, cityId);
+                shared.setSelect2ControlsText(DOM.city);
+            });
+
+            DOM.area.value = selectedClientAddressess[0].Area;
+            DOM.pincode.value = selectedClientAddressess[0].PinCode;
+            DOM.contactNos.value = selectedClientAddressess[0].ContactNos;
+            DOM.mobileNo1.value = selectedClientAddressess[0].MobileNo1;
+            DOM.mobileNo2.value = selectedClientAddressess[0].MobileNo2;
+            DOM.emailId.value = selectedClientAddressess[0].EmailId;
+            DOM.website.value = selectedClientAddressess[0].WebSite;
+            DOM.gstno.value = selectedClientAddressess[0].GSTNo;
+
+            bindTransporterByClientAddressId(clientAddressId);
+
+            shared.showPanel(DOM.clientAddressEditSection);
+            shared.hidePanel(DOM.clientAddressViewSection);
+        }
+
+        //set focus
+        DOM.addressType.focus();
+
     }
 
     function appendClientAddressValue() {
@@ -646,102 +1061,33 @@ SharpiTech.Client = (function () {
             }
         }
     }
+    
+    function addNewClientAddress() {
 
-    function bindClientAddressByClientId(clientId) {
+        // Show/hide panel
+        shared.showPanel(DOM.clientAddressEditSection);
+        shared.hidePanel(DOM.clientAddressViewSection);
 
-        var table = DOM.clientAddressList;
+        //clear the inputs
+        shared.clearInputs(DOM.clientAddressEditSection);
+        shared.clearTables(DOM.clientAddressEditSection);
+        shared.clearTextAreas(DOM.clientAddressEditSection);
 
-        var tableBody = table.tBodies[0];
+        //Set default value
+        DOM.clientAddressName.value = DOM.clientName.value;
+        DOM.clientAddressName.setAttribute('data-client-address-id', parseInt(0));
+        DOM.clientAddressName.setAttribute('data-sr-no', parseInt(getMaxSrNo(parseInt(0))));
 
-        tableBody.innerHTML = "";
+        appendGSTNo();
 
-        var data = "";
-
-        var clientAddressList = clientAddressess.filter(function (value, index, array) {
-            return value.ClientId === parseInt(clientId)
-                && value.IsDeleted === false;
-        });
-
-        if (clientAddressList.length > 0) {
-
-            for (var r = 0; r < clientAddressList.length; r++) {
-
-                data += "<tr data-client-address-id=" + clientAddressList[r].ClientAddressId + " data-sr-no=" + clientAddressList[r].SrNo + ">";
-                data += "<td>" + clientAddressList[r].AddressTypeName + "</td>";
-                data += "<td>" + clientAddressList[r].ClientAddressName + "</td>";
-                data += "<td>" + clientAddressList[r].CountryName + "</td>";
-                data += "<td>" + clientAddressList[r].StateName + "</td>";
-                data += "<td>" + clientAddressList[r].CityName + "</td>";
-                data += "<td>" + clientAddressList[r].ContactNos + "</td>";
-                data += "<td>" + clientAddressList[r].GSTNo + "</td>";
-                data += "<td class='text-center'>" +
-                    "<a href='#' class='btn btn-default btn-xs' data-name='view' > <i class='fa fa-lg fa-eye' data-name='view'></i> </a> " +
-                    "<a href='#' class='btn btn-default btn-xs' data-name='edit'> <i class='fa fa-lg fa-edit' data-name='edit'></i></a> " +
-                    "<a href='#' class='btn btn-default btn-xs' data-name='remove' > <i class='fa fa-lg fa-remove' data-name='remove'></i></a> </td></tr>";
-                data += "</tr>";
-            }
-
-            tableBody.innerHTML = data;
-
-            shared.showPanel(DOM.clientAddressViewSection);
-            shared.hidePanel(DOM.clientAddressEditSection);
-
-        }
-
-    }
-
-    function showClientAddressList() {
-
-        clientId = parseInt(DOM.clientName.getAttribute('data-client-id'));
-
-        if (isNaN(clientId)) { clientId = parseInt(0); }
-
-        shared.showLoader(DOM.loader);
-
-        var table = DOM.clientAddressList;
-
-        var tableBody = table.tBodies[0];
-
-        tableBody.innerHTML = "";
-        
-        var clientAddressList = clientAddressess.filter(function (value, index, array) {
-            return value.ClientId === parseInt(clientId)
-                && value.IsDeleted === false;
-        });
-
-        if (clientAddressList.length > 0) {
-
-            var data = "";
-
-            for (var r = 0; r < clientAddressList.length; r++) {
-                
-                data += "<tr data-client-address-id=" + clientAddressList[r].ClientAddressId + " data-sr-no=" + clientAddressess[r].SrNo + ">";
-                data += "<td><label class='label-tick'> <input type='checkbox' id='" + clientAddressList[r].ClientAddressId + "' class='label-checkbox' name='SelectClientAddress' /> <span class='label-text'></span> </label>" + "</td>";
-                data += "<td>" + clientAddressList[r].AddressTypeName + "</td>";
-                data += "<td>" + clientAddressList[r].ClientAddressName + "</td>";
-                data += "<td>" + clientAddressList[r].CountryName + "</td>";
-                data += "<td>" + clientAddressList[r].StateName + "</td>";
-                data += "<td>" + clientAddressList[r].CityName + "</td>";
-                data += "<td>" + clientAddressList[r].ContactNos + "</td>";
-                data += "<td>" + clientAddressList[r].GSTNo + "</td>";
-                data += "</tr>";
-                
-            }
-
-            tableBody.innerHTML = data;
-                        
-            shared.showPanel(DOM.clientAddressViewSection);
-            shared.hidePanel(DOM.clientAddressEditSection);
-
-        }
-
-        shared.hideLoader(DOM.loader);
-
+        DOM.clientAddressName.focus();
     }
         
-    function editClientAddress(currentTableRow) {
+    function editClientAddress() {
 
         shared.clearInputs(DOM.clientAddressEditSection);
+
+        shared.clearTables(DOM.clientAddressEditSection);
 
         shared.clearTextAreas(DOM.clientAddressEditSection);
 
@@ -749,82 +1095,32 @@ SharpiTech.Client = (function () {
 
         shared.showLoader(DOM.loader);
 
-        try {
-            
-            var selectedRows = getSelectedRows(DOM.clientAddressList);
+        getSelectedClientAddressDetails();
 
-            if (selectedRows.length > 0) {
-
-                if (selectedRows.length > 1) {
-                    swal('Warning', "Please select only one record to View or Edit the Records.", "warning");
-                    return false;
-                }
-                else {
-
-                    currentTableRow = selectedRows[0];
-
-                    showSelectedClientAddress(currentTableRow);
-                }
-            }
-            else {
-                swal("error", "No row selected.", "error");
-            }
-        }
-        catch (e) {
-            handleError(e.message);
-        }
-        finally {
-
-            shared.hideLoader(DOM.loader);
-        }
-
+        shared.hideLoader(DOM.loader);
     }
 
     function deleteClientAddress(srNo) {
 
-        if (clientAddressess.length > 0) {
+        if (ClientAddressess.length > 0) {
 
-            var filteredRecord = clientAddressess.filter(function (value, index, array) {
+            var filteredRecord = ClientAddressess.filter(function (value, index, array) {
                 return value.SrNo === parseInt(srNo) && value.IsDeleted === false;
             });
 
-            for (var ca = clientAddressess.length - 1; ca >= 0; ca--) {
-                if (parseInt(clientAddressess[ca].SrNo) === srNo) {
-                    clientAddressess.splice(ca, 1);
+            for (var ca = ClientAddressess.length - 1; ca >= 0; ca--) {
+                if (parseInt(ClientAddressess[ca].SrNo) === srNo) {
+                    ClientAddressess.splice(ca, 1);
                 }
             }
         }
     }
 
-    function deleteClientAddressFromTable(currentTableRow) {
+    function showClientAddressList() {
 
-        var clientId = parseInt(DOM.clientName.getAttribute('data-client-id'));
+        shared.showPanel(DOM.clientAddressViewSection);
 
-        var clientName = DOM.clientName.value;
-
-        if (isNaN(clientId)) {
-            clientId = parseInt(0);
-        }
-
-        if (clientAddressess.length > 0) {
-
-            var filteredRecord = clientAddressess.filter(function (value, index, array) {
-                return value.ClientAddressId === parseInt(currentTableRow.getAttribute('data-client-address-id')) && value.IsDeleted === false;
-            });
-
-            for (var ca = clientAddressess.length - 1; ca >= 0; ca--) {
-
-                if (parseInt(clientAddressess[ca].ClientAddressId) > 0) {
-
-                    clientAddressess[ca].IsDeleted = true;
-                }
-                else {
-                    clientAddressess.splice(ca, 1);
-                }
-            }
-
-            bindClientAddressByClientId(clientId);
-        }
+        shared.hidePanel(DOM.clientAddressEditSection);
     }
 
     function saveClientAddress() {
@@ -856,6 +1152,8 @@ SharpiTech.Client = (function () {
             var area = null;
             var pincode = null;
             var contactNos = null;
+            var mobileNo1 = null;
+            var mobileNo2 = null;
             var emailId = null;
             var website = null;
             var gstno = null;
@@ -877,6 +1175,7 @@ SharpiTech.Client = (function () {
             }
 
             appendClientAddressValue();
+
             clientAddressName = DOM.clientAddressName.value;
             clientAddressId = parseInt(DOM.clientAddressName.getAttribute('data-client-address-id'));
             srNo = parseInt(DOM.clientAddressName.getAttribute('data-sr-no'));
@@ -903,6 +1202,8 @@ SharpiTech.Client = (function () {
             area = DOM.area.value;
             pincode = DOM.pincode.value;
             contactNos = DOM.contactNos.value;
+            mobileNo1 = DOM.mobileNo1.value;
+            mobileNo2 = DOM.mobileNo2.value;
             emailId = DOM.emailId.value;
             website = DOM.website.value;
             gstno = DOM.gstno.value;
@@ -929,12 +1230,14 @@ SharpiTech.Client = (function () {
                 Area: area,
                 Pincode: pincode,
                 ContactNos: contactNos,
+                MobileNo1: mobileNo1,
+                MobileNo2: mobileNo2,
                 EmailId: emailId,
                 Website: website,
                 GSTNo: gstno,
                 IsDeleted: false,
                 SrNo: srNo,
-                CustomerAndTransporterMapping: transporters
+                CustomerAndTransporterMapping: Transporters
             };
 
             if (parseInt(clientAddressId) === parseInt(0)) {
@@ -951,124 +1254,30 @@ SharpiTech.Client = (function () {
                 clientAddress.ModifiedByIP = IP_ADDRESS;
             }
 
-            clientAddressess.push(clientAddress);
+            ClientAddressess.push(clientAddress);
 
-            bindClientAddressByClientId(clientId);
+            bindClientAddressListByClientId(clientId);
         }
     }
 
-    function showSelectedClientAddress(currentTableRow) {
-
-        /* assign text to input controls */
-        //DOM.addressDetails.tBodies[0].innerHTML = "";
-
-        var clientAddressId = parseInt(currentTableRow.getAttribute('data-client-address-id'));
-
-        if (isNaN(clientAddressId)) { clientAddressId = parseInt(0); }
-
-        var selectedClientAddressess = clientAddressess.filter(function (value, index, array) {
-            if (parseInt(currentTableRow.getAttribute('data-client-address-id')) > 0) {
-                return value.ClientAddressId ===  clientAddressId && value.IsDeleted === false;
-            }
-            else {
-                return value.SrNo === parseInt(currentTableRow.getAttribute('data-sr-no')) && value.IsDeleted === false;
-            }
-        });
-
-        if (selectedClientAddressess.length > 0) {
-
-            shared.setSelectValue(DOM.addressType, null, parseInt(selectedClientAddressess[0].AddressTypeId));
-            shared.setSelect2ControlsText(DOM.addressType);
-            DOM.clientAddressName.value = selectedClientAddressess[0].ClientAddressName;
-            DOM.clientAddressName.setAttribute('data-client-address-id', currentTableRow.getAttribute('data-client-address-id'));
-            DOM.clientAddressName.setAttribute('data-sr-no', parseInt(currentTableRow.getAttribute('data-sr-no')));
-            DOM.address.value = selectedClientAddressess[0].Address;
-            shared.setSelectValue(DOM.country, null, parseInt(selectedClientAddressess[0].CountryId));
-            shared.setSelect2ControlsText(DOM.country);
-            shared.setSelectValue(DOM.state, null, parseInt(selectedClientAddressess[0].StateId));
-            shared.setSelect2ControlsText(DOM.state);
-
-            var cityId = parseInt(selectedClientAddressess[0].CityId);
-
-            getCitiesWithCallback(parseInt(selectedClientAddressess[0].StateId), function (response) {
-                shared.setSelectValue(DOM.city, null, cityId);
-                shared.setSelect2ControlsText(DOM.city);
-            });
-
-            DOM.area.value = selectedClientAddressess[0].Area;
-            DOM.pincode.value = selectedClientAddressess[0].Pincode;
-            DOM.contactNos.value = selectedClientAddressess[0].ContactNos;
-            DOM.emailId.value = selectedClientAddressess[0].EmailId;
-            DOM.website.value = selectedClientAddressess[0].Website;
-            DOM.gstno.value = selectedClientAddressess[0].GSTNo;
-
-            bindTransporterByClientAddressId(clientAddressId);
-            
-            shared.showPanel(DOM.clientAddressEditSection);
-            shared.hidePanel(DOM.clientAddressViewSection);
-        }
-
-        //set focus
-        DOM.addressType.focus();
-
-    }
         
     function viewClientAddress() {
 
+        shared.showLoader(DOM.loader);
+
         shared.clearInputs(DOM.clientAddressEditSection);
+
+        shared.clearTables(DOM.clientAddressEditSection);
 
         shared.clearTextAreas(DOM.clientAddressEditSection);
 
         shared.disableControls(DOM.clientAddressEditSection, true);
 
-        shared.showLoader(DOM.loader);
+        bindClientAddressDetailsByClientAddressId();
 
-        try {
+        shared.hideLoader(DOM.loader);
+              
 
-            var selectedRows = getSelectedRows(DOM.clientAddressList);
-
-            if (selectedRows.length > 0) {
-
-                if (selectedRows.length > 1) {
-                    swal('Warning', "Please select only one record to View or Edit the Records.", "warning");
-                    return false;
-                }
-                else {
-
-                    var currentTableRow = selectedRows[0];
-
-                    showSelectedClientAddress(currentTableRow);
-                }
-            }
-            else {
-                swal("error", "No row selected.", "error");
-            }
-        }
-        catch (e) {
-            handleError(e.message);
-        }
-        finally {
-
-            shared.hideLoader(DOM.loader);
-        }      
-
-    }
-    
-    function getMaxSrNo(maxSrNo) {
-
-        //var maxSrNo = maxSrNo;
-
-        if (clientAddressess.length > 0) {
-
-            for (var ca = 0; ca < clientAddressess.length; ca++) {
-
-                if (clientAddressess[ca].SrNo >= maxSrNo) {
-                    maxSrNo = clientAddressess[ca].SrNo;
-                }
-            }
-        }
-
-        return maxSrNo += 1;
     }
     
     function validateData() {
@@ -1113,7 +1322,7 @@ SharpiTech.Client = (function () {
 
         if (validateData()) {
 
-            clients.length = 0;
+            Clients.length = 0;
 
             /* temp variable */
             var clientTypeSelectedIndex = DOM.clientType.selectedIndex;
@@ -1122,14 +1331,14 @@ SharpiTech.Client = (function () {
             var clientId = parseInt(DOM.clientName.getAttribute('data-client-id'));
             var clientName = DOM.clientName.value;
             var panno = DOM.panno.value;
-            //var clientAddressess = clientAddressess;
+            //var ClientAddressess = ClientAddressess;
 
             if (isNaN(clientId)) {
                clientId = parseInt(0);
             }
 
-            if (clientAddressess.length > 0) {
-                var selectedClientAddress = clientAddressess.filter(function (value, index, array) {
+            if (ClientAddressess.length > 0) {
+                var selectedClientAddress = ClientAddressess.filter(function (value, index, array) {
                     return value.ClientId === clientId;
                 });
             }
@@ -1158,9 +1367,9 @@ SharpiTech.Client = (function () {
                 client.ModifiedByIp = IP_ADDRESS;
             }
 
-            clients.push(client);
+            Clients.push(client);
 
-            var postData = JSON.stringify(clients);
+            var postData = JSON.stringify(Clients);
 
             shared.sendRequest(SERVICE_PATH + "SaveClient", "POST", true, "JSON", postData, function (response) {
                 if (response.status === 200) {
@@ -1170,7 +1379,7 @@ SharpiTech.Client = (function () {
                             text: "Records Saved Successfully.",
                             type: "success"
                         }, function () {
-                            getClientList();
+                            addNewClient();
                         });
                     }
                     else if (parseInt(response.responseText) === parseInt(-2)) {
@@ -1193,175 +1402,10 @@ SharpiTech.Client = (function () {
 
     }
 
-    function bindClientList() {
-
-        shared.showLoader(DOM.loader);
-
-        DOM.clientList.tBodies[0].innerHTML = "";
-
-        var table = DOM.clientList;
-
-        var tableBody = table.tBodies[0];
-
-        if (clients.length > 0) {
-
-            var data = "";        
-                
-            for (var r = 0; r < clients.length; r++) {
-
-                data += "<tr data-client-id=" + clients[r].ClientId + ">";
-                data += "<td><label class='label-tick'> <input type='checkbox' id='" + clients[r].ClientId + "' class='label-checkbox' name='SelectClient' /> <span class='label-text'></span> </label>" + "</td>";
-                data += "<td>" + clients[r].SrNo + "</td>";
-                data += "<td>" + clients[r].ClientTypeName + "</td>";
-                data += "<td>" + clients[r].ClientCode + "</td>";
-                data += "<td>" + clients[r].ClientName + "</td>";
-                data += "</tr>"
-            }
-
-            tableBody.innerHTML = data;
-
-            shared.showPanel(DOM.viewMode);
-            shared.hidePanel(DOM.editMode);
-        }
-
-        shared.hideLoader(DOM.loader);
-
-    }
-
+    
     /**
-     * Get clients list
+     * Get Clients list
      */
-    function getClientList() {
-
-        shared.showLoader(DOM.loader);
-        
-        clients.length = 0;
-
-        clientAddressess.length = 0;
-
-        //try {
-
-            shared.sendRequest(SERVICE_PATH + "GetAllClients", "GET", true, "JSON", null, function (response) {
-                
-                if (response.status === 200) {
-
-                    shared.showLoader(DOM.loader);
-
-                    if (response.responseText !== undefined) {
-
-                        var _response = JSON.parse(response.responseText);
-
-                        if (_response !== undefined) {
-
-                            if (_response.length > 0) {
-                                
-                                for (var r = 0; r < _response.length; r++) {
-
-                                    var addressess = _response[r].ClientAddressess;
-                                    
-                                    addressList = addressess.filter(function (value, index, array) {
-                                        return value.ClientId === parseInt(_response[r].ClientId);
-                                    });
-
-                                    var client = {};
-
-                                    client = {
-                                        ClientTypeId: _response[r].ClientTypeId,
-                                        ClientTypeName: _response[r].ClientTypeName,
-                                        ClientId: _response[r].ClientId,
-                                        ClientCode: _response[r].ClientCode,
-                                        ClientName: _response[r].ClientName,
-                                        PANNo: _response[r].PANNo,
-                                        SrNo: _response[r].SrNo
-                                    };
-
-                                    clients.push(client);
-
-                                    if (addressList.length > 0) {
-
-                                        for (var ca = 0; ca < addressList.length; ca++) {
-
-                                            var clientAddress = {};
-
-                                            clientAddress = {
-                                                ClientId: addressList[ca].ClientId,
-                                                ClientName: addressList[ca].ClientName,
-                                                ClientTypeId: addressList[ca].ClientTypeId,
-                                                ClientType: addressList[ca].ClientType,
-                                                ClientAddressCode: addressList[ca].ClientAddressCode,
-                                                AddressTypeId: addressList[ca].AddressTypeId,
-                                                AddressTypeName: addressList[ca].AddressType,
-                                                ClientAddressId: addressList[ca].ClientAddressId,
-                                                ClientAddressName: addressList[ca].ClientAddressName,
-                                                Address: addressList[ca].Address,
-                                                CountryId: addressList[ca].CountryId,
-                                                CountryName: addressList[ca].CountryName,
-                                                StateId: addressList[ca].StateId,
-                                                StateName: addressList[ca].StateName,
-                                                CityId: addressList[ca].CityId,
-                                                CityName: addressList[ca].CityName,
-                                                Area: addressList[ca].Area,
-                                                Pincode: addressList[ca].PinCode,
-                                                ContactNos: addressList[ca].ContactNos,
-                                                EmailId: addressList[ca].EmailId,
-                                                Website: "",//_addressess[ca].Website,
-                                                GSTNo: addressList[ca].GSTNo,
-                                                IsDeleted: false,
-                                                SrNo: addressList[ca].SrNo
-                                            };
-
-                                            clientAddressess.push(clientAddress);
-
-                                            var transporterMappingList = addressList[ca].CustomerAndTransporterMapping;
-
-                                            if (transporterMappingList.length > 0) {
-
-                                                for (var t = 0; t < transporterMappingList.length; t++) {
-
-                                                    var transporterMapping = {};
-
-                                                    transporterMapping = {
-                                                        MappingId: transporterMappingList[t].MappingId,
-                                                        CustomerAddressId: transporterMappingList[t].CustomerAddressId,
-                                                        CustomerName: transporterMappingList[t].CustomerName,
-                                                        TransporterAddressId: transporterMappingList[t].TransporterAddressId,
-                                                        TransporterName: transporterMappingList[t].TransporterName
-                                                    };
-
-                                                    transporters.push(transporterMapping);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            shared.showPanel(DOM.viewMode);
-                            shared.hidePanel(DOM.editMode);
-                        }
-                        else {
-                            shared.showPanel(DOM.editMode);
-                            shared.hidePanel(DOM.viewMode);
-
-                            //shared.hideLoader(DOM.loader);
-                        }
-                    }
-                }
-
-                shared.hideLoader(DOM.loader);
-
-                bindClientList();
-
-            });
-        //}
-        //catch (e) {
-        //    handleError("Error in application" + e.message);
-        //}
-        //finally {
-        //    shared.hideLoader(DOM.loader);
-        //}
-
-    }
 
     function addTransporter() {
 
@@ -1396,7 +1440,7 @@ SharpiTech.Client = (function () {
                 CreatedByIP: IP_ADDRESS
             };
 
-            transporters.push(transporter);
+            Transporters.push(transporter);
 
             bindTransporterByClientAddressId(clientAddressId);
 
@@ -1412,11 +1456,11 @@ SharpiTech.Client = (function () {
 
         DOM.transportersList.innerHTML = "";
 
-        if (transporters.length > 0) {
+        if (Transporters.length > 0) {
 
             var fragment = document.createDocumentFragment();
 
-            var transporterMappingList = transporters.filter(function (value, index, array) {
+            var transporterMappingList = Transporters.filter(function (value, index, array) {
                 return value.CustomerAddressId === clientAddressId;
             });
 
@@ -1452,13 +1496,13 @@ SharpiTech.Client = (function () {
         }
     }
 
-    var checkTransporterNameExists = function(transporterId) {
+    var checkTransporterNameExists = function (transporterId) {
 
         var isTransporterNameExists = false;
 
         if (transporters.length > 0) {
 
-            var transporter = transporters.filter(function (value, index, array) {
+            var transporter = Transporters.filter(function (value, index, array) {
                 return value.TransporterId === transporterId;
             });
 
@@ -1468,7 +1512,7 @@ SharpiTech.Client = (function () {
         }
 
         return isTransporterNameExists;
-    }
+    };
 
     function removeTransporter(e) {
 
@@ -1478,23 +1522,23 @@ SharpiTech.Client = (function () {
 
         if (isNaN(transporterId)) { transporterId = parseInt(0); }
 
-        if (transporters.length > 0) {
+        if (Transporters.length > 0) {
 
             if (clientAddressId > 0) {
-                for (var t = 0; t <= transporters.length; t++) {
-                    if (transporters[t].ClientAddressId === clientAddressId
-                    && transporters[t].TransporterId === transporterId) {
-                        transporters[t].IsDeleted = true;
-                        transporters[t].DeletedBy = parseInt(LOGGED_USER);
-                        transporters[t].DeletedByIP = IP_ADDRESS;
+                for (var t = 0; t <= Transporters.length; t++) {
+                    if (Transporters[t].ClientAddressId === clientAddressId
+                    && Transporters[t].TransporterId === transporterId) {
+                        Transporters[t].IsDeleted = true;
+                        Transporters[t].DeletedBy = parseInt(LOGGED_USER);
+                        Transporters[t].DeletedByIP = IP_ADDRESS;
                     }
                 }
             }
             else {
-                for (var i = transporters.length - 1; i >= 0; i--) {
-                    if (parseInt(transporters[i].ClientAddressId) === clientAddressId
-                    && parseInt(transporters[i].TransporterId) === transporterId) {
-                        transporters.splice(i, 1);
+                for (var i = Transporters.length - 1; i >= 0; i--) {
+                    if (parseInt(Transporters[i].ClientAddressId) === clientAddressId
+                    && parseInt(Transporters[i].TransporterId) === transporterId) {
+                        Transporters.splice(i, 1);
                     }
                 }
             }
@@ -1503,26 +1547,26 @@ SharpiTech.Client = (function () {
         }
     }
 
-    function getCustomerDetails() {
+    //function getCustomerDetails() {
 
-        var gstData = [];
+    //    var gstData = [];
 
-        var gstNo = {};
+    //    var gstNo = {};
 
-        gstNo = {
-            gstin: "27AADCI0409D1Z4"
-        };
+    //    gstNo = {
+    //        gstin: "27AADCI0409D1Z4"
+    //    };
 
-        gstData.push(gstNo);
+    //    gstData.push(gstNo);
 
-        var postData = JSON.stringify(gstData);
+    //    var postData = JSON.stringify(gstData);
 
-        //shared.sendRequest("https://ewaybill.nic.in/BillGeneration/BillGeneration.aspx/GetGSTNDetails/", "POST", true, "JSON", postData, function (response) {
-        //    if (response.status === 200) {
+    //    //shared.sendRequest("https://ewaybill.nic.in/BillGeneration/BillGeneration.aspx/GetGSTNDetails/", "POST", true, "JSON", postData, function (response) {
+    //    //    if (response.status === 200) {
                 
-        //    }
-        //});
-    }
+    //    //    }
+    //    //});
+    //}
 
     /* ---- public methods ---- */
     function init() {

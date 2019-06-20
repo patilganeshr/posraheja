@@ -98,6 +98,7 @@
     <Compile Include="ClientAddress.cs" />
     <Compile Include="ClientAddressContact.cs" />
     <Compile Include="ClientType.cs" />
+    <Compile Include="Color.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="CustomerAndTransporterMapping.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="BuildReport.cs" />
     <Compile Include="InwardDetails.cs" />
     <Compile Include="InwardGoodsDetails.cs" />
-    <Compile Include="ItemPicture.cs" />
+    <Compile Include="ItemImage.cs" />
     <Compile Include="ItemSetSubItem.cs" />
     <Compile Include="JobWork.cs" />
     <Compile Include="JobWorkItem.cs" />

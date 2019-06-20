@@ -60,6 +60,11 @@ namespace SharpiTech.POS.Business
             return _client.GetClientByName(clientName);
         }
 
+        public List<Entities.Client> SearchClient(Entities.Client client)
+        {
+            return _client.SearchClient(client);
+        }
+
         /// <summary>
         /// 
         /// </summary>

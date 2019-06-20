@@ -45,19 +45,33 @@
 
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <div class="form-group form-group-sm">
-                                            <label>Mobile No.</label>
-                                            <input type="text" id="MobileNo" class="form-control input-sm" />
+                                            <label>Mobile No. 1</label>
+                                            <input type="text" id="MobileNo1" class="form-control input-sm" />
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Mobile No. 2</label>
+                                            <input type="text" id="MobileNo2" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>LandLine No.</label>
+                                            <input type="text" id="ContactNo" class="form-control input-sm" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <div class="form-group form-group-sm">
                                             <label>Email Id</label>
                                             <input type="text" id="EmailAddress" class="form-control input-sm" />
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                         <div class="form-group form-group-sm">
                                             <label>Client Name</label>
                                             <input type="text" id="ClientName" class="form-control input-sm" />

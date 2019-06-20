@@ -1240,13 +1240,18 @@ SharpiTech.SalesBill = (function () {
         //tableBody.removeChild(tableRow);
 
         // Mark the Item as Deleted if the sales bill item id is > 0
-        if (salesBillItems.length) {
-            for (var i = 0; i < salesBillItems.length; i++) {
-                if (salesBillItems[i].SalesBillItemId === salesBillItemId) {
-                    salesBillItems[i].IsDeleted = true;
-                    salesBillItems[i].DeletedBy = parseInt(LOGGED_USER);
-                    salesBillItems[i].DeletedByIP = IP_ADDRESS;
-                    break;
+        if (salesBillItemId === 0) {
+            tableBody.removeChild(tableRow);
+        }
+        else {
+            if (salesBillItems.length) {
+                for (var i = 0; i < salesBillItems.length; i++) {
+                    if (salesBillItems[i].SalesBillItemId === salesBillItemId) {
+                        salesBillItems[i].IsDeleted = true;
+                        salesBillItems[i].DeletedBy = parseInt(LOGGED_USER);
+                        salesBillItems[i].DeletedByIP = IP_ADDRESS;
+                        break;
+                    }
                 }
             }
         }
@@ -2208,7 +2213,8 @@ SharpiTech.SalesBill = (function () {
         var innerDoc = iframe[0].contentWindow.document;
 
         var clientName = innerDoc.getElementById('ClientName').value;
-        var mobileNo = innerDoc.getElementById('MobileNo').value;
+        var mobileNo1 = innerDoc.getElementById('MobileNo1').value;
+        var mobileNo2 = innerDoc.getElementById('MobileNo2').value;
 
         if (clientName === "" || clientName === "") {
             clientName = "CASH SALES - " + mobileNo;
@@ -3696,109 +3702,112 @@ SharpiTech.SalesBill = (function () {
 
                 for (var tr = 0; tr < tableRows.length; tr++) {
 
-                    salesBillItemId = parseInt(tableRows[tr].getAttribute('data-sales-bill-item-id'));
+                    //if (tableRows[tr].classList.contains('removed-item') === false) {
 
-                    var inputs = tableRows[tr].querySelectorAll('input[type="text"]');
-                    var select = tableRows[tr].querySelectorAll('select');
+                        salesBillItemId = parseInt(tableRows[tr].getAttribute('data-sales-bill-item-id'));
 
-                    if (inputs.length) {
+                        var inputs = tableRows[tr].querySelectorAll('input[type="text"]');
+                        var select = tableRows[tr].querySelectorAll('select');
 
-                        if (parseFloat(inputs[5].value) > parseFloat(0)) {
-                            goodsReceiptItemId = parseInt(inputs[0].value);
-                            itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
-                            saleQty = parseFloat(parseFloat(inputs[1].value).toFixed(2));
-                            saleRate = parseFloat(parseFloat(inputs[2].value).toFixed(2));
-                            cashDiscountPercent = parseFloat(parseFloat(inputs[3].value).toFixed(2));
-                            salesSchemeId = parseInt(select[0].options[select[0].selectedIndex].value);
-                            schemeDiscountPercent = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountpercent'));
-                            schemeDiscountAmount = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountamount'));
+                        if (inputs.length) {
 
-                            if (salesSchemeId > 0) {
+                            if (parseFloat(inputs[7].value) > parseFloat(0)) {
+                                goodsReceiptItemId = parseInt(inputs[0].value);
+                                itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
+                                saleQty = parseFloat(parseFloat(inputs[1].value).toFixed(2));
+                                saleRate = parseFloat(parseFloat(inputs[2].value).toFixed(2));
+                                cashDiscountPercent = parseFloat(parseFloat(inputs[3].value).toFixed(2));
+                                salesSchemeId = parseInt(select[0].options[select[0].selectedIndex].value);
+                                schemeDiscountPercent = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountpercent'));
+                                schemeDiscountAmount = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountamount'));
 
-                                if (schemeDiscountPercent > 0) {
+                                if (salesSchemeId > 0) {
 
-                                    typeOfDiscount = "CASH DISCOUNT";
+                                    if (schemeDiscountPercent > 0) {
+
+                                        typeOfDiscount = "CASH DISCOUNT";
+                                    }
+                                    else if (schemeDiscountAmount > 0) {
+                                        typeOfDiscount = "RATE DIFF";
+                                    }
+                                    else {
+                                        typeOfDiscount = null;
+                                    }
                                 }
-                                else if (schemeDiscountAmount > 0) {
-                                    typeOfDiscount = "RATE DIFF";
+
+                                if (select[1].selectedIndex > 0) {
+                                    typeOfDiscount = select[1].options[select[1].selectedIndex].text.toUpperCase();
                                 }
-                                else {
-                                    typeOfDiscount = null;
+
+                                if (typeOfDiscount === null) {
+                                    discountAmount = parseFloat(0);
                                 }
-                            }
-
-                            if (select[1].selectedIndex > 0) {
-                                typeOfDiscount = select[1].options[select[1].selectedIndex].text.toUpperCase();
-                            }
-
-                            if (typeOfDiscount === null) {
-                                discountAmount = parseFloat(0);
-                            }
-                            else if (typeOfDiscount === "CASH DISCOUNT") {
-                                discountAmount = (saleQty * (saleRate * (cashDiscountPercent / 100)));
-                            }
-                            else {
-                                discountAmount = (saleQty * cashDiscountPercent);
-                            }
-
-                            taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
-                            gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
-                            unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
-                            //salesSchemeId = parseInt(inputs[3].getAttribute('data-sales-scheme-id'));
-
-                            if (isNaN(salesBillItemId)) { salesBillItemId = parseInt(0); }
-                            if (isNaN(salesBillId)) { salesBillId = parseInt(0); }
-                            if (isNaN(itemId)) { itemId = parseInt(0); }
-                            if (isNaN(srNo)) { srNo = parseInt(0); }
-                            if (isNaN(unitOfMeasurementId)) { unitOfMeasurementId = parseInt(0); }
-                            if (isNaN(salesSchemeId)) { salesSchemeId = 0; }
-
-
-                            var billItem = {};
-
-                            billItem = {
-                                SalesBillItemId: salesBillItemId,
-                                SalesBillId: salesBillId,
-                                GoodsReceiptItemId: goodsReceiptItemId,
-                                ItemId: itemId,
-                                ItemName: itemName,
-                                UnitOfMeasurementId: unitOfMeasurementId,
-                                UnitCode: unitCode,
-                                SaleQty: saleQty,
-                                SaleRate: saleRate,
-                                SalesSchemeId: salesSchemeId,
-                                TypeOfDiscount: typeOfDiscount,
-                                CashDiscountPercent: cashDiscountPercent,
-                                DiscountAmount: discountAmount,
-                                GSTRateId: gstRateId,
-                                TaxId: taxId,
-                                SrNo: srNo,
-                                IsDeleted: false,
-                                SalesBillItemsCharges: salesBillItemsChargesDetails
-                            };
-
-                            if (tableRows[tr].style.display === "none") {
-                                billItem.IsDeleted = true;
-                                billItem.DeletedBy = parseInt(LOGGED_USER);
-                                billItem.DeletedByIP = IP_ADDRESS;
-                            }
-                            else {
-                                if (salesBillItemId === parseInt(0)) {
-
-                                    billItem.CreatedBy = parseInt(LOGGED_USER);
-                                    billItem.CreatedByIP = IP_ADDRESS;
-                                    //addSalesBillItem(billItem);
+                                else if (typeOfDiscount === "CASH DISCOUNT") {
+                                    discountAmount = (saleQty * (saleRate * (cashDiscountPercent / 100)));
                                 }
                                 else {
-                                    billItem.ModifiedBy = parseInt(LOGGED_USER);
-                                    billItem.ModifiedByIP = IP_ADDRESS;
-                                    //updateSalesBillItem(billItem);
+                                    discountAmount = (saleQty * cashDiscountPercent);
                                 }
-                            }
 
-                            salesBillItems.push(billItem);
+                                taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
+                                gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
+                                unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
+                                //salesSchemeId = parseInt(inputs[3].getAttribute('data-sales-scheme-id'));
+
+                                if (isNaN(salesBillItemId)) { salesBillItemId = parseInt(0); }
+                                if (isNaN(salesBillId)) { salesBillId = parseInt(0); }
+                                if (isNaN(itemId)) { itemId = parseInt(0); }
+                                if (isNaN(srNo)) { srNo = parseInt(0); }
+                                if (isNaN(unitOfMeasurementId)) { unitOfMeasurementId = parseInt(0); }
+                                if (isNaN(salesSchemeId)) { salesSchemeId = 0; }
+
+
+                                var billItem = {};
+
+                                billItem = {
+                                    SalesBillItemId: salesBillItemId,
+                                    SalesBillId: salesBillId,
+                                    GoodsReceiptItemId: goodsReceiptItemId,
+                                    ItemId: itemId,
+                                    ItemName: itemName,
+                                    UnitOfMeasurementId: unitOfMeasurementId,
+                                    UnitCode: unitCode,
+                                    SaleQty: saleQty,
+                                    SaleRate: saleRate,
+                                    SalesSchemeId: salesSchemeId,
+                                    TypeOfDiscount: typeOfDiscount,
+                                    CashDiscountPercent: cashDiscountPercent,
+                                    DiscountAmount: discountAmount,
+                                    GSTRateId: gstRateId,
+                                    TaxId: taxId,
+                                    SrNo: srNo,
+                                    IsDeleted: false,
+                                    SalesBillItemsCharges: salesBillItemsChargesDetails
+                                };
+
+                                if (tableRows[tr].style.display === "none") {
+                                    billItem.IsDeleted = true;
+                                    billItem.DeletedBy = parseInt(LOGGED_USER);
+                                    billItem.DeletedByIP = IP_ADDRESS;
+                                }
+                                else {
+                                    if (salesBillItemId === parseInt(0)) {
+
+                                        billItem.CreatedBy = parseInt(LOGGED_USER);
+                                        billItem.CreatedByIP = IP_ADDRESS;
+                                        //addSalesBillItem(billItem);
+                                    }
+                                    else {
+                                        billItem.ModifiedBy = parseInt(LOGGED_USER);
+                                        billItem.ModifiedByIP = IP_ADDRESS;
+                                        //updateSalesBillItem(billItem);
+                                    }
+                                }
+
+                                salesBillItems.push(billItem);
+                            }
                         }
-                    }
+                    //}
                 }
             }
         }

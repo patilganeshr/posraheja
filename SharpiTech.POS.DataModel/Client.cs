@@ -304,6 +304,50 @@ namespace SharpiTech.POS.DataModel
             return client;
         }
 
+        public List<Entities.Client> SearchClient(Entities.Client client)
+        {
+            var clients = new List<Entities.Client>();
+
+            try
+            {
+                using (DbCommand dbCommand = database.GetStoredProcCommand(DBStoredProcedure.SearchClients))
+                {
+                    database.AddInParameter(dbCommand, "@client_type_id", DbType.Int32, client.ClientTypeId);
+                    database.AddInParameter(dbCommand, "@name", DbType.String, client.ClientName);
+                    database.AddInParameter(dbCommand, "@pan_no", DbType.String, client.PANNo);
+                    database.AddInParameter(dbCommand, "@gst_no", DbType.String, client.GSTNo);
+
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+                            ClientAddress clientAddress = new ClientAddress();
+
+                            var c = new Entities.Client()
+                            {
+                                ClientTypeId = DRE.GetNullableInt32(reader, "client_type_id", 0),
+                                ClientTypeName = DRE.GetNullableString(reader, "client_type", null),
+                                ClientId = DRE.GetNullableInt32(reader, "client_id", 0),
+                                ClientCode = DRE.GetNullableString(reader, "client_code", null),
+                                ClientName = DRE.GetNullableString(reader, "client_name", null),
+                                PANNo = DRE.GetNullableString(reader, "pan_no", null),
+                                SrNo = DRE.GetNullableInt64(reader, "sr_no", null),
+                                ClientAddressess = clientAddress.GetAllClientAddressessByClientId(DRE.GetInt32(reader, "client_id"))
+                            };
+
+                            clients.Add(c);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return clients;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -421,7 +465,7 @@ namespace SharpiTech.POS.DataModel
                                     }
                                 }
                                 else
-                                {
+                                {   
                                     clientId = UpdateClient(c, transaction);
                                 }
 

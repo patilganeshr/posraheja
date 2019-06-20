@@ -23,6 +23,7 @@ namespace SharpiTech.POS.API.Controllers
             _saleQtyReport = new Business.SaleQtyReport();
             _salesmanwiseReport = new Business.SalesmanwiseReport();
             _jobWorkReport = new Business.JobWorkReport();
+            _salesValueReportInSalesPeriod = new Business.SalesValueReportInSalesPeriod();
         }
 
         [Route("GetStockAsOnDate")]
@@ -211,9 +212,9 @@ namespace SharpiTech.POS.API.Controllers
         }
 
         [Route("GetSalesByValueReportInSalePeriod")]
-        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesByValueReportInSalePeriod(Entities.SalesByValueReportInSalesPeriod salesByValueReport)
+        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesByValueReportInSalePeriod()
         {
-            return _salesValueReportInSalesPeriod.GetSalesValueReport(salesByValueReport);
+            return _salesValueReportInSalesPeriod.GetSalesValueReport();
         }
 
 
