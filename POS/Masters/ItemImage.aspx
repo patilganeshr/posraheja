@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Upload Item Images" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ItemImage.aspx.cs" Inherits="POS.Masters.ItemImage" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cpMaster" runat="server">
@@ -12,13 +13,13 @@
         <a href="#" id="SaveItemImage"><i class="fa fa-save fa-fw"></i>Save</a>
         <a href="#" id="DeleteItemImage"><i class="fa fa-remove fa-fw"></i>Delete</a>
         <a href="#" id="FilterItemImageList"><i class="fa fa-filter fa-fw"></i>Filter</a>
-        
+
     </div>
 
     <!-- CONTAINER START -->
     <div class="st-content">
 
-       <div class="container-fluid">
+        <div class="container-fluid">
 
             <div id="Loader" class="loader-container">
                 <!--There's the container that centers it-->
@@ -60,9 +61,7 @@
                                                 <label>Item Name</label>
                                                 <input type="text" id="ItemName" class="form-control" autocomplete="off" />
                                             </div>
-                                        </div>
 
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <div id="ItemsList" class="autocompleteList"></div>
                                         </div>
 
@@ -96,7 +95,7 @@
                                                             Add Image
                                                             <i class="fa fa-upl"></i>
                                                         </a>
-                                                        <input type="file" id="ItemImageUpload" name="ItemImage" class="form-control" multiple style="display:none;"/>
+                                                        <input type="file" id="ItemImageUpload" name="ItemImage" class="form-control" multiple style="display: none;" />
                                                         <span id="NoOfFilesUploaded" class="help-text"></span>
                                                     </div>
                                                 </div>
@@ -107,11 +106,28 @@
 
                                 </div>
 
+
+                            </div>
+
+                        </div>
+
+                        <div class="panel panel-info">
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Uploaded Images</h4>
+                            </div>
+
+                            <div class="panel-body">
+
                                 <div class="row">
 
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                    <div class="table-responsive" style="height: 300px; overflow: auto;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="SliderThumbs">
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="Slider"></div>
+                                        <%--<div class="table-responsive" style="height: 300px; overflow: auto;">
 
                                         <table id="ItemImageUploadList" class="table table-condesed table-fixed">
                                             <thead>
@@ -127,60 +143,55 @@
                                             <tbody></tbody>
                                         </table>
 
+                                    </div>--%>
                                     </div>
 
                                 </div>
 
                             </div>
 
-                            </div>
 
                         </div>
 
                     </div>
-                    
+
                 </div>
 
-            </div>
+                <!-- EDIT MODE -->
 
-            <!-- EDIT MODE -->
+                <!-- View Mode -->
 
-            <!-- View Mode -->
+                <div class="row">
 
-            <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <!-- VIEW MODE -->
 
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <!-- VIEW MODE -->
+                        <div id="ViewMode">
 
-                    <div id="ViewMode">
+                            <div class="panel panel-info">
 
-                        <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">List of Items</h4>
+                                </div>
 
-                            <div class="panel-heading">
-                                <h4 class="panel-title">List of Items</h4>
+                            </div>
+
+                            <div class="panel-body">
                             </div>
 
                         </div>
 
-                        <div class="panel-body">
-
-                            
-                        </div>
+                        <!-- VIEW MODE -->
 
                     </div>
 
-                    <!-- VIEW MODE -->
-
                 </div>
+
+                <!-- View Mode -->
 
             </div>
 
-            <!-- View Mode -->
-
-       </div>
-        
-    </div>
-
+        </div>
     <script type="text/javascript" src="../content/scripts/app/shared/default.js"></script>
     <script type="text/javascript" src="../content/scripts/app/Masters/item-image.js"></script>
 

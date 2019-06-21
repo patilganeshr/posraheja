@@ -36,6 +36,8 @@ SharpiTech.ItemImage = (function () {
 
         DOM.viewMode = document.getElementById('ViewMode');
         DOM.itemImageUploadList = document.getElementById('ItemImageUploadList');
+        DOM.sliderThumbs = document.getElementById('SliderThumbs');
+        DOM.slider = document.getElementById('Slider');
 
     }
 
@@ -337,6 +339,8 @@ SharpiTech.ItemImage = (function () {
         DOM.itemName.setAttribute('data-item-code', itemCode);
 
         DOM.itemName.focus();
+
+        showItemImage();
     }
 
     function addNewItemImage() {
@@ -533,37 +537,70 @@ SharpiTech.ItemImage = (function () {
         }
     }
 
+    //function bindItemImageDetails() {
+
+    //    var tableBody = DOM.itemImageUploadList.tBodies[0];
+
+    //    tableBody.innerHTML = "";
+
+    //    // Check the inward details has values
+    //    if (ItemImages.length > 0) {
+
+    //        var data = "";
+
+    //        for (var r = 0; r < ItemImages.length; r++) {
+
+    //            data = data + "<tr data-item-image-id=" + parseInt(ItemImages[r].ItemImageId) + ">";
+    //            data = data + "<td><label class='label-tick'> <input type='checkbox' id='" + ItemImages[r].ItemImageId+ "' class='label-checkbox' name='SelectItemRate' /> <span class='label-text'></span> </label>" + "</td>";
+    //            data = data + "<td>" + ItemImages[r].ItemName + "</td>";
+    //            data = data + "<td>" + ItemImages[r].ItemCode + "</td>";
+    //            data = data + "<td>" + ItemImages[r].ItemColor + "</td>";
+    //            data = data + "<td>" + ItemImages[r].FabricDesign + "</td>";
+    //            data = data + "<td>" + ItemImages[r].ItemImageName + "</td>";
+    //            data = data + "</tr>";
+
+    //        }
+
+    //        tableBody.innerHTML = data;
+
+    //        // Show panels
+    //        shared.showPanel(DOM.editMode);
+    //        shared.hidePanel(DOM.viewMode);
+
+    //    }
+    //}
+
     function bindItemImageDetails() {
 
-        var tableBody = DOM.itemImageUploadList.tBodies[0];
+        //Clear the div with image thumbnails and images
+        DOM.sliderThumbs.innerHTML = "";
+        DOM.slider.innerHTML = "";
 
-        tableBody.innerHTML = "";
-
+        
         // Check the inward details has values
         if (ItemImages.length > 0) {
 
             var data = "";
 
+            var ul = document.createElement('ul');
+
             for (var r = 0; r < ItemImages.length; r++) {
 
-                data = data + "<tr data-item-image-id=" + parseInt(ItemImages[r].ItemImageId) + ">";
-                data = data + "<td><label class='label-tick'> <input type='checkbox' id='" + ItemImages[r].ItemImageId+ "' class='label-checkbox' name='SelectItemRate' /> <span class='label-text'></span> </label>" + "</td>";
-                data = data + "<td>" + ItemImages[r].ItemName + "</td>";
-                data = data + "<td>" + ItemImages[r].ItemCode + "</td>";
-                data = data + "<td>" + ItemImages[r].ItemColor + "</td>";
-                data = data + "<td>" + ItemImages[r].FabricDesign + "</td>";
-                data = data + "<td>" + ItemImages[r].ItemImageName + "</td>";
-                data = data + "</tr>";
+                data = data + "<li class='col-sm-3'> <a class='thumbnail' id='carousel-selector-'" + r + "'> <img src= '../" + ItemImages[r].ItemImagePath + ItemImages[r].ItemImageName + "' style='height:100px; width:250px;'> </a> </li>";
 
             }
 
-            tableBody.innerHTML = data;
+            // Bind slider thumbs data
+            ul.innerHTML = data;
 
-            // Show panels
-            shared.showPanel(DOM.editMode);
-            shared.hidePanel(DOM.viewMode);
+            DOM.sliderThumbs.appendChild(ul);
+
+            //// Show panels
+            //shared.showPanel(DOM.editMode);
+            //shared.hidePanel(DOM.viewMode);
 
         }
+
     }
 
     function showItemImageDetails(itemImageId) {
@@ -787,14 +824,16 @@ SharpiTech.ItemImage = (function () {
 
         var itemId = 0;
         var colorId = 0;
+        var itemCode = null;
         var designId = 0;
         var filePath = "UploadedFiles/ItemImages/";
 
         itemId = DOM.itemName.getAttribute('data-item-id');
         colorId = DOM.itemColor.options[DOM.itemColor.selectedIndex].value;
         designId = 0; //DOM.fabricDesign.options[DOM.fabricDesign.selectedIndex].value;
+        itemCode = DOM.itemName.getAttribute('data-item-code');
 
-        filePath += itemId + "/";
+        filePath += itemCode + "/";
 
         if (colorId > 0) {
             filePath += colorId;
