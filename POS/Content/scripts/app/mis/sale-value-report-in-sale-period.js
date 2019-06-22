@@ -71,7 +71,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
         DOM.generateSaleQtyReport.addEventListener('click', generateSaleQtyReport);
         DOM.printSalesReport.addEventListener('click', printStockReport);
         DOM.exportSalesReport.addEventListener('click', exportStockReport);
-        DOM.reportFilterOption.onchange = function () {
+        cDOM.reportFilterOption.onchange = function () {
             enableDisableControls();
         };
 
