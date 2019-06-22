@@ -317,12 +317,17 @@ namespace SharpiTech.POS.DataModel
                                 TotalOrderQty = DRE.GetNullableDecimal(reader, "total_order_qty", null),
                                 UnitCode = DRE.GetNullableString(reader, "unit_code", null),
                                 TotalOrderAmount = DRE.GetNullableDecimal(reader, "total_order_amount", null),
+                                NoOfDaysForPayment = DRE.GetNullableInt32(reader,"no_of_days_for_payment", null),
+                                PaymentTermId = DRE.GetNullableInt32(reader, "payment_term_id", null),
+                                DiscountApplicableBeforePaymentDays = DRE.GetNullableDecimal(reader, "discount_applicable_before_payment_days", null),
+                                DiscountRateForPayment = DRE.GetNullableDecimal(reader, "discount_rate_for_payment", null),
                                 OrderStatus = DRE.GetNullableString(reader, "order_status", null),
                                 CompanyId = DRE.GetNullableInt32(reader, "company_id", null),
                                 CompanyName = DRE.GetNullableString(reader, "company_name", null),
                                 BranchId = DRE.GetNullableInt32(reader, "branch_id", null),
                                 BranchName = DRE.GetNullableString(reader, "branch_name", null),
                                 FinancialYear = DRE.GetNullableString(reader, "financial_year", null),
+                                WorkingPeriodId = DRE.GetNullableInt32(reader, "working_period_id", null),
                                 PurchaseOrderItems = purchaseOrderItem.GetPurchaseOrderItemsByPuchaseOrderId(DRE.GetInt32(reader, "purchase_order_id"))                                
                             };
 

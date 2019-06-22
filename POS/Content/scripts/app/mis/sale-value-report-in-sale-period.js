@@ -9,32 +9,22 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
     var shared = new Shared();
 
-    var reportData = [];
+    var ReportData = [];
+    var TableHeaderCaptions = [];
+    var ReportFilterOptions = [];
 
     /* ---- private method ---- */
     //cache DOM elements
     function cacheDOM() {
 
         DOM.loader = document.getElementById('Loader');
-        DOM.brand = document.getElementById('Brand');
-        DOM.itemCategory = document.getElementById('ItemCategory');
-        DOM.item = document.getElementById('Item');
-        DOM.salesman = document.getElementById('Salesman');
-        DOM.fromBillDate = document.getElementById('FromBillDate');
-        DOM.toBillDate = document.getElementById('ToBillDate');
-        DOM.fromBillDateDatePicker = document.getElementById('FromBillDateDatePicker');
-        DOM.toBillDateDatePicker = document.getElementById('toBillDateDatePicker');
-        DOM.reportFilterOption = document.getElementById('ReportFilterOption');
-        DOM.generateSaleQtyReport = document.getElementById('GenerateSaleQtyReport');
-        DOM.printSalesReport =  document.getElementById('PrintSalesReport');
-        DOM.filterSalesReport = document.getElementById('FilterSalesReport');
-        DOM.exportSalesReport = document.getElementById('ExportSalesReport');
-
-        DOM.saleValueInSalesPeriodReport = document.getElementById('SaleValueInSalesPeriodReport');
-
-        DOM.$fromBillDateDatePicker = $('#FromBillDateDatePicker');
-        DOM.$toBillDateDatePicker = $('#ToBillDateDatePicker');
-
+        DOM.reportFilterOptions = document.getElementById('ReportFilterOptions');
+        DOM.reportFilters = document.getElementById('ReportFilters');
+        DOM.generateReport = document.getElementById('GenerateReport');
+        DOM.reportDataList = document.getElementById('ReportDataList');
+        DOM.printReport =  document.getElementById('PrintReport');        
+        DOM.exportReport = document.getElementById('ExportReport');
+        
     }
 
     /* ---- handle errors ---- */
@@ -54,201 +44,118 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         var currentDate = new Date();
 
-        DOM.$fromBillDateDatePicker.datetimepicker({
-            format: 'DD/MMM/YYYY',
-            defaultDate: moment(currentDate).format("DD/MMM/YYYY")
-        });
+        //DOM.$fromBillDateDatePicker.datetimepicker({
+        //    format: 'DD/MMM/YYYY',
+        //    defaultDate: moment(currentDate).format("DD/MMM/YYYY")
+        //});
 
-        DOM.$toBillDateDatePicker.datetimepicker({
-            format: 'DD/MMM/YYYY',
-            defaultDate: moment(currentDate).format("DD/MMM/YYYY")
-        });
+        //DOM.$toBillDateDatePicker.datetimepicker({
+        //    format: 'DD/MMM/YYYY',
+        //    defaultDate: moment(currentDate).format("DD/MMM/YYYY")
+        //});
 
     }
 
     function bindEvents() {
 
-        DOM.generateSaleQtyReport.addEventListener('click', generateSaleQtyReport);
-        DOM.printSalesReport.addEventListener('click', printStockReport);
-        DOM.exportSalesReport.addEventListener('click', exportStockReport);
-        cDOM.reportFilterOption.onchange = function () {
-            enableDisableControls();
-        };
+        DOM.generateReport.addEventListener('click', generateReport);
+
+        DOM.printReport.addEventListener('click', printReport);
+
+        DOM.exportReport.addEventListener('click', exportReport);
 
     }
 
-    function loadData() {
+    var getExcludeListOfTableHeaders = function() {
 
-        var reportFilterOptions = [];
-
-        reportFilterOptions = [
-            {
-                filterOption: "Sales Value",
-                filterOptionValue: 0
-            }
-            //{
-            //    filterOption: "Sale Qty",
-            //    filterOptionValue: 0
-            //},
-            //{
-            //    filterOption: "Sale Rate And Purchase Rate",
-            //    filterOptionValue: 1
-            //}
+        var excludeListOfTableHeaders = [
+            'SalesmanId',
+            'CompanyId',
+            'BranchId',
+            'MonthId',
+            'SaleTypeId',
+            'BrandId',
+            'ItemCategoryId',
+            'ItemQualityId',
+            'ItemId',
+            'GoodsReceiptItemId',
+            'UnitOfMeasurementId',
+            'SalesmanId',
+            'SaleQty',
+            'UnitCode'
         ];
 
-        shared.fillDropdownWithArrayData(reportFilterOptions, DOM.reportFilterOption, "filterOption", "filterOptionValue", "Choose Filter Option");
+        return excludeListOfTableHeaders;
 
-        getSalesman();
+    };
 
-        enableDisableControls();
+    var getTableHeaderCaption = function () {
 
-        shared.hideLoader(DOM.loader);
-    }
+        TableHeaderCaptions.length = 0;
 
-    function enableDisableControls() {
+        var excludeListOfTableHeaders = getExcludeListOfTableHeaders();
 
-        var reportFilterOptionValue = getReportFilterOptionValue();
+        if (ReportData.length) {
 
-        //if (reportFilterOptionValue === "0") {
+            for (var prop in ReportData[0]) {
 
-        //    DOM.item.disabled = true;
-        //    DOM.itemCategory.disabled = true;
-        //    DOM.location.disabled = true;
+                var excludeList = excludeListOfTableHeaders.filter(function (value, index, array) {
+                    return value.toLowerCase() === prop.toLowerCase();
+                });
 
-        //}
-        //else if (reportFilterOptionValue === "1") {
+                if (excludeList.length === 0) {
 
-        //    DOM.item.disabled = false;
-        //    DOM.itemCategory.disabled = true;
-        //    DOM.location.disabled = true;
+                    var caption = "";
 
-        //}
-        //else if (reportFilterOptionValue === "2") {
+                    for (var cl = 0; cl < prop.length; cl++) {
 
-        //    DOM.item.disabled = true;
-        //    DOM.itemCategory.disabled = false;
-        //    DOM.location.disabled = true;
+                        if (prop.charAt(cl) === prop.charAt(cl).toUpperCase()) {
 
-        //}
-        //else if (reportFilterOptionValue === "3") {
+                            if (cl === 0) {
+                                caption += prop.charAt(0);
+                            }
+                            else {
+                                caption += " " + prop.charAt(cl);
+                            }
 
-        //    DOM.item.disabled = true;
-        //    DOM.itemCategory.disabled = true;
-        //    DOM.location.disabled = false;
+                        }
+                        else {
+                            caption += prop.charAt(cl);
+                        }
+                    }
 
-        //}
-    }
-
-    //function getItem() {
-
-    //    shared.showLoader(DOM.loader);
-
-    //    shared.fillDropdownWithCallback(SERVICE_PATH + 'GetAllItems', DOM.item, "ItemName", "ItemId", "Choose Item", function (response) {
-
-    //        if (response.status === 200) {
-
-    //            if (response.responseText !== undefined) {
-
-    //                shared.setSelectOptionByIndex(DOM.item, parseInt(0));
-    //                shared.setSelect2ControlsText(DOM.item);
-    //            }
-
-    //            getItemCategory();
-    //        }
-
-    //        shared.hideLoader(DOM.loader);
-
-    //    });
-    //}
-
-    //function getItemCategory() {
-
-    //    shared.showLoader(DOM.loader);
-
-    //    shared.fillDropdownWithCallback(SERVICE_PATH + 'GetAllItemCategories', DOM.itemCategory, "ItemCategoryName", "ItemCategoryId", "Choose Item Category", function (response) {
-
-    //        if (response.status === 200) {
-
-    //            if (response.responseText !== undefined) {
-
-    //                var option = document.createElement('OPTION');
-    //                option.innerHTML = "All";
-    //                option.value = 0;
-    //                DOM.itemCategory.insertBefore(option, DOM.itemCategory.childNodes[1]);
-
-    //                shared.setSelectOptionByIndex(DOM.itemCategory, parseInt(0));
-    //                shared.setSelect2ControlsText(DOM.itemCategory);
-    //            }
-
-    //            getLocations();
-
-    //            shared.hideLoader(DOM.loader);
-
-    //        }
-    //    });
-    //}
-
-    //function getLocations() {
-
-    //    shared.showLoader(DOM.loader);
-
-    //    shared.fillDropdownWithCallback(SERVICE_PATH + 'GetBranchesByCompanyId/1', DOM.location, "BranchName", "BranchId", "Choose Location", function (response) {
-
-    //        if (response.status === 200) {
-
-    //            if (response.responseText !== undefined) {
-
-    //                var option = document.createElement('OPTION');
-    //                option.innerHTML = "All";
-    //                option.value = 0;
-    //                DOM.location.insertBefore(option, DOM.location.childNodes[1]);
-
-    //                shared.setSelectOptionByIndex(DOM.location, parseInt(0));
-    //                shared.setSelect2ControlsText(DOM.location);
-    //            }
-
-    //            shared.hideLoader(DOM.loader);
-    //        }
-    //    });
-    //}
-
-
-    function getSalesman() {
-
-        shared.showLoader(DOM.loader);
-
-        shared.fillDropdownWithCallback(SERVICE_PATH + 'GetEmployeesByDepartmentId/3', DOM.salesman, "FullName", "EmployeeId", "Choose Salesman", function (response) {
-
-            if (response.status === 200) {
-
-                shared.showLoader(DOM.loader);
-
-                if (response.responseText !== undefined) {
-
-                    shared.setSelectOptionByIndex(DOM.salesman, parseInt(0));
-                    shared.setSelect2ControlsText(DOM.salesman);
+                    TableHeaderCaptions.push(caption);
+                    ReportFilterOptions.push(prop);
                 }
-
             }
+        }
 
-            shared.hideLoader(DOM.loader);
+        return TableHeaderCaptions;
+    };
 
-        });
+    function bindReportFilterOptions() {
 
+        getTableHeaderCaption();
 
+        var data = "";
+
+        data = "<ul class='list-group checked-list-box'>";
+            
+        for (var e = 0; e < TableHeaderCaptions.length; e++) {
+
+            var value = TableHeaderCaptions[e];
+
+            var filterOption = value.replace(/\s+/g, "");
+
+            data += "<li class='list-group-item'> <label class='label-tick'> <input type='checkbox' id=" + e + " class='label-checkbox' data-filter-option=" + filterOption + " /> <span class='label-text'></span> </label>" + TableHeaderCaptions[e] + "</li>";
+
+        }
+
+        DOM.reportFilterOptions.innerHTML = data;
+        
     }
 
-    function generateSaleQtyReport() {
-
-        shared.showLoader(DOM.loader);
-
-        reportData.length = 0;
-
-        getSaleQtyReportData();
-
-        shared.hideLoader(DOM.loader);
-    }
-
+    
     var createTableHeader = function (data, excludeListOfTableHeaderCaption) {
 
         var tableHeader = document.createElement('thead');
@@ -257,59 +164,21 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         var tableHeaderRow = document.createElement('tr');
 
-        if (data.length) {
+        if (TableHeaderCaptions.length) {
 
-            //for (var d = 0; d < data.length; d++) {
+            for (var c = 0; c < TableHeaderCaptions.length; c++) {
 
-            for (var prop in data[0]) {
+                var tableHeaderCaption = document.createElement('th');
 
-                var excludeList = excludeListOfTableHeaderCaption.filter(function (value, index, array) {
-                    return value.toLowerCase() === prop.toLowerCase();
-                });
+                tableHeaderCaption.innerText = TableHeaderCaptions[c];
 
-                //for (var ex = 0; ex < excludeListOfTableHeaderCaption.length; ex++) {
-
-                if (excludeList.length === 0) {
-
-                    var tableHeaderCaption = document.createElement('th');
-
-                    tableHeaderCaption.innerText = getTableHeaderCaption(prop);
-
-                    tableHeaderRow.appendChild(tableHeaderCaption);
-                }
-                //}
-                //}
+                tableHeaderRow.appendChild(tableHeaderCaption);
             }
         }
 
         tableHeader.appendChild(tableHeaderRow);
 
         return tableHeader;
-    };
-
-    var getTableHeaderCaption = function (tableHeaderCaption) {
-
-        var caption = "";
-
-        for (var cl = 0; cl < tableHeaderCaption.length; cl++) {
-
-            if (tableHeaderCaption.charAt(cl) === tableHeaderCaption.charAt(cl).toUpperCase()) {
-
-                if (cl === 0) {
-                    caption += tableHeaderCaption.charAt(0);
-                }
-                else {
-                    caption += " " + tableHeaderCaption.charAt(cl);
-                }
-
-            }
-            else {
-                caption += tableHeaderCaption.charAt(cl);
-            }
-
-        }
-
-        return caption;
     };
 
     var createTableBody = function (data, excludeListOfTableHeaderCaption) {
@@ -348,131 +217,75 @@ SharpiTech.SaleInSalesPeriod = (function () {
         return tableBody;
     };
 
-    function bindSaleQtyData() {
+    function loadData() {
+
+        shared.showLoader(DOM.loader);
+
+        generateReport();
+
+        shared.hideLoader(DOM.loader);
+    }
+    
+    function generateReport() {
+
+        shared.showLoader(DOM.loader);
+
+        ReportData.length = 0;
+
+        getReportData();
+
+        shared.hideLoader(DOM.loader);
+    }
+
+    
+    function bindReportData() {
 
         // Check the Stock Report Data has values
-        if (reportData.length > 0) {
+        if (ReportData.length > 0) {
 
-            var excludeListOfTableHeaders = [
-                'SalesmanId',
-                'CompanyId',
-                'BranchId',
-                'MonthId',
-                'SaleTypeId',
-                'ItemCategoryId',
-                'ItemQualityId',
-                'ItemId',
-                'GoodsReceiptItemId',
-                'UnitOfMeasurementId',
-                'SaleQty',
-                'UnitCode'
-            ];
-
-            var reportFilterOptionValue = getReportFilterOptionValue();
-
-            if (reportFilterOptionValue !== null) {
-
-                if (reportFilterOptionValue === "0") {
-
-                    excludeListOfTableHeaders.push("SaleRate");
-                    excludeListOfTableHeaders.push("PurchaseRate");
-                }
-                //else if (reportFilterOptionValue === "1") {
-
-                //    excludeListOfTableHeaders.push("ItemCategoryName");
-                //    excludeListOfTableHeaders.push("LocationName");
-                //}
-                //else if (reportFilterOptionValue === "2") {
-
-                //    excludeListOfTableHeaders.push("ItemQuality");
-                //    excludeListOfTableHeaders.push("ItemName");
-                //    excludeListOfTableHeaders.push("LocationName");
-                //    excludeListOfTableHeaders.push("UnitCode");
-                //}
-                //else if (reportFilterOptionValue === "3") {
-
-
-                //    excludeListOfTableHeaders.push("ItemCategoryName");
-                //}
-            }
-
-            if (DOM.salesmanwiseSaleQtyReport.hasChildNodes('thead')) {
-                if (DOM.salesmanwiseSaleQtyReport.tHead !== null) {
-                    DOM.salesmanwiseSaleQtyReport.tHead.remove();
+            if (DOM.reportDataList.hasChildNodes('thead')) {
+                if (DOM.reportDataList.tHead !== null) {
+                    DOM.reportDataList.tHead.remove();
                 }
             }
 
-            if (DOM.salesmanwiseSaleQtyReport.hasChildNodes('tbody')) {
-                if (DOM.salesmanwiseSaleQtyReport.tBodies.length ) {
-                    DOM.salesmanwiseSaleQtyReport.tBodies[0].remove();
+            if (DOM.reportDataList.hasChildNodes('tbody')) {
+                if (DOM.reportDataList.tBodies.length ) {
+                    DOM.reportDataList.tBodies[0].remove();
                 }
             }
 
-            var tableHeader = createTableHeader(reportData, excludeListOfTableHeaders);
+            var excludeListOfTableHeaders = getExcludeListOfTableHeaders();
 
-            var tableBody = createTableBody(reportData, excludeListOfTableHeaders);
+            bindReportFilterOptions();
 
-            DOM.salesmanwiseSaleQtyReport.appendChild(tableHeader);
+            var tableHeader = createTableHeader(ReportData, excludeListOfTableHeaders);
 
-            DOM.salesmanwiseSaleQtyReport.appendChild(tableBody);
+            var tableBody = createTableBody(ReportData, excludeListOfTableHeaders);
+
+            DOM.reportDataList.appendChild(tableHeader);
+
+            DOM.reportDataList.appendChild(tableBody);
         }
     }
 
-    var getReportFilterOptionValue = function () {
-
-        var reportFilterOptionSelectedIndex = parseInt(0);
-
-        var reportFilterOptionValue = "0";
-
-        reportFilterOptionSelectedIndex = DOM.reportFilterOption.selectedIndex;
-
-        if (reportFilterOptionSelectedIndex > 0) {
-
-            reportFilterOptionValue = DOM.reportFilterOption.options[reportFilterOptionSelectedIndex].value;
-        }
-
-        return reportFilterOptionValue;
-
-    };
-
-    var getReportURL = function () {
-
-        var url = "";
-        var reportFilterOptionValue = null;
-
-
-        reportFilterOptionValue = getReportFilterOptionValue();
-
-        if (reportFilterOptionValue === "0") {
-            //url = "GetDailySalesQtyReport/";
-            url = "GetSalesmanwiseItemwiseDailySalesValueReport";
-
-        }
-        else if (reportFilterOptionValue === "1") {
-            url = "GetDailySalesQtyReportWithSaleRateAndPurchaseRate/";
-
-        }
-
-        return url;
-    };
-
-    function getSaleQtyReportData() {
+    function getReportData() {
 
         shared.showLoader(DOM.loader);
 
         try {
 
-            var reportParameters = {
-                SalesmanId: parseInt(DOM.salesman.options[DOM.salesman.selectedIndex].value),
-                FromBillDate: DOM.fromBillDate.value,
-                ToBillDate: DOM.toBillDate.value
-            };
+            //var reportParameters = {
+            //    SalesmanId: parseInt(DOM.salesman.options[DOM.salesman.selectedIndex].value),
+            //    FromBillDate: DOM.fromBillDate.value,
+            //    ToBillDate: DOM.toBillDate.value
+            //};
 
-            var postData = JSON.stringify(reportParameters);
+            //var postData = JSON.stringify(reportParameters);
 
-            var url = getReportURL();
+            var url = "GetSalesByValueReportInSalePeriod";
 
-            shared.sendRequest(SERVICE_PATH + url, "POST", true, "JSON", postData, function (response) {
+            shared.sendRequest(SERVICE_PATH + url, "GET", true, "JSON", null, function (response) {
 
                 shared.showLoader(DOM.loader);
 
@@ -486,9 +299,9 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
                             if (res.length > 0) {
 
-                                reportData = res;
+                                ReportData = res;
 
-                                bindSaleQtyData();
+                                bindReportData();
                             }
                         }
                     }
@@ -510,11 +323,11 @@ SharpiTech.SaleInSalesPeriod = (function () {
         }
     }
 
-    function printStockReport() {
+    function printReport() {
 
     }
 
-    function exportStockReport() {
+    function exportReport() {
 
         fnExcelReport();
     }
@@ -554,7 +367,6 @@ SharpiTech.SaleInSalesPeriod = (function () {
     /* ---- public methods ---- */
     function init() {
         cacheDOM();
-        applyPlugins();
         bindEvents();
         loadData();
     }

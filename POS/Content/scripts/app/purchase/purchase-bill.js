@@ -1647,92 +1647,95 @@ SharpiTech.PurchaseBill = (function () {
 
                 for (var tr = 0; tr < tableRows.length; tr++) {
 
-                    purchaseBillItemId = parseInt(tableRows[tr].getAttribute('data-purchase-bill-item-id'));
+                    //if (tableRows[tr].classList.contains('removed-item') === false) {
 
-                    var inputs = tableRows[tr].querySelectorAll('input[type="text"]');
-                    var select = tableRows[tr].querySelectorAll('select');
+                        purchaseBillItemId = parseInt(tableRows[tr].getAttribute('data-purchase-bill-item-id'));
 
-                    if (inputs.length) {
+                        var inputs = tableRows[tr].querySelectorAll('input[type="text"]');
+                        var select = tableRows[tr].querySelectorAll('select');
 
-                        if (parseFloat(inputs[5].value) > parseFloat(0)) {
-                            baleNo = inputs[0].value;
-                            lrNo = inputs[1].value;
-                            hsncode = tableRows[tr].children[3].innerHTML;
-                            itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
-                            unitOfMeasurementId = parseInt(select[0].options[select[0].selectedIndex].value);
-                            purchaseQty = parseFloat(parseFloat(inputs[2].value).toFixed(2));
-                            purchaseRate = parseFloat(parseFloat(inputs[3].value).toFixed(2));
-                            if (select[1].selectedIndex > 0) {
-                                typeOfDiscount = select[1].options[select[1].selectedIndex].text.toUpperCase();
-                            }
-                            if (typeOfDiscount === null) {
-                                discountAmount = parseFloat(0);
-                            }
-                            else if (typeOfDiscount === "CASH DISCOUNT") {
-                                if (purchaseQty > 0) {
-                                    discountAmount = (purchaseRate * purchaseQty) * (cashDiscountPercent / 100);
+                        if (inputs.length) {
+
+                            if (parseFloat(inputs[5].value) > parseFloat(0)) {
+                                baleNo = inputs[0].value;
+                                lrNo = inputs[1].value;
+                                hsncode = tableRows[tr].children[3].innerHTML;
+                                itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
+                                unitOfMeasurementId = parseInt(select[0].options[select[0].selectedIndex].value);
+                                purchaseQty = parseFloat(parseFloat(inputs[2].value).toFixed(2));
+                                purchaseRate = parseFloat(parseFloat(inputs[3].value).toFixed(2));
+                                if (select[1].selectedIndex > 0) {
+                                    typeOfDiscount = select[1].options[select[1].selectedIndex].text.toUpperCase();
                                 }
-                            }
-                            else {
-                                if (purchaseQty > 0) {
-                                    discountAmount = (purchaseRate - cashDiscountPercent);
+                                if (typeOfDiscount === null) {
+                                    discountAmount = parseFloat(0);
                                 }
-                            }
-                            cashDiscountPercent = parseFloat(parseFloat(inputs[4].value).toFixed(2));
-                            taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
-                            gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
-                            GSTAmountAsPerVendorBill = parseFloat(inputs[8].value);
-
-                            if (isNaN(purchaseBillItemId)) { purchaseBillItemId = parseInt(0); }
-                            if (isNaN(purchaseBillId)) { purchaseBillId = parseInt(0); }
-                            if (isNaN(itemId)) { itemId = parseInt(0); }
-                            if (isNaN(srNo)) { srNo = parseInt(0); }
-
-                            var billItem = {};
-
-                            billItem = {
-                                PurchaseBillItemId: purchaseBillItemId,
-                                PurchaseBillId: purchaseBillId,
-                                BaleNo: baleNo,
-                                LRNo: lrNo,
-                                ItemId: itemId,
-                                ItemName: itemName,
-                                UnitOfMeasurementId: unitOfMeasurementId,
-                                PurchaseQty: purchaseQty,
-                                PurchaseRate: purchaseRate,
-                                TypeOfDiscount: typeOfDiscount,
-                                CashDiscountPercent: cashDiscountPercent,
-                                DiscountAmount: discountAmount,
-                                GSTRateId: gstRateId,
-                                TaxId: taxId,
-                                GSTAmountAsPerVendorBill: GSTAmountAsPerVendorBill,
-                                SrNo: srNo,
-                                IsDeleted: false
-                                //SalesBillItemsCharges: salesBillItemsChargesDetails
-                            };
-
-                            if (tableRows[tr].style.display === "none") {
-                                billItem.IsDeleted = true;
-                                billItem.DeletedBy = parseInt(LOGGED_USER);
-                                billItem.DeletedByIP = IP_ADDRESS;
-                            }
-                            else {
-                                if (purchaseBillItemId === parseInt(0)) {
-
-                                    billItem.CreatedBy = parseInt(LOGGED_USER);
-                                    billItem.CreatedByIP = IP_ADDRESS;
-                                    //addSalesBillItem(billItem);
+                                else if (typeOfDiscount === "CASH DISCOUNT") {
+                                    if (purchaseQty > 0) {
+                                        discountAmount = (purchaseRate * purchaseQty) * (cashDiscountPercent / 100);
+                                    }
                                 }
                                 else {
-                                    billItem.ModifiedBy = parseInt(LOGGED_USER);
-                                    billItem.ModifiedByIP = IP_ADDRESS;
-                                    //updateSalesBillItem(billItem);
+                                    if (purchaseQty > 0) {
+                                        discountAmount = (purchaseRate - cashDiscountPercent);
+                                    }
                                 }
-                            }
+                                cashDiscountPercent = parseFloat(parseFloat(inputs[4].value).toFixed(2));
+                                taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
+                                gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
+                                GSTAmountAsPerVendorBill = parseFloat(inputs[8].value);
 
-                            purchaseBillItems.push(billItem);
+                                if (isNaN(purchaseBillItemId)) { purchaseBillItemId = parseInt(0); }
+                                if (isNaN(purchaseBillId)) { purchaseBillId = parseInt(0); }
+                                if (isNaN(itemId)) { itemId = parseInt(0); }
+                                if (isNaN(srNo)) { srNo = parseInt(0); }
+
+                                var billItem = {};
+
+                                billItem = {
+                                    PurchaseBillItemId: purchaseBillItemId,
+                                    PurchaseBillId: purchaseBillId,
+                                    BaleNo: baleNo,
+                                    LRNo: lrNo,
+                                    ItemId: itemId,
+                                    ItemName: itemName,
+                                    UnitOfMeasurementId: unitOfMeasurementId,
+                                    PurchaseQty: purchaseQty,
+                                    PurchaseRate: purchaseRate,
+                                    TypeOfDiscount: typeOfDiscount,
+                                    CashDiscountPercent: cashDiscountPercent,
+                                    DiscountAmount: discountAmount,
+                                    GSTRateId: gstRateId,
+                                    TaxId: taxId,
+                                    GSTAmountAsPerVendorBill: GSTAmountAsPerVendorBill,
+                                    SrNo: srNo,
+                                    IsDeleted: false
+                                    //SalesBillItemsCharges: salesBillItemsChargesDetails
+                                };
+
+                                if (tableRows[tr].style.display === "none") {
+                                    billItem.IsDeleted = true;
+                                    billItem.DeletedBy = parseInt(LOGGED_USER);
+                                    billItem.DeletedByIP = IP_ADDRESS;
+                                }
+                                else {
+                                    if (purchaseBillItemId === parseInt(0)) {
+
+                                        billItem.CreatedBy = parseInt(LOGGED_USER);
+                                        billItem.CreatedByIP = IP_ADDRESS;
+                                        //addSalesBillItem(billItem);
+                                    }
+                                    else {
+                                        billItem.ModifiedBy = parseInt(LOGGED_USER);
+                                        billItem.ModifiedByIP = IP_ADDRESS;
+                                        //updateSalesBillItem(billItem);
+                                    }
+                                }
+
+                                purchaseBillItems.push(billItem);
+                            }
                         }
-                    }
+                    //}
                 }
             }
             else {
@@ -2396,13 +2399,19 @@ SharpiTech.PurchaseBill = (function () {
         //tableBody.removeChild(tableRow);
         
         // Mark the Item as Deleted if the sales bill item id is > 0
-        if (purchaseBillItems.length) {
-            for (var i = 0; i < purchaseBillItems.length; i++) {
-                if (purchaseBillItems[i].PurchaseBillItemId === purchaseBillItemId) {
-                    purchaseBillItems[i].IsDeleted = true;
-                    purchaseBillItems[i].DeletedBy = parseInt(LOGGED_USER);
-                    purchaseBillItems[i].DeletedByIP = IP_ADDRESS;
-                    break;
+
+        if (purchaseBillItemId === 0) {
+            tableBody.removeChild(tableRow);
+        }
+        else {
+            if (purchaseBillItems.length) {
+                for (var i = 0; i < purchaseBillItems.length; i++) {
+                    if (purchaseBillItems[i].PurchaseBillItemId === purchaseBillItemId) {
+                        purchaseBillItems[i].IsDeleted = true;
+                        purchaseBillItems[i].DeletedBy = parseInt(LOGGED_USER);
+                        purchaseBillItems[i].DeletedByIP = IP_ADDRESS;
+                        break;
+                    }
                 }
             }
         }

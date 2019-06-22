@@ -117,6 +117,7 @@
     <Content Include="Content\scripts\app\Masters\charge.js" />
     <Content Include="Content\scripts\app\Masters\city.js" />
     <Content Include="Content\scripts\app\Masters\gst-category.js" />
+    <Content Include="Content\scripts\app\Masters\item-image.js" />
     <Content Include="Content\scripts\app\Masters\item-rate.js" />
     <Content Include="Content\scripts\app\Masters\sales-scheme.js" />
     <Content Include="Content\scripts\app\mis\item-margin-register.js" />
@@ -187,12 +188,14 @@
     <Content Include="Content\scripts\vendor\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Blank.Master" />
     <None Include="bundleconfig.json" />
+    <Content Include="Masters\FileUploader.ashx" />
     <None Include="packages.config" />
     <Content Include="Inventory\Barcode.aspx" />
     <Content Include="Inventory\InwardDetails.aspx" />
     <Content Include="Masters\Charges.aspx" />
     <Content Include="Masters\City.aspx" />
     <Content Include="Masters\GSTCategory.aspx" />
+    <Content Include="Masters\ItemImage.aspx" />
     <Content Include="Masters\ItemRate.aspx" />
     <Content Include="Masters\SalesScheme.aspx" />
     <Content Include="MIS\ItemMargin.aspx" />
@@ -877,6 +880,9 @@
     <Compile Include="Masters\Employee.aspx.designer.cs">
       <DependentUpon>Employee.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Masters\FileUploader.ashx.cs">
+      <DependentUpon>FileUploader.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Masters\GSTCategory.aspx.cs">
       <DependentUpon>GSTCategory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -897,6 +903,13 @@
     </Compile>
     <Compile Include="Masters\ItemCategory.aspx.designer.cs">
       <DependentUpon>ItemCategory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Masters\ItemImage.aspx.cs">
+      <DependentUpon>ItemImage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Masters\ItemImage.aspx.designer.cs">
+      <DependentUpon>ItemImage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Masters\ItemQuality.aspx.cs">
       <DependentUpon>ItemQuality.aspx</DependentUpon>

@@ -5,10 +5,10 @@
 
         <div class="action-toolbar">
 
-        <a href="#" id="GenerateSaleValueReport"><i class="fa fa-eye fa-fw"></i>Generate Report</a>
-        <a href="#" id="PrintSalesReport"><i class="fa fa-print fa-fw"></i>Print</a>
-        <a href="#" id="FilterSalesReport"><i class="fa fa-filter fa-fw"></i>Filter</a>
-        <a href="#" id="ExportSalesReport"><i class="fa fa-cog fa-fw"></i>Export</a>
+        <%--<a href="#" id="GenerateReport"><i class="fa fa-eye fa-fw"></i>Generate Report</a>--%>
+        <a href="#" id="PrintReport"><i class="fa fa-print fa-fw"></i>Print</a>
+        <a href="#" id="FilterReport"><i class="fa fa-filter fa-fw"></i>Filter</a>
+        <a href="#" id="ExportReport"><i class="fa fa-cog fa-fw"></i>Export</a>
 
     </div>
 
@@ -38,7 +38,7 @@
                     <div class="panel panel-info">
 
                         <div class="panel-heading">
-                            <h4 class="panel-title">Report Filter</h4>
+                            <h4 class="panel-title">Report Filters</h4>
                         </div>
 
                         <div class="panel-body">
@@ -47,16 +47,18 @@
 
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group form-group-sm">
-                                                <label>Brand</label>
-                                                <select id="Brand" class="form-control"></select>
+                                                <label>Report Filter Options</label>
+                                                <div id="ReportFilterOptions" class="well" style="max-height:300px; overflow: auto;">                                                    
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        
+                                        <%--<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
                                             <div class="form-group form-group-sm">
                                                 <label>Item Category</label>
                                                 <select id="ItemCategory" class="form-control"></select>
@@ -99,11 +101,34 @@
                                                             </span>
                                                         </div>
                                                     </div>
-                                       </div>
+                                       </div>--%>
 
                                     </div>
 
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display:none;">
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                            <div class="table-responsive">
+
+                                                <table id="ReportFilters" class="table table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Filter</th>
+                                                            <th>Operators</th>
+                                                            <th>Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                             <div class="form-group form-group-sm">
@@ -144,7 +169,7 @@
                                     <iframe id="txtArea1" style="display:none;"></iframe>
 
                                     <div class="table-responsive">
-                                        <table id="SaleValueInSalesPeriodReport" class="table table-condensed">
+                                        <table id="ReportDataList" class="table table-condensed">
                                             <%--<thead>
                                                 <tr>
                                                     <th>Item Name</th>

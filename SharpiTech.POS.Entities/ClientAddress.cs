@@ -65,6 +65,10 @@ namespace SharpiTech.POS.Entities
         [DatabaseColumn("contact_nos")]
         public string ContactNos { get; set; }
 
+        public string MobileNo1 { get; set; }
+
+        public string MobileNo2 { get; set; }
+
         [DatabaseColumn("service_tax_no")]
         public string ServiceTaxNo { get; set; }
 

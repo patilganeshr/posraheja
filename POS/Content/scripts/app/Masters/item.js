@@ -39,6 +39,7 @@ SharpiTech.Item = (function () {
 
         DOM.itemPictureUploader = document.getElementById('ItemPictureUploader');
         DOM.uploadedFiles = document.getElementById('UploadedFiles');
+        DOM.uploadFiles = document.getElementById('UploadFiles');
 
         DOM.addNewItem = document.getElementById('AddNewItem');
         DOM.showItemList = document.getElementById('ShowItemList');
@@ -138,9 +139,11 @@ SharpiTech.Item = (function () {
         DOM.addNewSetItem.addEventListener('click', addNewSETItem);
         DOM.showSetItemList.addEventListener('click', showSETItemList);
         DOM.editSetItem.addEventListener('click', editSETItem);
-        DOM.deleteSetItem.addEventListener('click', deleteSETItem)
+        DOM.deleteSetItem.addEventListener('click', deleteSETItem);
         DOM.saveSetItem.addEventListener('click', saveSETItem);
         DOM.saveAndAddNewSetItem.addEventListener('click', saveAndAddNewSETItem);
+
+        DOM.uploadFiles.addEventListener('click', uploadItemImage);
 
         DOM.addNewItemRate.addEventListener('click', addNewItemRate);
         DOM.showItemRateList.addEventListener('click', getItemRates);
@@ -151,24 +154,24 @@ SharpiTech.Item = (function () {
 
         DOM.itemName.onblur = function () {
             setItemDesc();
-        }
+        };
 
         DOM.itemPictureUploader.onchange = function () {
             uploadFiles();
-        }
+        };
 
         DOM.itemCategory.onchange = function () {
             setHSNCode();
-        }
+        };
 
 
         DOM.isSet[0].onclick = function () {
             viewItemSetDetails();
-        }
+        };
 
         DOM.isSet[1].onclick = function () {
             viewItemSetDetails();
-        }
+        };
 
         DOM.purchaseRate.onkeydown = function validate(e) {
             return shared.acceptDecimalNos(e);
@@ -176,27 +179,27 @@ SharpiTech.Item = (function () {
 
         DOM.transportCost.onkeydown = function validate(e) {
             return shared.acceptDecimalNos(e);
-        }
+        };
 
         DOM.labourCost.onkeydown = function validate(e) {
             return shared.acceptDecimalNos(e);
-        }
+        };
 
         DOM.purchaseRate.onblur = function () {
             calculateTotalItemRate();
-        }
+        };
 
         DOM.discount.onblur = function () {
             calculateTotalItemRate();
-        }
+        };
 
         DOM.transportCost.onblur = function () {
             calculateTotalItemRate();
-        }
+        };
 
         DOM.labourCost.onblur = function () {
             calculateTotalItemRate();
-        }
+        };
 
     }
 
@@ -595,7 +598,11 @@ SharpiTech.Item = (function () {
     function uploadFiles() {
 
         var itemPictureUploader = DOM.itemPictureUploader;
+
+        var files = itemPictureUploader.files;
+
         var uploadedFiles = DOM.uploadedFiles;
+
         var itemId = parseInt(DOM.itemName.getAttribute('data-item-id'));
 
         if (isNaN(itemId)) { itemId = parseInt(0); }
@@ -604,14 +611,14 @@ SharpiTech.Item = (function () {
 
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
 
-        for (var p = 0; p < itemPictureUploader.length; p++) {
+        for (var p = 0; p < files.length; p++) {
 
-            if (regex.test(itemPictureUploader[p].value.toLowerCase()) === false) {
+            if (regex.test(files[p].name.toLowerCase()) === false) {
                 swal("Warning", "Please select the valid file name. Only .jpg / .jpeg / .gif / .png / .bmp file types are supported.", "warning");
                 DOM.itemPictureUploader.focus();
                 return false;
             }
-            else if ((itemPictureUploader[p].size / 1024 / 1024) > 50) {
+            else if ((files[p].size / 1024 / 1024) > 50) {
                 swal("Warning", "Image size should not be more than 50 MB.", "warning");
                 return false;
             }
@@ -622,54 +629,59 @@ SharpiTech.Item = (function () {
                 itemPicture = {
                     ItemPictureId: 0,
                     ItemId: itemId,
-                    ItemPictureName: itemPictureUploader[p].name.split(' ').join('_'),
+                    ItemPictureName: files[p].name.split(' ').join('_'),
                     ItemPicturePath: "/ItemPictures/",
                     CreatedBy: parseInt(LOGGED_USER),
                     CreatedByIP: IP_ADDRESS
-                }
+                };
 
                 itemPictures.push(itemPicture);
             }
 
-            //var elements = "";
+            var elements = "";
 
-            //elements = elements + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
-            //elements = elements + "<div id='ProgressBar_" + p + "' class='progress-bar progress-bar-striped-active' role='progressbar' aria-valuemin='0' aria-valuemax='100' style='width:0%'</div>";
-            //elements = elements + "</div>";
-            //elements = elements + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
-            //elements = elements + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>";
-            //elements = elements + "<button type='button' id='Cancel_" + p + "' class='btn btn-sm btn-danger' style='display:none; line-height: 6px; height:25px;'>" + Cancel + "</button>"; 
-            //elements = elements + "</div>";
-            //elements = elements + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>";
-            //elements = elements + "<p id='Status_" + p + "' class='progress-status' style='text-align:right; margin-right:-15px; font-weight: bold; color: #fefefe'";
-            //elements = elements + "</p>";
-            //elements = elements + "</div>";
-            //elements = elements + "</div" >;
-            //elements = elements + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
-            //elements = elements + "<p id='notify_" + p + "' style='text-align: right;>";
-            //elements = elements + "</p>";
-            //elements = elements + "</div>";
+            elements = elements + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
+            elements = elements + "<div id='ProgressBar_" + p + "' class='progress-bar progress-bar-striped-active' role='progressbar' aria-valuemin='0' aria-valuemax='100' style='width:0%'</div>";
+            elements = elements + "</div>";
+            elements = elements + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
+            elements = elements + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>";
+            elements = elements + "<button type='button' id='Cancel_" + p + "' class='btn btn-sm btn-danger' style='display:none; line-height: 6px; height:25px;'>Cancel</button>"; 
+            elements = elements + "</div>";
+            elements = elements + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>";
+            elements = elements + "<p id='Status_" + p + "' class='progress-status' style='text-align:right; margin-right:-15px; font-weight: bold; color: #fefefe'";
+            elements = elements + "</p>";
+            elements = elements + "</div>";
+            elements = elements + "</div>";
+            elements = elements + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
+            elements = elements + "<p id='notify_" + p + "' style='text-align: right;>";
+            elements = elements + "</p>";
+            elements = elements + "</div>";
 
-            //var progressBar = document.createElement('div');
+            var progressBar = document.createElement('div');
 
-            //progressBar.setAttribute('id', 'ProgressBar_' + p);
-            //progressBar.setAttribute('class', 'progress-bar progress-bar-striped-active');
-            //progressBar.setAttribute('role', 'progressbar');
-            //progressBar.setAttribute('aria-valuemin', "0");
-            //progressBar.setAttribute('aria-valuemax', "100");
-            //progressBar.style.width = "0%";
+            progressBar.setAttribute('id', 'ProgressBar_' + p);
+            progressBar.setAttribute('class', 'progress-bar progress-bar-striped-active');
+            progressBar.setAttribute('role', 'progressbar');
+            progressBar.setAttribute('aria-valuemin', "0");
+            progressBar.setAttribute('aria-valuemax', "100");
+            progressBar.style.width = "0%";
 
-            //uploadSingleFile(itemPictures[p], p);
+            //elements.appendChild(progressBar);
+
+            DOM.uploadedFiles.innerHTML = elements;
+
+            DOM.uploadedFiles.appendChild(progressBar);
+
+            uploadSingleFile(files[p], p);
         }
 
-        //DOM.uploadedFiles.innerHTML = elements;
-
+        
 
     }
 
     function uploadSingleFile(file, index) {
 
-        var fileId = p;
+        var fileId = index;
 
         var ajax = new XMLHttpRequest();
 
@@ -678,6 +690,36 @@ SharpiTech.Item = (function () {
 
         });
 
+    }
+
+    function uploadItemImage() {
+
+        var courseImage = $("#ItemPictureUploader").get(0);
+
+        var files = courseImage.files;
+
+        if (files.length > 0) {
+
+            var oFile = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                oFile.append(files[i].name, files[i]);
+                oFile.append("File_Path", "UploadedFiles/Item/");
+                oFile.append("Created_By", parseInt(LOGGED_USER));
+                FileName = files[i].name;
+            }
+
+            $.ajax({
+                url: "../Masters/FileUploader.ashx",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: oFile,
+                success: function (result) {
+                    swal("success", "Document Uploaded Successfully.", "success");
+                }
+            });
+        }
     }
 
     function addNewItem() {
@@ -736,7 +778,7 @@ SharpiTech.Item = (function () {
         }
 
         return selectedRows;
-    }
+    };
 
     function showItemList() {
         getItems();

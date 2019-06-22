@@ -14,7 +14,9 @@ SharpiTech.LocalClient = (function () {
 
         DOM.editMode = document.getElementById('EditMode');
         DOM.loader = document.getElementById('Loader');
-        DOM.mobileNo = document.getElementById('MobileNo');
+        DOM.contactNo = document.getElementById('ContactNo');
+        DOM.mobileNo1 = document.getElementById('MobileNo1');
+        DOM.mobileNo2 = document.getElementById('MobileNo2');
         DOM.emailAddress = document.getElementById('EmailAddress');
         DOM.clientName = document.getElementById('ClientName');
         DOM.state = document.getElementById('State');
@@ -57,7 +59,7 @@ SharpiTech.LocalClient = (function () {
         _shared.showPanel(DOM.editMode);
         
         //set focus
-        DOM.mobileNo.focus();
+        DOM.mobileNo1.focus();
 
         _shared.hideLoader(DOM.loader);
 
@@ -128,9 +130,9 @@ SharpiTech.LocalClient = (function () {
 
         var isValid = true;
 
-        if (DOM.mobileNo.value === "") {
-            DOM.mobileNo.focus();
-            swal("Error!!!", "Please enter the Mobile No.", "error");
+        if (DOM.mobileNo1.value === "") {
+            DOM.mobileNo1.focus();
+            swal("Error!!!", "Please enter the Mobile No. 1", "error");
             isValid = false;
         }
         else if (DOM.state.selectedIndex === -1) {
@@ -151,8 +153,10 @@ SharpiTech.LocalClient = (function () {
         _shared.showLoader(DOM.loader);
 
         try {
-            /* temp variable */
-            var mobileNo = null;
+        /* temp variable */
+            var contactNo = null;
+            var mobileNo1 = null;
+            var mobileNo2 = null;
             var emailId = null;
             var clientName = null;
             var stateId = parseInt(0);
@@ -161,7 +165,9 @@ SharpiTech.LocalClient = (function () {
             var cityName = null;
             var area = null;
 
-            mobileNo = DOM.mobileNo.value;
+            contactNo = DOM.contactNo.value;
+            mobileNo1 = DOM.mobileNo1.value;
+            mobileNo2 = DOM.mobileNo2.value;
             clientName = DOM.clientName.value;
             emaildId = DOM.emailAddress.value;
             stateId = parseInt(DOM.state.options[DOM.state.selectedIndex].value);
@@ -189,7 +195,9 @@ SharpiTech.LocalClient = (function () {
                 StateId: stateId,
                 CityId: cityId,
                 Area: area,
-                ContactNos: mobileNo,
+                ContactNos: contactNo,
+                MobileNo1: mobileNo1,
+                MobileNo2: mobileNo2,
                 EmailId: emailId,
                 Website: null,
                 GSTNo: null,

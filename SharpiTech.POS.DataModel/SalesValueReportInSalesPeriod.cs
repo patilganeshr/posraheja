@@ -20,34 +20,34 @@ namespace SharpiTech.POS.DataModel
             database = DBConnect.getDBConnection();
         }
 
-        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesByValueReportInSalesPeriods(Entities.SalesByValueReportInSalesPeriod salesByValueReport)
+        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesByValueReportInSalesPeriods()
         {
             var salesByValueReportList = new List<Entities.SalesByValueReportInSalesPeriod>();
 
-            DbCommand dbCommand = null;
-
             try
             {
-                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSalesByValueReportInSalesPeriod))
-                {
-                    database.AddInParameter(dbCommand, "@brand_id", DbType.Int32, salesByValueReport.BrandId);
-                    database.AddInParameter(dbCommand, "@item_category_id", DbType.Int32, salesByValueReport.ItemCategoryId);
-                    database.AddInParameter(dbCommand, "@item_id", DbType.Int32, salesByValueReport.ItemId);
-                    database.AddInParameter(dbCommand, "@salesman_id", DbType.Int32, salesByValueReport.SalesmanId);
-
+                using (DbCommand dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSalesByValueReportInSalesPeriod))
+                {   
                     using (IDataReader reader = database.ExecuteReader(dbCommand))
                     {
                         while (reader.Read())
                         {
-                            var salesValueReport = new Entities.SalesByValueReportInSalesPeriod
+                            var salesByValueReport = new Entities.SalesByValueReportInSalesPeriod
                             {
+                                CompanyNaame = DRE.GetNullableString(reader, "company_name", null),
+                                BranchName = DRE.GetNullableString(reader, "branch_name", null),
+                                SaleType = DRE.GetNullableString(reader, "sale_type", null),
                                 BrandName = DRE.GetNullableString(reader, "brand_name", null),
                                 ItemCategoryName = DRE.GetNullableString(reader, "item_category_name", null),
                                 ItemName = DRE.GetNullableString(reader, "item_name", null),
                                 SaleQty = DRE.GetNullableDecimal(reader, "sale_qty", null),
                                 UnitCode = DRE.GetNullableString(reader, "unit_code", null),
+                                SaleRate = DRE.GetNullableDecimal(reader, "sale_rate", null),
+                                Amount = DRE.GetNullableDecimal(reader, "amount", null),
                                 TotalItemAmount = DRE.GetNullableDecimal(reader, "total_item_amount", null),
+                                DiscountAmount = DRE.GetNullableDecimal(reader, "discount_amount", null),
                                 SalesScheme = DRE.GetNullableString(reader, "sales_scheme", null),
+                                SalesBillDate = DRE.GetNullableString(reader, "sales_bill_date", null),
                                 Salesman = DRE.GetNullableString(reader, "salesman", null)
                             };
 
@@ -59,10 +59,6 @@ namespace SharpiTech.POS.DataModel
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                dbCommand = null;
             }
 
             return salesByValueReportList;

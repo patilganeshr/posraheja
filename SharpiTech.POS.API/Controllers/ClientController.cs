@@ -69,6 +69,13 @@ namespace SharpiTech.POS.API.Controllers
             return _client.GetClientByName(clientName);
         }
 
+        [HttpPost]
+        [Route("SearchClient")]
+        public List<Entities.Client> SearchClient([FromBody] Entities.Client client)
+        {
+            return _client.SearchClient(client);
+        }
+
         /// <summary>
         /// 
         /// </summary>
