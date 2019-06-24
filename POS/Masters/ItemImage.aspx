@@ -192,6 +192,9 @@
             </div>
 
         </div>
+
+    </div>
+
     <script type="text/javascript" src="../content/scripts/app/shared/default.js"></script>
     <script type="text/javascript" src="../content/scripts/app/Masters/item-image.js"></script>
 

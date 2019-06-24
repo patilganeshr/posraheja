@@ -66,7 +66,7 @@
 }
 
 .btn-group-sm>.btn, .btn-sm {
-	font-size: 12px;    
+	font-size: 12px;
 }
 
 .panel{
@@ -95,7 +95,7 @@
 }
 
 .form-control:focus {
-	border-color: #f05b41;    
+	border-color: #f05b41;
 }
 
 .input-group-addon {
@@ -109,7 +109,7 @@
 	line-height: 24px;
 }
 
-label {	
+label {
 	font-weight: 600;
 }
 
@@ -139,7 +139,7 @@ label {
 
 .panel-heading-carmine {
 	color: #fff;
-	background-color: #f05b41;    
+	background-color: #f05b41;
 }
 
 .input-group-sm>.form-control, .input-group-sm>.input-group-addon, .input-group-sm>.input-group-btn>.btn {
@@ -281,3 +281,19 @@ clear: both;
 	float:left;
 }
 
+.thumbnail button {
+display:block;
+width:10px;
+height:20px;
+position:absolute;
+top:0;
+right:6px;
+background:#c00;
+overflow:hidden;
+}
+
+.thumbnail button i{
+	bottom: 3px;
+	position: absolute;
+	right: 5px;
+}

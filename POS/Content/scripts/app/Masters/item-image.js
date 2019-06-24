@@ -92,12 +92,12 @@ SharpiTech.ItemImage = (function () {
 
             if (CURRENT_FOCUS === undefined) { CURRENT_FOCUS = -1; }
             //if (e.keyCode === 8 || e.keyCode === 127) {
-            //    DOM.itemName.value = "";                
+            //    DOM.itemName.value = "";
             //}
             //setTimeout(function () {
             showItemsList(e);
             //showItemsList(e);
-            //}, 1000);            
+            //}, 1000);
 
         };
 
@@ -241,7 +241,7 @@ SharpiTech.ItemImage = (function () {
 
                             li.setAttribute('id', SEARCH_ITEMS_LIST[s].ItemId);
                             li.setAttribute('data-item-code', SEARCH_ITEMS_LIST[s].ItemCode);
-                            
+
                             li.style.cursor = "pointer";
                             li.onclick = showItemNameOnSelection;
                             li.textContent = SEARCH_ITEMS_LIST[s].ItemName;
@@ -427,21 +427,19 @@ SharpiTech.ItemImage = (function () {
         DOM.itemName.focus();
     }
 
-    function deleteItemImage() {
+    function deleteItemImage(e) {
 
         shared.showLoader(DOM.loader);
 
+        var itemImageId = parseInt(e.target.id);
+
         try {
 
-            var tableBody = DOM.itemImageUploadList.tBodies[0];
-
-            var selectedRows = getSelectedRows();
-
-            if (selectedRows.length > 0) {
+            if (itemImageId > 0) {
 
                 swal({
                     title: "Are you sure",
-                    text: "Are you sure you want to delete this record?",
+                    text: "Are you sure you want to delete this image?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
@@ -454,50 +452,48 @@ SharpiTech.ItemImage = (function () {
 
                         if (isConfirm) {
 
-                            for (var r = 0; r < selectedRows.length; r++) {
+                            var data = [];
 
-                                var data = [];
+                            var itemImage = {};
 
-                                var itemImage = {};
+                            itemImage = {
+                                ItemImageId: parseInt(itemImageId),
+                                IsDeleted: true,
+                                DeletedBy: parseInt(LOGGED_USER),
+                                DeletedByIP: IP_ADDRESS
+                            };
 
-                                itemImage = {
-                                    ItemImageId: parseInt(selectedRows[r].getAttribute('data-item-image-id')),
-                                    IsDeleted: true,
-                                    DeletedBy: parseInt(LOGGED_USER),
-                                    DeletedByIP: IP_ADDRESS
-                                };
+                            data.push(itemImage);
 
-                                data.push(itemImage);
+                            var postData = JSON.stringify(data);
 
-                                var postData = JSON.stringify(data);
+                            shared.sendRequest(SERVICE_PATH + 'SaveItemImage', "POST", true, "JSON", postData, function (response) {
 
-                                shared.sendRequest(SERVICE_PATH + 'SaveItemImage', "POST", true, "JSON", postData, function (response) {
+                                if (response.status === 200) {
 
-                                    if (response.status === 200) {
+                                    if (parseInt(response.responseText) > 0) {
 
-                                        if (parseInt(response.responseText) > 0) {
-
-                                            swal({
-                                                title: "Success",
-                                                text: "Item Image deleted successfully.",
-                                                type: "success"
-                                            }, function () {
-                                                ItemImages.length = 0;
-                                            });
-                                        }
-                                    }
-                                    else {
                                         swal({
-                                            title: "Error",
-                                            text: "Unable to delete records due to an error." + response.responseText,
-                                            type: "error"
+                                            title: "Success",
+                                            text: "Item Image deleted successfully.",
+                                            type: "success"
+                                        }, function () {
+                                            showItemImage();
                                         });
                                     }
+                                }
+                                else {
+                                    swal({
+                                        title: "Error",
+                                        text: "Unable to delete records due to an error." + response.responseText,
+                                        type: "error"
+                                    });
+                                }
 
-                                    shared.hideLoader(DOM.loader);
+                                shared.hideLoader(DOM.loader);
 
-                                });
-                            }
+                            });
+
                         }
                     }
                 );
@@ -576,7 +572,7 @@ SharpiTech.ItemImage = (function () {
         DOM.sliderThumbs.innerHTML = "";
         DOM.slider.innerHTML = "";
 
-        
+
         // Check the inward details has values
         if (ItemImages.length > 0) {
 
@@ -586,7 +582,9 @@ SharpiTech.ItemImage = (function () {
 
             for (var r = 0; r < ItemImages.length; r++) {
 
-                data = data + "<li class='col-sm-3'> <a class='thumbnail' id='carousel-selector-'" + r + "'> <img src= '../" + ItemImages[r].ItemImagePath + ItemImages[r].ItemImageName + "' style='height:100px; width:250px;'> </a> </li>";
+                data = data + "<li class='col-lg-3 col-md-3 col-sm-6 col-xs-12'> <a class='thumbnail' id='carousel-selector-'" + r + "'>" +
+                    "<img src='../" + ItemImages[r].ItemImagePath + ItemImages[r].ItemImageName + "' style='height:100px; width:200px;'>" +
+                    "<button type='button' class='btn btn-sm btn-danger' id='" + ItemImages[r].ItemImageId + "'><i class='fa fa-remove'></i></button> </a> </li> ";
 
             }
 
@@ -595,12 +593,29 @@ SharpiTech.ItemImage = (function () {
 
             DOM.sliderThumbs.appendChild(ul);
 
+            addEventsToImageList(ul);
+
             //// Show panels
             //shared.showPanel(DOM.editMode);
             //shared.hidePanel(DOM.viewMode);
 
         }
 
+    }
+
+    function addEventsToImageList(ul) {
+
+        var buttons = ul.querySelectorAll('button[type="button"]');
+
+        if (buttons.length) {
+
+            for (var b = 0; b < buttons.length; b++) {
+
+                buttons[b].onclick = function (e) {
+                    deleteItemImage(e);
+                }
+            }
+        }
     }
 
     function showItemImageDetails(itemImageId) {
@@ -633,6 +648,10 @@ SharpiTech.ItemImage = (function () {
         shared.showLoader(DOM.loader);
 
         ItemImages.length = 0;
+
+        //Clear the div with image thumbnails and images
+        DOM.sliderThumbs.innerHTML = "";
+        DOM.slider.innerHTML = "";
 
         var itemId = DOM.itemName.getAttribute('data-item-id');
 
@@ -777,7 +796,7 @@ SharpiTech.ItemImage = (function () {
         //elements = elements + "</div>";
         //elements = elements + "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
         //elements = elements + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>";
-        //elements = elements + "<button type='button' id='Cancel_" + p + "' class='btn btn-sm btn-danger' style='display:none; line-height: 6px; height:25px;'>Cancel</button>"; 
+        //elements = elements + "<button type='button' id='Cancel_" + p + "' class='btn btn-sm btn-danger' style='display:none; line-height: 6px; height:25px;'>Cancel</button>";
         //elements = elements + "</div>";
         //elements = elements + "<div class='col-lg-6 col-md-6 col-sm-6 col-xs-12'>";
         //elements = elements + "<p id='Status_" + p + "' class='progress-status' style='text-align:right; margin-right:-15px; font-weight: bold; color: #fefefe'";
@@ -863,8 +882,8 @@ SharpiTech.ItemImage = (function () {
                 }
             });
         }
-    }   
-    
+    }
+
     /* ---- public methods ---- */
     function init() {
         cacheDOM();

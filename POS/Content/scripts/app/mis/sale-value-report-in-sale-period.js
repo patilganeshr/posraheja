@@ -22,9 +22,9 @@ SharpiTech.SaleInSalesPeriod = (function () {
         DOM.reportFilters = document.getElementById('ReportFilters');
         DOM.generateReport = document.getElementById('GenerateReport');
         DOM.reportDataList = document.getElementById('ReportDataList');
-        DOM.printReport =  document.getElementById('PrintReport');        
+        DOM.printReport =  document.getElementById('PrintReport');
         DOM.exportReport = document.getElementById('ExportReport');
-        
+
     }
 
     /* ---- handle errors ---- */
@@ -140,7 +140,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
         var data = "";
 
         data = "<ul class='list-group checked-list-box'>";
-            
+
         for (var e = 0; e < TableHeaderCaptions.length; e++) {
 
             var value = TableHeaderCaptions[e];
@@ -152,10 +152,50 @@ SharpiTech.SaleInSalesPeriod = (function () {
         }
 
         DOM.reportFilterOptions.innerHTML = data;
-        
+
+        addEventsToListItem();
     }
 
-    
+    function addEventsToListItem() {
+
+        var checkBoxes = DOM.reportFilterOptions.querySelectorAll('input=type["chekcbox"]');
+
+        if (checkBoxes.length) {
+
+            for (var c = 0; c < checkBoxes.length; c++) {
+
+                checkBoxes[c].onchange = function (e) {
+                    addReportFilterParameters(e);
+                };
+            }
+        }
+    }
+
+    function addReportFilterParameters(e){
+
+        var li = e.target.parentElement.parentElement;
+
+        if (li.lenght) {
+
+            for (var l = 0; l < li.length; l++) {
+
+                if (li[l].checked) {
+
+                }
+            }
+        }
+
+    }
+
+    function addReportFilterToTable() {
+
+        var table = DOM.reportFilters;
+
+        var tableBody = table.tBodies[0];
+
+
+    }
+
     var createTableHeader = function (data, excludeListOfTableHeaderCaption) {
 
         var tableHeader = document.createElement('thead');
@@ -225,7 +265,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         shared.hideLoader(DOM.loader);
     }
-    
+
     function generateReport() {
 
         shared.showLoader(DOM.loader);
@@ -237,7 +277,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
         shared.hideLoader(DOM.loader);
     }
 
-    
+
     function bindReportData() {
 
         // Check the Stock Report Data has values
