@@ -18,11 +18,14 @@ SharpiTech.SaleInSalesPeriod = (function () {
     function cacheDOM() {
 
         DOM.loader = document.getElementById('Loader');
-        DOM.reportFilterOptions = document.getElementById('ReportFilterOptions');
+        DOM.reportParameters = document.getElementById('ReportParameters');
         DOM.reportFilters = document.getElementById('ReportFilters');
+        DOM.reportCriteria1 = document.getElementById('ReportCriteria1');
+        DOM.reportCriteria2 = document.getElementById('ReportCriteria2');
+        DOM.reportCriteriasList = document.getElementById('ReportCriteriasList');
         DOM.generateReport = document.getElementById('GenerateReport');
         DOM.reportDataList = document.getElementById('ReportDataList');
-        DOM.printReport =  document.getElementById('PrintReport');
+        DOM.printReport = document.getElementById('PrintReport');
         DOM.exportReport = document.getElementById('ExportReport');
 
     }
@@ -64,6 +67,21 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         DOM.exportReport.addEventListener('click', exportReport);
 
+    }
+
+    function loadFilterOptions() {
+
+        var option = "";
+
+        option += "<option value='-1'>Choose Filter</option>";
+        option += "<option value='1'>Equal to</option>";
+        option += "<option value='2'>Greater than or equal to</option>";
+        option += "<option value='3'>Less than or equal to</option>";
+        option += "<option value='4'>Contains</option>";
+        option += "<option value='5'>Does not equal to</option>";
+        option += "<option value='6'>Between</option>";
+
+        DOM.reportFilters.innerHTML = option;
     }
 
     var getExcludeListOfTableHeaders = function() {
@@ -133,7 +151,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
         return TableHeaderCaptions;
     };
 
-    function bindReportFilterOptions() {
+    function bindReportParameters() {
 
         getTableHeaderCaption();
 
@@ -145,15 +163,15 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
             var value = TableHeaderCaptions[e];
 
-            var filterOption = value.replace(/\s+/g, "");
+            var parameterName = value.replace(/\s+/g, "");
 
-            data += "<li class='list-group-item'> <label class='label-tick'> <input type='checkbox' id=" + e + " class='label-checkbox' data-filter-option=" + filterOption + " /> <span class='label-text'></span> </label>" + TableHeaderCaptions[e] + "</li>";
+            data += "<li class='list-group-item'> <label class='label-tick'> <input type='checkbox' id=" + e + " class='label-checkbox' data-filter-option=" + parameterName + " /> <span class='label-text'></span> </label>" + TableHeaderCaptions[e] + "</li>";
 
         }
 
-        DOM.reportFilterOptions.innerHTML = data;
+        DOM.reportParameters.innerHTML = data;
 
-        addEventsToListItem();
+        //addEventsToListItem();
     }
 
     function addEventsToListItem() {
@@ -171,21 +189,6 @@ SharpiTech.SaleInSalesPeriod = (function () {
         }
     }
 
-    function addReportFilterParameters(e){
-
-        var li = e.target.parentElement.parentElement;
-
-        if (li.lenght) {
-
-            for (var l = 0; l < li.length; l++) {
-
-                if (li[l].checked) {
-
-                }
-            }
-        }
-
-    }
 
     function addReportFilterToTable() {
 
@@ -261,6 +264,8 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         shared.showLoader(DOM.loader);
 
+        loadFilterOptions();
+
         generateReport();
 
         shared.hideLoader(DOM.loader);
@@ -297,7 +302,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
             var excludeListOfTableHeaders = getExcludeListOfTableHeaders();
 
-            bindReportFilterOptions();
+            bindReportParameters();
 
             var tableHeader = createTableHeader(ReportData, excludeListOfTableHeaders);
 

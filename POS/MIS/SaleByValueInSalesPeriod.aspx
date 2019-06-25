@@ -47,17 +47,59 @@
 
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <%--<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="form-group form-group-sm">
                                                 <label>Report Filter Options</label>
-                                                <div id="ReportFilterOptions" class="well" style="max-height:300px; overflow: auto;">                                                    
+                                                <div id="ReportFilterOptions" class="well" style="max-height:300px; overflow: auto;">
                                                 </div>
+                                    
+                                            </div>
+                                        </div>--%>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                                            <div class="form-group form-group-md">
+                                                <label>Report Parameters</label>
+                                                <select id="ReportParameters" class="form-control"></select>                                    
                                             </div>
                                         </div>
 
-                                        
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display:none;">
+
+                                            <div class="form-group form-group-md">
+                                                <label>Report Filters</label>
+                                                <select id="ReportFilters" class="form-control"></select>                                    
+                                            </div>
+                                        </div>
+                                    
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                                            <div class="form-group form-group-md">
+                                                <label>Report Criteria</label>
+                                                <input type="text" id="ReportCriteria1" class="form-control" />
+                                            </div>
+                                        </div>                
+                                    
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                                            <div class="form-group form-group-md">
+                                                <input type="text" id="ReportCriteria2" class="form-control" style="margin-top:26px;"/>
+                                            </div>
+                                        </div>                
+                                    
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                                            <div class="form-group form-group-md">                                                
+                                                 <button type="button" id="AddCriteria" class="btn btn-md btn-info"  style="margin-top:26px;">Add Criteria</button>                                    
+                                            </div>
+                                        </div>                
+                                    
+                                    
+                                    </div>
+
+                                    
                                         <%--<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
                                             <div class="form-group form-group-sm">
                                                 <label>Item Category</label>
@@ -103,19 +145,18 @@
                                                     </div>
                                        </div>--%>
 
-                                    </div>
-
-                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                                    
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                             <div class="table-responsive">
 
-                                                <table id="ReportFilters" class="table table-condensed">
+                                                <table id="ReportCriteriasList" class="table table-condensed">
                                                     <thead>
                                                         <tr>
+                                                            <th>Parameter</th>
                                                             <th>Filter</th>
-                                                            <th>Operators</th>
                                                             <th>Value</th>
                                                         </tr>
                                                     </thead>
