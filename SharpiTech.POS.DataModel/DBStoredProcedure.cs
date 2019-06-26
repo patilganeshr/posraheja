@@ -639,6 +639,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetAllColorsName { get { return "usp_colors_get_all_colors_name"; } }
 
 
+        public static string GetPurchaseDailyActivityReport { get { return "usp_purchase_bills_print_daily_activity_report"; } }
     }
 
 

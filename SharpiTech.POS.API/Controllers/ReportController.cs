@@ -211,10 +211,11 @@ namespace SharpiTech.POS.API.Controllers
             return _jobWorkReport.GetJobWorkItemsBalanceQtyDetails();
         }
 
+        [HttpPost]
         [Route("GetSalesByValueReportInSalePeriod")]
-        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesByValueReportInSalePeriod()
+        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesByValueReportInSalePeriod(Entities.SalesByValueReportInSalesPeriod salesByValueReportInSalesPeriod)
         {
-            return _salesValueReportInSalesPeriod.GetSalesValueReport();
+            return _salesValueReportInSalesPeriod.GetSalesValueReport(salesByValueReportInSalesPeriod);
         }
 
 

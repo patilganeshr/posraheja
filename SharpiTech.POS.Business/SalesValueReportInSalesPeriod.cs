@@ -14,9 +14,9 @@ namespace SharpiTech.POS.Business
             _salesValueReport = new DataModel.SalesValueReportInSalesPeriod();
         }
 
-        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesValueReport()
+        public List<Entities.SalesByValueReportInSalesPeriod> GetSalesValueReport(Entities.SalesByValueReportInSalesPeriod salesByValueReportInSalesPeriod)
         {
-            return _salesValueReport.GetSalesByValueReportInSalesPeriods();
+            return _salesValueReport.GetSalesByValueReportInSalesPeriods(salesByValueReportInSalesPeriod);
         }
 
     }

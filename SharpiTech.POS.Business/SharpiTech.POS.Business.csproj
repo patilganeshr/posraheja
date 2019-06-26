@@ -122,6 +122,7 @@
     <Compile Include="ModeOfPayment.cs" />
     <Compile Include="ItemRateRegister.cs" />
     <Compile Include="PaymentTerms.cs" />
+    <Compile Include="PurchaseDailyActivityReport.cs" />
     <Compile Include="PurchaseOrder.cs" />
     <Compile Include="PurchaseOrderItem.cs" />
     <Compile Include="SalesBillItemRegister.cs" />

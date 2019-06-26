@@ -1,5 +1,4 @@
-﻿<%@ Page Title="Sales By Value in Sales Period" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SaleByValueInSalesPeriod.aspx.cs" Inherits="POS.MIS.SaleByValueInSalesPeriod" %>
-
+﻿<%@ Page Title="Purchase Daily Activity Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PurchaseDailyActivityReport.aspx.cs" Inherits="POS.MIS.PurchaseDailyActivityReport" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cpMaster" runat="server">
@@ -29,7 +28,7 @@
             </div>
 
             <div class="page-header">
-                <%--<h3>BRANDWISE - ITEMCATEGORYWISE - ITEMWISE - SALESMANWISE - SALESBILLDATEWISE - SALEVALUE  REPORT</h3>--%>
+                <h3>Daily Purchase Activity Report</h3>
             </div>
 
             <div class="row">
@@ -47,17 +46,6 @@
                             <div class="row">
 
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                                    <%--<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Report Filter Options</label>
-                                                <div id="ReportFilterOptions" class="well" style="max-height:300px; overflow: auto;">
-                                                </div>
-                                    
-                                            </div>
-                                        </div>--%>
 
                                     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 
@@ -99,53 +87,6 @@
 
 
                                 </div>
-
-
-                                <%--<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Item Category</label>
-                                                <select id="ItemCategory" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Item</label>
-                                                <select id="Item" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Salesman</label>
-                                                <select id="Salesman" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                    <div class="form-group form-group-sm">
-                                                        <label>From Date</label>
-                                                        <div class="input-group date input-group-md" id="FromBillDateDatePicker">
-                                                            <input type="text" id="FromBillDate" class="form-control" />
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                       </div>
-
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                    <div class="form-group form-group-sm">
-                                                        <label>To Date</label>
-                                                        <div class="input-group date input-group-md" id="ToBillDateDatePicker">
-                                                            <input type="text" id="ToBillDate" class="form-control" />
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                       </div>--%>
-
 
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
@@ -199,7 +140,7 @@
                     <div class="panel panel-info">
 
                         <div class="panel-heading">
-                            <h4 class="panel-title">Sale In Sales Period</h4>
+                            <h4 class="panel-title">Daily Purchase Bills</h4>
                         </div>
 
                         <div class="panel-body">
@@ -211,35 +152,8 @@
                                     <iframe id="txtArea1" style="display: none;"></iframe>
 
                                     <div class="table-responsive">
-                                        <table id="ReportDataList" class="table table-condensed">
-                                            <%--<thead>
-                                                <tr>
-                                                    <th>Item Name</th>
-                                                    <th>Stock Qty</th>
-                                                    <th>Unit Code</th>
-                                                    <th>Purchase Cost</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>--%>
-
+                                        <table id="ReportDataList" class="table table-condensed">                                            
                                         </table>
-                                        <%--<table id="StockReport" class="table table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th>Item Name</th>
-                                                    <th>Item Quality</th>
-                                                    <th>Brand Name</th>
-                                                    <th>Item Category Name</th>
-                                                    <th>Vendor Name</th>
-                                                    <th>Qty In Pcs</th>
-                                                    <th>Qty In Mtrs</th>
-                                                    <th>Location Name</th>
-                                                    <th>Category A</th>
-                                                    <th>Category C</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>--%>
                                     </div>
 
                                 </div>
@@ -259,6 +173,7 @@
     </div>
 
     <script type="text/javascript" src="../content/scripts/app/shared/default.js"></script>
-    <script type="text/javascript" src="../content/scripts/app/mis/sale-value-report-in-sale-period.js"></script>
+    <script type="text/javascript" src="../content/scripts/app/mis/purchase-daily-activity.js"></script>
+
 
 </asp:Content>

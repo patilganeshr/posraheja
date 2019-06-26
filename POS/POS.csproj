@@ -131,6 +131,7 @@
     </Content>
     <Content Include="Content\scripts\app\mis\item-rate-register.js" />
     <Content Include="Content\scripts\app\mis\sale-qty-report.js" />
+    <Content Include="Content\scripts\app\mis\purchase-daily-activity.js" />
     <Content Include="Content\scripts\app\mis\sale-value-report-in-sale-period.js" />
     <Content Include="Content\scripts\app\mis\sales-bill-item-register.js" />
     <Content Include="Content\scripts\app\mis\sales-bill-register.js" />
@@ -202,6 +203,7 @@
     <Content Include="MIS\ItemRateList.aspx" />
     <Content Include="MIS\JobWorkItemSentToKaragir.aspx" />
     <Content Include="MIS\JobWorkItemBalanceQty.aspx" />
+    <Content Include="MIS\PurchaseDailyActivityReport.aspx" />
     <Content Include="MIS\SaleByValueInSalesPeriod.aspx" />
     <Content Include="MIS\SalesBillItemRegister.aspx" />
     <Content Include="MIS\SalesBillRegister.aspx" />
@@ -959,6 +961,13 @@
     </Compile>
     <Compile Include="MIS\JobWorkItemBalanceQty.aspx.designer.cs">
       <DependentUpon>JobWorkItemBalanceQty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MIS\PurchaseDailyActivityReport.aspx.cs">
+      <DependentUpon>PurchaseDailyActivityReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MIS\PurchaseDailyActivityReport.aspx.designer.cs">
+      <DependentUpon>PurchaseDailyActivityReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="MIS\SaleByValueInSalesPeriod.aspx.cs">
       <DependentUpon>SaleByValueInSalesPeriod.aspx</DependentUpon>

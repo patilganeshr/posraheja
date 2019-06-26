@@ -57,6 +57,7 @@
     <Compile Include="Country.cs" />
     <Compile Include="CustomerAndTransporterMapping.cs" />
     <Compile Include="CustomerCategory.cs" />
+    <Compile Include="PurchaseDailyActivityReport.cs" />
     <Compile Include="DailyReceivablePayable.cs" />
     <Compile Include="FabricDesign.cs" />
     <Compile Include="GoodsReceiptItem.cs" />

@@ -2,7 +2,7 @@
 
 var SharpiTech = {};
 
-SharpiTech.SaleInSalesPeriod = (function () {
+SharpiTech.PurchaseDailyActivity = (function () {
 
     //placeholder for cached DOM elements
     var DOM = {};
@@ -97,6 +97,10 @@ SharpiTech.SaleInSalesPeriod = (function () {
         option += "<option value='6'>Between</option>";
 
         DOM.reportFilters.innerHTML = option;
+
+        shared.setSelectValue(DOM.reportFilters, "Purchase Bill Date", null);
+        shared.setSelect2ControlsText(DOM.reportFilters);
+
     }
 
     var getExcludeListOfTableHeaders = function() {
@@ -119,7 +123,11 @@ SharpiTech.SaleInSalesPeriod = (function () {
             'MinDiscountAmount',
             'MaxDiscountAmount',
             'SalesBillFromDate',
-            'SalesBillToDate'
+            'SalesBillToDate',
+            'PurchaseBillId',
+            'FromDate',
+            'ToDate',
+            'UserId'
         ];
 
         return excludeListOfTableHeaders;
@@ -350,6 +358,11 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         loadFilterOptions();
 
+        var currentDate = new Date();
+
+        DOM.reportCriteria1.value = moment(currentDate).format("DD/MMM/YYYY");
+        DOM.reportCriteria2.value = moment(currentDate).format("DD/MMM/YYYY");
+
         generateReport();
 
         shared.hideLoader(DOM.loader);
@@ -402,36 +415,12 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         shared.showLoader(DOM.loader);
 
-        var companyName = null;
-        var branchName = null;
-        var SaleType = null;
-        var brandName = null;
-        var itemCategoryName = null;
-        var itemName = null;
-        var typeOfDiscount = null;
-        var minDiscountAmount = null;
-        var maxDiscountAmount = null;
-        var salesScheme = null;
-        var salesman = null;
-        var salesBillFromDate = null;
-        var salesBillToDate = null;
-
         var reportParameter = {};
 
         reportParameter = {
-            CompanyName: null,
-            BranchName: null,
-            SaleType: null,
-            BrandName: null,
-            ItemCategoryName: null,
-            ItemName: null,
-            TypeOfDiscount: null,
-            MinDiscountAmount: null,
-            MaxDiscountAmount: null,
-            SalesScheme: null,
-            Salesman: null,
-            SalesBillFromDate: null,
-            SalesBillToDate: null
+            FromDate: DOM.reportCriteria1.value,
+            ToDate: DOM.reportCriteria2.value,
+            UserId: null            
         };
 
         try {
@@ -451,13 +440,9 @@ SharpiTech.SaleInSalesPeriod = (function () {
                     var criteriaValue = tableRows[tr].children[2].textContent;
                     var criteriaIndex = criteriaValue.toLowerCase().indexOf('and');
                     
-                    if (parameterValue.toLowerCase() === "salesbilldate") {
-                        reportParameter["SalesBillFromDate"] = criteriaValue.substring(0, criteriaIndex - 1);
-                        reportParameter["SalesBillToDate"] = criteriaValue.substring(criteriaIndex + 4);
-                    }
-                    else if (parameterValue.toLowerCase() === "discountamount") {
-                        reportParameter["MinDiscountAmount"] = criteriaValue.substring(0, criteriaIndex - 1);
-                        reportParameter["MaxDiscountAmount"] = criteriaValue.substring(criteriaIndex + 4);
+                    if (parameterValue.toLowerCase() === "PurchaseBillDate") {
+                        reportParameter["FromDate"] = criteriaValue.substring(0, criteriaIndex - 1);
+                        reportParameter["ToDate"] = criteriaValue.substring(criteriaIndex + 4);
                     }
                     else {
                          reportParameter[parameterValue] = criteriaValue;
@@ -467,7 +452,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
             var postData = JSON.stringify(reportParameter);
 
-            var url = "GetSalesByValueReportInSalePeriod";
+            var url = "GetPurchaseBillsDetails";
 
             shared.sendRequest(SERVICE_PATH + url, "POST", true, "JSON", postData, function (response) {
 
@@ -572,4 +557,4 @@ SharpiTech.SaleInSalesPeriod = (function () {
 }());
 
 
-SharpiTech.SaleInSalesPeriod.init();
+SharpiTech.PurchaseDailyActivity.init();

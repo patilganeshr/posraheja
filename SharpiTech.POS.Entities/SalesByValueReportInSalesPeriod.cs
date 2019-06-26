@@ -8,7 +8,7 @@ namespace SharpiTech.POS.Entities
 {
     public class SalesByValueReportInSalesPeriod
     {
-        public string CompanyNaame { get; set; }
+        public string CompanyName { get; set; }
 
         public string BranchName { get; set; }
 
@@ -20,11 +20,18 @@ namespace SharpiTech.POS.Entities
 
         public string ItemName { get; set; }
 
+        public string TypeOfDiscount { get; set; }
+
         public decimal? SaleQty { get; set; }
 
         public string UnitCode { get; set; }
 
         public decimal? SaleRate { get; set; }
+
+        public decimal? WholesaleRate { get; set; }
+
+        public decimal? RetailRate { get; set; }
+
 
         public decimal? Amount { get; set; }
 
@@ -46,6 +53,13 @@ namespace SharpiTech.POS.Entities
 
         public Int32? SalesmanId { get; set; }
 
+        public decimal? MinDiscountAmount { get; set; }
+
+        public decimal? MaxDiscountAmount { get; set; }
+
+        public string SalesBillFromDate { get; set; }
+
+        public string SalesBillToDate { get; set; }
 
     }
 }
