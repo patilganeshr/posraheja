@@ -157,7 +157,7 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
         var data = "";
 
-        data = "<ul class='list-group checked-list-box'>";
+        //data = "<ul class='list-group checked-list-box'>";
 
         for (var e = 0; e < TableHeaderCaptions.length; e++) {
 
@@ -165,8 +165,9 @@ SharpiTech.SaleInSalesPeriod = (function () {
 
             var parameterName = value.replace(/\s+/g, "");
 
-            data += "<li class='list-group-item'> <label class='label-tick'> <input type='checkbox' id=" + e + " class='label-checkbox' data-filter-option=" + parameterName + " /> <span class='label-text'></span> </label>" + TableHeaderCaptions[e] + "</li>";
+            //data += "<li class='list-group-item'> <label class='label-tick'> <input type='checkbox' id=" + e + " class='label-checkbox' data-filter-option=" + parameterName + " /> <span class='label-text'></span> </label>" + TableHeaderCaptions[e] + "</li>";
 
+            data += "<option value='" + parameterName + "'>" + TableHeaderCaptions[e] + "</option>";
         }
 
         DOM.reportParameters.innerHTML = data;
