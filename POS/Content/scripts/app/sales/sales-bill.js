@@ -1440,7 +1440,7 @@ SharpiTech.SalesBill = (function () {
         DOM_totalItemAmountContainer.appendChild(DOM_totalItemAmount);
 
         getDiscountOptions(DOM_typeOfDiscount);
-                
+
         // Set Item
         tr.setAttribute('data-sales-bill-item-id', salesBillItemId);
         tr.setAttribute('data-goods-receipt-item-id', goodsReceiptItemId);
@@ -1517,7 +1517,7 @@ SharpiTech.SalesBill = (function () {
         DOM_itemRateHistorySpan.onclick = function (e) {
             showItemRateHistory(e);
         };
-        
+
         DOM_itemRateHistory.onclick = function (e) {
             showItemRateHistory(e);
         }
@@ -1794,13 +1794,13 @@ SharpiTech.SalesBill = (function () {
 
         }
 
-        
+
         calculateItemAmount(tableRow);
     }
 
     function calculateItemAmount(tableRow) {
 
-        var itemId = parseInt(0);        
+        var itemId = parseInt(0);
         var saleQty = parseFloat(0);
         var saleRate = parseFloat(0);
         var amount = parseFloat(0);
@@ -1826,10 +1826,10 @@ SharpiTech.SalesBill = (function () {
 
         //if (e.hasAttributes('option')) {
 
-          //  tableRow = e.parentElement.parentElement;            
+          //  tableRow = e.parentElement.parentElement;
         //}
         //else {
-            //tableRow = e.currentTarget.parentElement.parentElement;            
+            //tableRow = e.currentTarget.parentElement.parentElement;
         //}
 
         var inputs = tableRow.querySelectorAll("input[type='text']");
@@ -1875,7 +1875,7 @@ SharpiTech.SalesBill = (function () {
             if (typeOfDiscount !== null) {
                 if (typeOfDiscount.toUpperCase() === "CASH DISCOUNT") {
                     cashDiscountPercent = parseFloat(inputs[3].value);
-                    //cashDiscountAmt = saleRate * (cashDiscountPercent / 100);        
+                    //cashDiscountAmt = saleRate * (cashDiscountPercent / 100);
                 }
                 else {
                     rateDifference = parseFloat(inputs[3].value);
@@ -1925,13 +1925,13 @@ SharpiTech.SalesBill = (function () {
 
             rateAfterCDRD = parseFloat(saleRate - cashDiscountAmt);
 
-            amount = parseFloat(saleQty * rateAfterCDRD);            
+            amount = parseFloat(saleQty * rateAfterCDRD);
         }
         else if (rateDifference > 0) {
 
             rateAfterCDRD = parseFloat(saleRate - rateDifference);
 
-            amount = parseFloat(saleQty * rateAfterCDRD);            
+            amount = parseFloat(saleQty * rateAfterCDRD);
         }
         else {
 
@@ -1940,7 +1940,7 @@ SharpiTech.SalesBill = (function () {
                 rateAfterCDRD = parseFloat(saleRate);
 
                 amount = parseFloat(saleQty * parseFloat(rateAfterCDRD));
-            //}            
+            //}
         }
 
         //DOM.amount.value = amount;
@@ -1963,7 +1963,7 @@ SharpiTech.SalesBill = (function () {
                     tableRow.setAttribute('data-gst-rate-id', GSTRateId);
                     tableRow.setAttribute('data-tax-id', taxId);
                     tableRow.setAttribute('data-gst-rate', GSTRate);
-                    
+
                     if (DOM.isTaxInclusive[0].checked === true) {
 
                         GSTExclAmount = parseFloat(parseFloat(parseFloat(amount * 100) / (GSTRate + 100)).toFixed(2));
@@ -1974,7 +1974,7 @@ SharpiTech.SalesBill = (function () {
 
                     }
                     else {
-                        
+
                         taxableValue = amount;
 
                         GSTAmount =  parseFloat(parseFloat(parseFloat(amount) * (GSTRate / 100)).toFixed(2));
@@ -1986,9 +1986,9 @@ SharpiTech.SalesBill = (function () {
 
                     inputs[4].value = taxableValue;
                     inputs[5].value = GSTRate,
-                    inputs[6].value = GSTAmount;                    
+                    inputs[6].value = GSTAmount;
                     inputs[7].value = totalItemAmount;
-                    
+
                     showGSTBreakup();
 
                     showTotalBillAmount();
@@ -2012,15 +2012,15 @@ SharpiTech.SalesBill = (function () {
         var table = DOM.salesBillItemsList;
         var tableBody = table.tBodies[0];
         var tableRows = tableBody.children;
-        
+
         if (tableRows.length) {
 
             var data = "";
-    
+
             for (var g = 0; g < tableRows.length; g++) {
 
                 if (tableRows[g].style.display !== "none") {
-                    
+
                     var taxableValue = parseFloat(tableRows[g].getAttribute('data-taxable-value'));
                     var gstRate = parseFloat(tableRows[g].getAttribute('data-gst-rate'));
 
@@ -2075,7 +2075,7 @@ SharpiTech.SalesBill = (function () {
             if (parseInt(DOM.modeOfPayment.options[DOM.modeOfPayment.selectedIndex].value) === 1) {
                 DOM.cashAmount.value = totalBillAmount;
             }
-        }        
+        }
     }
 
     function getGSTRate(itemId, saleRate, callback) {
@@ -2188,7 +2188,7 @@ SharpiTech.SalesBill = (function () {
                 else {
                     clientType = "CUSTOMER";
                 }
-            }            
+            }
         }
 
         else if (evt.currentTarget.name.toUpperCase() === "NEW_TRANSPORTER") {
@@ -2233,21 +2233,21 @@ SharpiTech.SalesBill = (function () {
                     DOM.consigneeName.value = res.ClientAddressName;
                     DOM.consigneeName.setAttribute('data-consignee-address-id', res.ClientAddressId);
                     //shared.setSelectValue(DOM.consignee, clientName, null);
-                    //shared.setSelect2ControlsText(DOM.consignee);                    
+                    //shared.setSelect2ControlsText(DOM.consignee);
                 }
             }
             else {
                 swal("Error!!!", "Error in the application " + response.responseText, "error");
             }
         });
-        
+
     });
 
     function addNewSalesBill() {
 
         shared.showLoader(DOM.loader);
 
-        //clear the modal control inputs        
+        //clear the modal control inputs
         shared.clearInputs(DOM.editMode);
         shared.clearTextAreas(DOM.editMode);
         shared.clearSelect(DOM.editMode);
@@ -2310,13 +2310,13 @@ SharpiTech.SalesBill = (function () {
         shared.setSelect2ControlsText(DOM.modeOfPayment);
 
         showModeOfPayment("CASH");
-        
+
         setDefaultCustomer();
 
         shared.showPanel(DOM.editMode);
         shared.hidePanel(DOM.viewMode);
         shared.hidePanel(DOM.searchPanel);
-        
+
         shared.showPanel(DOM.billChargesViewMode);
         shared.hidePanel(DOM.billChargesEditMode);
 
@@ -2352,12 +2352,12 @@ SharpiTech.SalesBill = (function () {
 
         return selectedRows;
     };
-    
+
     function viewSalesBill() {
 
         shared.showLoader(DOM.loader);
 
-        //clear the modal control inputs        
+        //clear the modal control inputs
         shared.clearInputs(DOM.editMode);
         shared.clearInputs(DOM.editMode.children[0]);
         shared.clearTextAreas(DOM.editMode);
@@ -2383,7 +2383,7 @@ SharpiTech.SalesBill = (function () {
         ];
 
         shared.disableSpecificControls(controls, false);
-        
+
         //DOM.salesBillList.tBodies[0].innerHTML = "";
 
         salesBills.length = 0;
@@ -2393,7 +2393,7 @@ SharpiTech.SalesBill = (function () {
         salesBillItems.length = 0;
         salesBillItemsChargesDetails.length =0;
         GSTDetails.length = 0;
-        
+
         shared.showPanel(DOM.searchPanel);
         shared.showPanel(DOM.editMode);
         shared.hidePanel(DOM.viewMode);
@@ -2429,7 +2429,7 @@ SharpiTech.SalesBill = (function () {
             return;
 
         }
-                    
+
         DOM.searchByFinancialYear.focus();
     }
     //function viewSalesBill() {
@@ -2487,13 +2487,13 @@ SharpiTech.SalesBill = (function () {
     //        shared.disableControls(DOM.editMode, false);
     //        DOM.customerName.removeAttribute('data-customer-address-id');
     //        DOM.consigneeName.removeAttribute('data-consignee-address-id');
-                    
+
     //        var controls = [
     //            DOM.financialYear
     //        ]
 
     //        shared.disableSpecificControls(controls, true);
-            
+
     //        var selectedRows = getSelectedRows(DOM.salesBillList);
 
     //        if (selectedRows.length > 0) {
@@ -2548,7 +2548,7 @@ SharpiTech.SalesBill = (function () {
             }
 
             var salesBillid = parseInt(DOM.billNo.getAttribute('data-sales-bill-id'));
-            
+
             if (salesBillid > 0) {
 
                 swal({
@@ -2645,14 +2645,14 @@ SharpiTech.SalesBill = (function () {
             }
 
         }
-        catch (e) { 
+        catch (e) {
             handleError(e.message);
         }
         finally {
 
             shared.hideLoader(DOM.loader);
         }
-        
+
     }
 
     function showSalesBillDetails(salesBillId) {
@@ -2691,7 +2691,7 @@ SharpiTech.SalesBill = (function () {
                 shared.setSelectValue(DOM.salesman, null, parseInt(salesBills.SalesmanId));
                 shared.setSelect2ControlsText(DOM.salesman);
                 if (salesBills.IsTaxInclusive) {
-                    DOM.taxInclusive.checked = true; 
+                    DOM.taxInclusive.checked = true;
                     DOM.taxExclusive.checked = false;
                 } else {
                     DOM.taxInclusive.checked = false;
@@ -2742,7 +2742,7 @@ SharpiTech.SalesBill = (function () {
                     DOM.deliveryPendingNo.checked = true;
                 }
                 //shared.setRadioButtonValue(DOM.isDeliveryPending, null, parseInt(deliveryDetails[0].IsDeliveryPending));
-                //shared.setSelect2ControlsText(DOM.IsDeliveryPending);                    
+                //shared.setSelect2ControlsText(DOM.IsDeliveryPending);
                 DOM.deliveryRemarks.value = deliveryDetails[0].Remarks;
             }
 
@@ -2775,7 +2775,7 @@ SharpiTech.SalesBill = (function () {
     //            var deliveryDetails = salesBillDeliveryDetails.filter(function (value, index, array) {
     //                return value.SalesBillId === parseInt(salesBillId);
     //            });
-                
+
     //            if (bills.length > 0) {
 
     //                DOM.billNo.value = bills[0].SalesBillNo;
@@ -2843,7 +2843,7 @@ SharpiTech.SalesBill = (function () {
     //                    DOM.deliveryPendingNo.checked = true;
     //                }
     //                //shared.setRadioButtonValue(DOM.isDeliveryPending, null, parseInt(deliveryDetails[0].IsDeliveryPending));
-    //                //shared.setSelect2ControlsText(DOM.IsDeliveryPending);                    
+    //                //shared.setSelect2ControlsText(DOM.IsDeliveryPending);
     //                DOM.deliveryRemarks.value = deliveryDetails[0].Remarks;
     //            }
 
@@ -2868,7 +2868,7 @@ SharpiTech.SalesBill = (function () {
         //var branchId = parseInt(1);
 
         //if (DOM.financialYear.selectedIndex > 0) {
-        //    workingPeriodId = parseInt(DOM.financialYear.options[DOM.financialYear.selectedIndex].value);            
+        //    workingPeriodId = parseInt(DOM.financialYear.options[DOM.financialYear.selectedIndex].value);
         //}
 
         //if (DOM.branch.selectedIndex > 0) {
@@ -2881,7 +2881,7 @@ SharpiTech.SalesBill = (function () {
 
         //    return;
         //}
-        
+
         //salesBills.length = 0;
         //salesBillDeliveryDetails.length = 0;
         //salesBillPaymentDetails.length = 0;
@@ -2891,7 +2891,7 @@ SharpiTech.SalesBill = (function () {
         //salesBillItemsChargesDetails.length = 0;
 
         //DOM.salesBillList.tBodies[0].innerHTML = "";
-        
+
         //shared.sendRequest(SERVICE_PATH + "GetSalesBillsBySaleType/" + branchId + '/' + workingPeriodId + '/' + saleTypeId, "GET", true, "JSON", null, function (response) {
 
         //    if (response.status === 200) {
@@ -2911,7 +2911,7 @@ SharpiTech.SalesBill = (function () {
         //                        var billItems = res[r].SalesBillItems;
         //                        var paymentDetails = res[r].SalesBillPaymentDetails;
         //                        var deliveryDetails = res[r].SalesBillDeliveryDetails;
-                                
+
         //                        var salesBill = {};
 
         //                        salesBill = {
@@ -2967,7 +2967,7 @@ SharpiTech.SalesBill = (function () {
         //                                    TotalAmountAfterDiscount: billItems[s].TotalAmountAfterDiscount,
         //                                    TaxableValue: billItems[s].TaxableValue,
         //                                    TaxId: billItems[s].TaxId,
-        //                                    GSTRateId: billItems[s].GSTRateId,                                            
+        //                                    GSTRateId: billItems[s].GSTRateId,
         //                                    GSTRate: billItems[s].GSTRate,
         //                                    GSTName: billItems[s].GSTName,
         //                                    GSTAmount: billItems[s].GSTAmount,
@@ -3042,7 +3042,7 @@ SharpiTech.SalesBill = (function () {
         //    }
         //});
 
-        
+
     }
 
     function bindSalesBills() {
@@ -3063,14 +3063,14 @@ SharpiTech.SalesBill = (function () {
                 data = data + "<td><label class='label-tick'> <input type='checkbox' id='" + salesBills[r].SalesBillId + "' class='label-checkbox' name='SelectSalesBill' /> <span class='label-text'></span> </label>" + "</td>";
                 data = data + "<td>" + salesBills[r].CompanyName + "</td>";
                 data = data + "<td>" + salesBills[r].BranchName + "</td>";
-                data = data + "<td>" + salesBills[r].SalesBillNo + "</td>";                
+                data = data + "<td>" + salesBills[r].SalesBillNo + "</td>";
                 data = data + "<td>" + salesBills[r].SalesBillDate + "</td>";
                 data = data + "<td>" + salesBills[r].CustomerName + "</td>";
                 data = data + "<td>" + salesBills[r].ConsigneeName + "</td>";
                 data = data + "<td>" + salesBills[r].TotalSaleQty + "</td>";
                 data = data + "<td>" + salesBills[r].TotalSaleAmount + "</td>";
                 data = data + "<td>" + salesBills[r].FinancialYear + "</td>";
-                            
+
             }
 
             tableBody.innerHTML = data;
@@ -3345,7 +3345,8 @@ SharpiTech.SalesBill = (function () {
                                 text: "Sales Bill saved successfully.",
                                 type: "success"
                             }, function () {
-                                addNewSalesBill();
+                                //addNewSalesBill();
+                                    printSalesBill(parseInt(response.responseText));
                                 //getSalesBills();
                             });
                         }
@@ -3420,7 +3421,7 @@ SharpiTech.SalesBill = (function () {
                         }
                         else {
                             swal("error", "Unable to cancel the Sales Bill due to some error.", "error");
-                            handleError(res.Message + " " + res.ExceptionMessage);                            
+                            handleError(res.Message + " " + res.ExceptionMessage);
                         }
 
                         shared.hideLoader(DOM.loader);
@@ -3431,10 +3432,10 @@ SharpiTech.SalesBill = (function () {
             else {
                 swal("error", "No row selected.", "error");
             }
-            
+
     }
 
-    function printSalesBill() {
+    function printSalesBill(salesBillIdAfterSave) {
 
         shared.showLoader(DOM.loader);
 
@@ -3445,6 +3446,10 @@ SharpiTech.SalesBill = (function () {
         var branchId = parseInt(DOM.branch.options[DOM.branch.selectedIndex].value);
         var saleTypeId = parseInt(DOM.typeOfSale.options[DOM.typeOfSale.selectedIndex].value);
         var folderName = 'CashSalesBills';
+
+        if (salesBillIdAfterSave > 0) {
+            salesBillId = salesBillIdAfterSave;
+        }
 
         if (saleTypeId === 1) {
             folderName = 'CashSalesBills';
@@ -3457,7 +3462,7 @@ SharpiTech.SalesBill = (function () {
             SalesBillId: salesBillId,
             SalesBillNo: salesBillNo,
             BranchId: branchId,
-            SaleTypeId: saleTypeId            
+            SaleTypeId: saleTypeId
         };
 
         var postData = JSON.stringify(print);
@@ -3488,7 +3493,7 @@ SharpiTech.SalesBill = (function () {
     }
 
     //function addNewSalesBillItem() {
-        
+
     //    shared.clearInputs(DOM.salesBillItemsEditMode);
 
     //    DOM.qtyInPcqtyInPcs.value = parseFloat(0);
@@ -3569,7 +3574,7 @@ SharpiTech.SalesBill = (function () {
                     TotalItemAmount: billItems[i].TotalItemAmount
                 };
 
-              
+
                 bindBarcodeItem(response);
             }
 
@@ -3981,7 +3986,7 @@ SharpiTech.SalesBill = (function () {
             shared.clearInputs(DOM.billChargesEditMode);
             shared.clearSelect(DOM.billChargesEditMode);
             shared.disableControls(DOM.billChargesEditMode, false);
-                    
+
             var selectedRows = getSelectedRows(DOM.billChargesList);
 
             if (selectedRows.length > 0) {
@@ -4101,9 +4106,9 @@ SharpiTech.SalesBill = (function () {
 
             shared.hideLoader(DOM.loader);
         }
-        
+
     }
-    
+
     function showBillCharges() {
 
         if (salesBillChargesDetails.length > 0) {
@@ -4135,7 +4140,7 @@ SharpiTech.SalesBill = (function () {
                 DOM.billChargeGSTRate.value = billCharges[0].GSTRate;
                 DOM.billChargeGSTAmount.value = billCharges[0].GSTAmount;
                 DOM.billChargeTotalAmount.value = billCharges[0].ChargeTotalAmount;
-                
+
                 shared.showPanel(DOM.billChargesEditMode);
                 shared.hidePanel(DOM.billChargesViewMode);
             }
@@ -4224,7 +4229,7 @@ SharpiTech.SalesBill = (function () {
     }
 
 
-    
+
     var validateBillCharges = function () {
 
         var isValid = true;
@@ -4282,7 +4287,7 @@ SharpiTech.SalesBill = (function () {
                 ChargeName: billChargeName,
                 ChargeAmount: billChargeAmount,
                 IsTaxInclusive: isTaxInclusive,
-                GSTRateId: gstRateId,                
+                GSTRateId: gstRateId,
                 TaxId: taxId,
                 GSTRate: billChargeGSTRate,
                 GSTAmount: billChargeGSTAmount,
@@ -4335,10 +4340,10 @@ SharpiTech.SalesBill = (function () {
                 //var totalChargeAmount = parseFloat(0);
 
                 var data = "";
-                
+
                 for (var r = 0; r < itemsCount; r++) {
 
-                    data = data + "<tr data-sales-bill-charge-id=" + billCharges[r].SalesBillChargeId + ">";                
+                    data = data + "<tr data-sales-bill-charge-id=" + billCharges[r].SalesBillChargeId + ">";
                     data = data + "<td><label class='label-tick'> <input type='checkbox' id='" + billCharges[r].SalesBillChargeId + "' class='label-checkbox' name='SelectSalesBillCharge' /> <span class='label-text'></span> </label>" + "</td>";
                     data = data + "<td>" + billCharges[r].ChargeName + "</td>";
                     data = data + "<td class='text-right'>" + billCharges[r].ChargeAmount + "</td>";
@@ -4513,7 +4518,7 @@ SharpiTech.SalesBill = (function () {
             }
 
             tableBody.innerHTML = data;
-            
+
         }
 
         shared.hideLoader(DOM.loader);
@@ -4550,7 +4555,7 @@ SharpiTech.SalesBill = (function () {
             var searchItem = {};
 
             ItemName: element.value;
-            
+
             //var postData = JSON.stringify(searchItem);
 
             shared.sendRequest(SERVICE_PATH + "SearchItemRateByItemName/" + element.value, "GET", true, "JSON", null, function (response) {

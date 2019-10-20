@@ -11,6 +11,8 @@ SharpiTech.PkgSlip = (function () {
 
     var pkgSlips = [];
     var pkgSlipItems = [];
+    var SearchListItems = [];
+    var CurrentFocus = -1;
 
     /* ---- private method ---- */
     //cache DOM elements
@@ -36,16 +38,18 @@ SharpiTech.PkgSlip = (function () {
         DOM.pkgSlipNo = document.getElementById('PkgSlipNo');
         DOM.pkgSlipDate = document.getElementById('PkgSlipDate');
         DOM.pkgSlipDatePicker = document.getElementById('PkgSlipDatePicker');
-        DOM.vendor = document.getElementById('Vendor');
-        DOM.purchaseBillNo = document.getElementById('PurchaseBillNo');
+        //DOM.vendor = document.getElementById('Vendor');
+        //DOM.purchaseBillNo = document.getElementById('PurchaseBillNo');
         DOM.typeOfTransfer = document.getElementById('TypeOfTransfer');
         DOM.karagir = document.getElementById('Karagir');
         DOM.referenceNo = document.getElementById('ReferenceNo');
+        DOM.searchItemList = document.getElementById('SearchItemList');
+        DOM.itemNameOrBarcode = document.getElementById('ItemNameOrBarcode');
         DOM.pkgSlipItemsList = document.getElementById('PkgSlipItemsList');
 
         DOM.viewMode = document.getElementById('ViewMode');
         DOM.pkgSlipList = document.getElementById('PkgSlipList');
-        
+
         /* jquery dom elements */
         DOM.$pkgSlipDatePicker = $('#PkgSlipDatePicker');
     }
@@ -84,7 +88,7 @@ SharpiTech.PkgSlip = (function () {
             e.currentTarget.focus();
         }, 200);
     }
-    
+
     function bindEvents() {
 
         DOM.addNewPkgSlip.addEventListener('click', addNewPkgSlip);
@@ -100,17 +104,25 @@ SharpiTech.PkgSlip = (function () {
             getBranch();
         };
 
-        DOM.vendor.onchange = function () {
-            getPurchaseBillNo();
-        };
+        //DOM.vendor.onchange = function () {
+        //    getPurchaseBillNo();
+        //};
 
-        DOM.purchaseBillNo.onchange = function () {
-            getFromLocations(0);
-        };
+        //DOM.purchaseBillNo.onchange = function () {
+        //    getFromLocations(0);
+        //};
 
 
         DOM.typeOfTransfer.onchange = function () {
             enableDisableKaragirField();
+        };
+
+        DOM.itemNameOrBarcode.onkeyup = function (e) {
+
+            if (CurrentFocus === undefined) { CurrentFocus = -1; }
+
+            showItemList(e);
+
         };
 
         //DOM.pkgQtyInPcs.onkeydown = function validate(e) {
@@ -121,11 +133,12 @@ SharpiTech.PkgSlip = (function () {
         //    return shared.acceptDecimalNos(e);
         //}
     }
-    
+
     function loadData() {
 
         getFinancialYears();
         getCompanyNames();
+        getFromLocations();
         getToLocations();
         getTransferTypes();
         getKaragir();
@@ -174,7 +187,7 @@ SharpiTech.PkgSlip = (function () {
         });
     }
 
-   function getBranchName(branchId) {
+    function getBranchName(branchId) {
 
         DOM.branch.options.length = 0;
 
@@ -202,7 +215,7 @@ SharpiTech.PkgSlip = (function () {
                         }
 
                         if (branchId === 0) {
-                            getVendors();
+                            //getVendors();
                         }
 
                     }
@@ -212,7 +225,32 @@ SharpiTech.PkgSlip = (function () {
             });
         }
     }
-    
+
+    function getFromLocations() {
+
+        var dataAttributes = "LocationTypeID";
+
+        shared.fillDropdownWithDataAttributesAndCallback(SERVICE_PATH + 'GetAllLocationsWithLocationTypes', DOM.fromLocation, "LocationName", "LocationId", "Choose From Location", dataAttributes, function (response) {
+
+            if (response.status === 200) {
+
+                shared.showLoader(DOM.loader);
+
+                if (response.responseText !== undefined) {
+
+                    shared.setSelectOptionByIndex(DOM.fromLocation, parseInt(1));
+                    shared.setSelect2ControlsText(DOM.fromLocation);
+
+                }
+            }
+
+            shared.hideLoader(DOM.loader);
+
+        });
+
+    }
+
+
     function getToLocations() {
 
         var dataAttributes = "LocationTypeID";
@@ -227,7 +265,7 @@ SharpiTech.PkgSlip = (function () {
 
                     shared.setSelectOptionByIndex(DOM.toLocation, parseInt(1));
                     shared.setSelect2ControlsText(DOM.toLocation);
-                    
+
                 }
             }
 
@@ -285,97 +323,97 @@ SharpiTech.PkgSlip = (function () {
         });
     }
 
-    function getVendors() {
+    //function getVendors() {
 
-        shared.fillDropdownWithCallback(SERVICE_PATH + 'GetVendorsForPkgSlip', DOM.vendor, "VendorName", "VendorId", "Choose Vendor", function (response) {
+    //    shared.fillDropdownWithCallback(SERVICE_PATH + 'GetVendorsForPkgSlip', DOM.vendor, "VendorName", "VendorId", "Choose Vendor", function (response) {
 
-            if (response.status === 200) {
+    //        if (response.status === 200) {
 
-                shared.showLoader(DOM.loader);
+    //            shared.showLoader(DOM.loader);
 
-                if (response.responseText !== undefined) {
+    //            if (response.responseText !== undefined) {
 
-                    shared.setSelectOptionByIndex(DOM.vendor, parseInt(0));
-                    shared.setSelect2ControlsText(DOM.vendor);
+    //                shared.setSelectOptionByIndex(DOM.vendor, parseInt(0));
+    //                shared.setSelect2ControlsText(DOM.vendor);
 
-                    getPurchaseBillNo();
-                }
-            }
+    //                getPurchaseBillNo();
+    //            }
+    //        }
 
-            shared.hideLoader(DOM.loader);
+    //        shared.hideLoader(DOM.loader);
 
-        });
-    }
+    //    });
+    //}
 
-    function getPurchaseBillNo() {
+    //function getPurchaseBillNo() {
 
-        DOM.purchaseBillNo.options.length = 0;
+    //    DOM.purchaseBillNo.options.length = 0;
 
-        var vendorId = parseInt(0);
+    //    var vendorId = parseInt(0);
 
-        if (DOM.vendor.selectedIndex > 0) {
+    //    if (DOM.vendor.selectedIndex > 0) {
 
-            vendorId = parseInt(DOM.vendor.options[DOM.vendor.selectedIndex].value);
+    //        vendorId = parseInt(DOM.vendor.options[DOM.vendor.selectedIndex].value);
 
-            if (vendorId > 0) {
+    //        if (vendorId > 0) {
 
-                shared.fillDropdownWithCallback(SERVICE_PATH + 'GetPurchaseBillNosByVendorId/' + vendorId, DOM.purchaseBillNo, "PurchaseBillNo", "PurchaseBillId", "Choose Bale No.", function (response) {
+    //            shared.fillDropdownWithCallback(SERVICE_PATH + 'GetPurchaseBillNosByVendorId/' + vendorId, DOM.purchaseBillNo, "PurchaseBillNo", "PurchaseBillId", "Choose Bale No.", function (response) {
 
-                    if (response.status === 200) {
+    //                if (response.status === 200) {
 
-                        shared.showLoader(DOM.loader);
+    //                    shared.showLoader(DOM.loader);
 
-                        if (response.responseText !== undefined) {
+    //                    if (response.responseText !== undefined) {
 
-                            shared.setSelectOptionByIndex(DOM.purchaseBillNo, parseInt(1));
-                            shared.setSelect2ControlsText(DOM.purchaseBillNo);
+    //                        shared.setSelectOptionByIndex(DOM.purchaseBillNo, parseInt(1));
+    //                        shared.setSelect2ControlsText(DOM.purchaseBillNo);
 
-                            getFromLocations(0);
-                        }
-                    }
+    //                        getFromLocations(0);
+    //                    }
+    //                }
 
-                    shared.hideLoader(DOM.loader);
+    //                shared.hideLoader(DOM.loader);
 
-                });
-            }
-        }
-    }
+    //            });
+    //        }
+    //    }
+    //}
 
-    function getFromLocations(fromLocationId) {
+    //function getFromLocations(fromLocationId) {
 
-        DOM.fromLocation.options.length = 0;
+    //    DOM.fromLocation.options.length = 0;
 
-        var purchaseBillId = 0;
-        
-        purchaseBillId = parseInt(DOM.purchaseBillNo.options[DOM.purchaseBillNo.selectedIndex].value);
-        
-        shared.fillDropdownWithCallback(SERVICE_PATH + 'GetFromLocationsByPurchaseBillid/' + purchaseBillId, DOM.fromLocation, "FromLocation", "FromLocationId", "Choose Location", function (response) {
+    //    var purchaseBillId = 0;
 
-            if (response.status === 200) {
+    //    purchaseBillId = parseInt(DOM.purchaseBillNo.options[DOM.purchaseBillNo.selectedIndex].value);
 
-                shared.showLoader(DOM.loader);
+    //    shared.fillDropdownWithCallback(SERVICE_PATH + 'GetFromLocationsByPurchaseBillid/' + purchaseBillId, DOM.fromLocation, "FromLocation", "FromLocationId", "Choose Location", function (response) {
 
-                if (response.responseText !== undefined) {
+    //        if (response.status === 200) {
 
-                    shared.setSelectOptionByIndex(DOM.fromLocation, parseInt(0));
-                    shared.setSelect2ControlsText(DOM.fromLocation);
+    //            shared.showLoader(DOM.loader);
 
-                    DOM.fromLocation.options.selectedIndex = 1;
+    //            if (response.responseText !== undefined) {
 
-                    if (fromLocationId === 0) {
+    //                shared.setSelectOptionByIndex(DOM.fromLocation, parseInt(0));
+    //                shared.setSelect2ControlsText(DOM.fromLocation);
 
-                        removeSimilarLocationFromToLocation();
+    //                DOM.fromLocation.options.selectedIndex = 1;
 
-                        getPkgSlipItemsByPurchaseBillIdAndLocationId();
+    //                if (fromLocationId === 0) {
 
-                    }
-                }
-            }
+    //                    removeSimilarLocationFromToLocation();
 
-            shared.hideLoader(DOM.loader);
+    //                    getPkgSlipItemsByPurchaseBillIdAndLocationId();
 
-        });
-    }
+    //                }
+    //            }
+    //        }
+
+    //        shared.hideLoader(DOM.loader);
+
+    //    });
+    //}
 
     function getKaragir() {
 
@@ -424,13 +462,280 @@ SharpiTech.PkgSlip = (function () {
             if (response.responseText !== undefined) {
 
                 var res = JSON.parse(response.responseText);
-                            
+
                 pkgSlipItems = res;
 
                 bindPkgSlipItemByBaleNo();
             }
         });
-    
+
+    }
+
+    function getPkgSlipItemsByBarcodeOrItemName() {
+
+        var goodsReceiptItemId = null;
+        var inwardGoodsId = null;
+        var itemName = null;
+
+        goodsReceiptItemId = parseInt(DOM.itemNameOrBarcode.value);
+        inwardGoodsId = parseInt(DOM.itemNameOrBarcode.value);
+        itemName = DOM.itemNameOrBarcode.value;
+
+        var pkgSlipItem = {
+            GoodsReceiptItemId: goodsReceiptItemId,
+            InwardGoodsId: inwardGoodsId,
+            ItemName: itemName
+        };
+
+        var postData = JSON.stringify(pkgSlipItem);
+
+        shared.sendRequest(SERVICE_PATH + "GetPkgSlipItemsByBarcodeOrItemName/", "POST", true, "JSON", postData, function (response) {
+
+            if (response.responseText !== undefined) {
+
+                var res = JSON.parse(response.responseText);
+
+                pkgSlipItems = res;
+
+                bindPkgSlipItemByBaleNo();
+            }
+        });
+
+    }
+
+    function showItemList(e) {
+
+        if (e.keyCode === 13) {
+            CurrentFocus = -1;
+            showItemNameOnEnterKey(e);
+            return;
+        }
+        else if (e.keyCode === 9) {
+            CurrentFocus = -1;
+            shared.closeAutoCompleteList(DOM.searchItemList);
+            return;
+        }
+        else if (e.keyCode === 8 || e.keyCode === 32 || e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode >= 48 && e.keyCode <= 57 || e.keyCode >= 65 && e.keyCode <= 90 ||
+            e.keyCode >= 97 && e.keyCode <= 105) {
+
+            var dataAttributes = ['Pkg-Slip-Item-Id', 'Goods-Receipt-Item-Id', 'Inward-Goods-Id', 'Item-Id', 'Unit-Of-Measurement-Id'];
+
+            var searchKey = e.target.value;
+
+            if (e.keyCode === 8) {
+                searchKey = e.target.value.substring(0, e.target.value.length - 1);
+            }
+            var goodsReceiptItemId = null;
+            var inwardGoodsId = null;
+            var itemName = null;
+
+            var inputValue = searchKey; //DOM.itemNameOrBarcode.value;
+
+            if (Number(DOM.itemNameOrBarcode.value)) {
+                goodsReceiptItemId = parseInt(inputValue);
+            }
+            else if (DOM.itemNameOrBarcode.value.includes('-')) {
+                var lastIndex = inputValue.lastIndexOf('-');
+
+                goodsReceiptItemId = parseInt(inputValue.substring(0, lastIndex));
+                inwardGoodsId = parseInt(inputValue.substring(lastIndex + 1));
+            }
+            else {
+                itemName = inputValue;
+            }
+
+            var parameters = {
+                GoodsReceiptItemId: goodsReceiptItemId,
+                InwardGoodsId: inwardGoodsId,
+                ItemName: itemName
+            };
+
+            //var postData = JSON.stringify(parameters);
+
+            parameters = {
+
+                Event: e,
+                CurrentFocus: CurrentFocus,
+                PostDataKeyValue: postMessage,
+                ElementToBeAppend: DOM.searchItemList,
+                DataAttributes: dataAttributes,
+                PostParamObject: parameters,
+                URL: SERVICE_PATH + "GetPkgSlipItemsByBarcodeOrItemName/",
+                DisplayName: "ItemName"
+            };
+
+            shared.showAutoCompleteItemsList(parameters, function (response) {
+
+                if (response !== undefined) {
+
+                    if (response >= 0) {
+
+                        CurrentFocus = response;
+                    }
+                    else {
+
+                        CurrentFocus = -1;
+
+                        var autoCompleteList = response;
+
+                        SearchListItems.length = 0;
+
+                        SearchListItems = response;
+
+                        var listCount = autoCompleteList.length;
+
+                        if (listCount) {
+
+                            var data = "";
+
+                            var fragment = document.createDocumentFragment();
+
+                            var ul = document.createElement('ul');
+
+                            ul.classList.add('list-group');
+
+                            for (var s = 0; s < listCount; s++) {
+
+                                var li = document.createElement('li');
+                                var spanBarcode = document.createElement('span');
+                                var spanPkgQty = document.createElement('span');
+                                var p = document.createElement('p');
+
+                                p.style.marginTop = "10px";
+                                p.style.fontWeight = "600";
+
+                                spanBarcode.style.cssFloat = "left";
+                                spanPkgQty.style.cssFloat = "right";
+
+                                li.classList.add('list-group-item');
+                                li.classList.add('clearfix');
+
+                                li.setAttribute('id', autoCompleteList[s].PkgSlipItemId);
+                                li.setAttribute('data-goods-receipt-item-id', autoCompleteList[s].GoodsReceiptItemId);
+                                li.setAttribute('data-inward-goods-id', autoCompleteList[s].InwardGoodsId);
+                                li.setAttribute('data-item-id', autoCompleteList[s].ItemId);
+                                //li.setAttribute('data-unit-of-measurement-id', autoCompleteList[s].UnitOfMeasurementId);
+                                //li.setAttribute('data-bale-no', autoCompleteList[s].BaleNo);
+                                //li.setAttribute('data-pkg-qty', autoCompleteList[s].PkgQty);
+
+                                li.style.cursor = "pointer";
+                                li.onclick = showItemNameOnSelection;
+                                li.textContent = autoCompleteList[s].ItemName;
+
+                                spanBarcode.textContent = 'Barcode: ' + autoCompleteList[s].GoodsReceiptItemId;
+                                spanPkgQty.textContent = 'Pkg Qty: ' + autoCompleteList[s].PkgQty + ' ' + autoCompleteList[s].UnitCode;
+
+                                p.appendChild(spanBarcode);
+                                p.appendChild(spanPkgQty);
+
+                                li.appendChild(p);
+
+                                fragment.appendChild(li);
+                            }
+
+                            ul.appendChild(fragment);
+
+                            DOM.searchItemList.appendChild(ul);
+
+                            DOM.searchItemList.style.width = e.target.offsetWidth + 'px';
+                            DOM.searchItemList.style.left = 0;//e.target.offsetParent.offsetLeft + 15 + 'px';
+
+                            DOM.searchItemList.classList.add('autocompleteList-active');
+
+                        }
+                    }
+                }
+
+            });
+        }
+
+    }
+
+    var getSelectedItemDetails = function (targetElement) {
+
+        var itemDetails = null;
+
+        var p = targetElement.children[0];
+        var spans = p.children;
+
+        var pkgSlipItemId = 0;
+        var goodsReceiptItemId = 0;
+        var inwardGoodsId = 0;
+        var itemId = 0;
+
+        pkgSlipItemId = parseInt(targetElement.id);
+        goodsReceiptItemId = parseInt(targetElement.getAttribute('data-goods-receipt-item-id'));
+        inwardGoodsId = parseInt(targetElement.getAttribute('data-inward-goods-id'));
+        itemId = parseInt(targetElement.getAttribute('data-item-id'));
+
+        if (isNaN(pkgSlipItemId)) { pkgSlipItemId = 0; }
+
+        if (SearchListItems.length) {
+
+            var itemsList = SearchListItems.filter(function (value, index, arr) {
+                return value.PkgSlipItemId === pkgSlipItemId
+                    && value.GoodsReceiptItemId === goodsReceiptItemId
+                    && value.InwardGoodsId === inwardGoodsId
+                    && value.ItemId === itemId;
+            });
+
+            if (itemsList.length) {
+                itemDetails = itemsList[0];
+            }
+        }
+
+        return itemDetails;
+
+    };
+
+    function showItemNameOnSelection(e) {
+
+        FLAG = "NEW ITEM";
+
+        var itemDetails = getSelectedItemDetails(e.currentTarget);
+
+        if (itemDetails !== null) {
+
+            if (e.target.nodeName.toLowerCase() === "li") {
+                setItemName(itemDetails);
+            }
+        }
+
+    }
+
+    function showItemNameOnEnterKey(e) {
+
+        FLAG = "NEW ITEM";
+
+        var li = DOM.searchItemList.querySelectorAll('.autocompleteListItem-active');
+
+        var count = li.length;
+
+        if (count) {
+
+            var itemDetails = getSelectedItemDetails(li[0]);
+
+            if (itemDetails !== null) {
+
+                setItemName(itemDetails);
+            }
+            //setItemName(li[0].textContent, parseInt(li[0].id));
+        }
+
+    }
+
+    function setItemName(itemDetails) {
+
+        DOM.itemNameOrBarcode.value = itemDetails.ItemName;
+
+        shared.closeAutoCompleteList(DOM.searchItemList);
+
+        DOM.itemNameOrBarcode.focus();
+
+        // Fill the data to pkg slip items
+        pkgSlipItems.push(itemDetails);
+
+        bindPkgSlipItemByBaleNo();
     }
 
     function bindPkgSlipItemByBaleNo() {
@@ -447,19 +752,88 @@ SharpiTech.PkgSlip = (function () {
 
             for (var r = 0; r < pkgSlipItems.length; r++) {
 
-                data = data + "<tr data-pkg-slip-item-id=" + pkgSlipItems[r].PkgSlipItemId + " data-item-id=" + pkgSlipItems[r].ItemId + " data-unit-of-measurement-id=" + pkgSlipItems[r].UnitOfMeasurementId + " data-goods-receipt-item-id=" + pkgSlipItems[r].GoodsReceiptItemId + ">";
+                data = data + "<tr data-pkg-slip-item-id=" + pkgSlipItems[r].PkgSlipItemId + " data-item-id=" + pkgSlipItems[r].ItemId + " data-unit-of-measurement-id=" + pkgSlipItems[r].UnitOfMeasurementId + " data-goods-receipt-item-id=" + pkgSlipItems[r].GoodsReceiptItemId + " data-inward-goods-id=" + pkgSlipItems[r].InwardGoodsId + ">";
                 data = data + "<td>" + pkgSlipItems[r].BaleNo + "</td>";
                 data = data + "<td>" + pkgSlipItems[r].ItemName + "</td>";
                 data = data + "<td>" + pkgSlipItems[r].PkgQty + "</td>";
-                data = data + "<td> <input type='text' class='form-control input-sm' id=" + pkgSlipItems[r].GoodsReceiptItemId +  " value=" + pkgSlipItems[r].PkgQty + " /></td>";
+                data = data + "<td> <input type='text' class='form-control input-sm' id=" + pkgSlipItems[r].GoodsReceiptItemId + " value=" + pkgSlipItems[r].PkgQty + " /></td>";
                 data = data + "<td>" + pkgSlipItems[r].UnitCode + "</td>";
+                data += "<td> <button type='button' class='btn btn-danger btn-sm delete' id='" + pkgSlipItems[r].PkgSlipItemId + "'> <i class='fa fa-remove'></i> </button> </td> ";
                 data = data + "</tr>";
             }
 
             tableBody.innerHTML = data;
 
+            bindEventsToPkgSlipItemsTablelElements(tableBody);
+
             assignValidation();
 
+        }
+    }
+
+    function bindEventsToPkgSlipItemsTablelElements(tableBody) {
+
+        let tableRows = tableBody.children;
+
+        if (tableRows.length) {
+
+            for (let tr = 0; tr < tableRows.length; tr++) {
+
+                let buttons = tableRows[tr].querySelectorAll('button[type="button"]');
+
+                if (buttons.length) {
+
+                    for (let b = 0; b < buttons.length; b++) {
+
+                        if (buttons[b].classList.contains("delete")) {
+
+                            buttons[b].onclick = function (e) {
+                                removePkgSlipItem(e);
+                            };
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function removePkgSlipItem(e) {
+
+        // Remove the item from the Table only if the sales bill item id is 0
+        var tableBody = DOM.pkgSlipItemsList.tBodies[0];
+
+        var tableRows = tableBody.children;
+
+        var tableRow = e.currentTarget.parentElement.parentElement;
+
+        var pkgSlipItemId = parseInt(tableRow.getAttribute('data-pkg-slip-item-id'));
+        var goodsReceiptItemId = parseInt(tableRow.getAttribute('data-goods-receipt-item-id'));
+        var inwardGoodsId = parseInt(tableRow.getAttribute('data-inward-goods-id'));
+
+        if (isNaN(pkgSlipItemId)) { pkgSlipItemId = 0; }
+        if (isNaN(goodsReceiptItemId)) { goodsReceiptItemId = 0; }
+        if (isNaN(inwardGoodsId)) { inwardGoodsId = 0; }
+
+        tableRow.classList.add('removed-item');
+
+        tableRow.style.display = "none";
+
+        // Mark the Item as Deleted if the pkg slip item id is 0
+        if (pkgSlipItemId === 0) {
+            tableBody.removeChild(tableRow);
+        }
+        else {
+            if (pkgSlipItems.length) {
+                for (var i = 0; i < pkgSlipItems.length; i++) {
+                    if (pkgSlipItems[i].PkgSlipItemId === pkgSlipItemId) {
+                        pkgSlipItems[i].IsDeleted = true;
+                        pkgSlipItems[i].DeletedBy = parseInt(LOGGED_USER);
+                        pkgSlipItems[i].DeletedByIP = IP_ADDRESS;
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -480,7 +854,7 @@ SharpiTech.PkgSlip = (function () {
                 };
 
                 inputs[inp].onblur = function (e) {
-                    validatePkgQty(e); 
+                    validatePkgQty(e);
                 };
             }
         }
@@ -501,7 +875,7 @@ SharpiTech.PkgSlip = (function () {
                 type: "warning"
             }, function () {
                 e.target.focus();
-            });            
+            });
         }
 
     }
@@ -523,7 +897,7 @@ SharpiTech.PkgSlip = (function () {
         return _maxSrNo += 1;
     }
 
-    var getSelectedRows = function(element) {
+    var getSelectedRows = function (element) {
 
         var selectedRows = [];
 
@@ -545,8 +919,8 @@ SharpiTech.PkgSlip = (function () {
         }
 
         return selectedRows;
-    }
-    
+    };
+
     function addNewPkgSlip() {
 
         shared.showLoader(DOM.loader);
@@ -564,7 +938,7 @@ SharpiTech.PkgSlip = (function () {
 
         shared.setSelectOptionByIndex(DOM.financialYear, 1);
         shared.setSelectOptionByIndex(DOM.company, 2);
-        shared.setSelectOptionByIndex(DOM.branch, 1);
+        shared.setSelectOptionByIndex(DOM.branch, 2);
         shared.setSelectOptionByIndex(DOM.typeOfTransfer, 1);
 
         DOM.pkgSlipDate.value = moment(currentDate).format("DD/MMM/YYYY");
@@ -677,7 +1051,7 @@ SharpiTech.PkgSlip = (function () {
                     function (isConfirm) {
 
                         if (isConfirm) {
-                            
+
                             for (var r = 0; r < selectedRows.length; r++) {
 
                                 var pkgSlipId = parseInt(selectedRows[r].getAttribute('data-pkg-slip-id'));
@@ -689,7 +1063,7 @@ SharpiTech.PkgSlip = (function () {
                                     var pkgSlipList = pkgSlips.filter(function (value, index, array) {
                                         return value.PkgSlipId === pkgSlipId;
                                     });
-                                    
+
                                     pkgSlipItems = pkgSlipList[0].PkgSlipItems;
 
                                     if (pkgSlipItems.length) {
@@ -775,7 +1149,7 @@ SharpiTech.PkgSlip = (function () {
         var karagirId = 0;
         var karagirName = null;
         var referenceNo = null;
-        var financialYear = null;        
+        var financialYear = null;
         var workingPeriodId = 0;
 
         pkgSlipItems.length = 0;
@@ -810,7 +1184,7 @@ SharpiTech.PkgSlip = (function () {
 
         if (pkgSlipId === null) { pkgSlipId = 0; }
 
-        if (isNaN(pkgSlipNo)) { pkgSlipNo = 0;}
+        if (isNaN(pkgSlipNo)) { pkgSlipNo = 0; }
 
         if (isNaN(pkgSlipId)) { pkgSlipId = 0; }
 
@@ -914,7 +1288,7 @@ SharpiTech.PkgSlip = (function () {
                     shared.setSelect2ControlsText(DOM.vendor);
                     //shared.setSelectValue(DOM.purchaseBillNo, null, pkgSlip[0].PurchaseBillId);
                     //shared.setSelect2ControlsText(DOM.purchaseBillNo);
-                    
+
                     DOM.referenceNo.value = pkgSlip[0].ReferenceNo;
 
                     DOM.purchaseBillNo.options.length = 0;
@@ -930,8 +1304,8 @@ SharpiTech.PkgSlip = (function () {
                     getFromLocations(pkgSlip[0].FromLocationId);
 
                     //shared.setSelectValue(DOM.fromLocation, null, pkgSlip[0].FromLocationId);
-                    //shared.setSelect2ControlsText(DOM.fromLocation);                    
-                    
+                    //shared.setSelect2ControlsText(DOM.fromLocation);
+
                     //option = document.createElement('option');
 
                     //option.value = pkgSlip[0].FromLocationId;
@@ -955,22 +1329,23 @@ SharpiTech.PkgSlip = (function () {
         }
 
     }
-    
+
     function savePkgSlipItem() {
 
         if (validatePkgSlipListItem()) {
 
             /* temp variable */
-            var pkgSlipItemId = parseInt(0);
-            var pkgSlipId = parseInt(0);
-            var goodsReceiptItemId = parseInt(0);
-            var itemId = parseInt(0);
+            var pkgSlipItemId = 0;
+            var pkgSlipId = 0;
+            var goodsReceiptItemId = 0;
+            var inwardGoodsId = 0;
+            var itemId = 0;
             var baleNo = null;
             var itemName = null;
-            var pkgQty = parseFloat(0);
-            var unitOfMeasurementId = parseInt(0);
+            var pkgQty = 0;
+            var unitOfMeasurementId = 0;
             var unitCode = null;
-            var srNo = parseInt(0);
+            var srNo = 0;
 
             var table = DOM.pkgSlipItemsList;
             var tableBody = table.tBodies[0];
@@ -988,6 +1363,7 @@ SharpiTech.PkgSlip = (function () {
                         pkgSlipId = parseInt(DOM.pkgSlipNo.getAttribute("data-pkg-slip-id"));
                         srNo = tr + 1;
                         goodsReceiptItemId = parseInt(tableRows[tr].getAttribute('data-goods-receipt-item-id'));
+                        inwardGoodsId = parseInt(tableRows[tr].getAttribute('data-inward-goods-id'));
                         itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
                         baleNo = tableRows[tr].children[0].innerHTML;
                         itemName = tableRows[tr].children[1].innerHTML;
@@ -995,11 +1371,13 @@ SharpiTech.PkgSlip = (function () {
                         unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
                         unitCode = tableRows[tr].children[4].innerHTML;
 
-                        if (isNaN(pkgSlipItemId)) { pkgSlipItemId = parseInt(0); }
+                        if (isNaN(pkgSlipItemId)) { pkgSlipItemId = 0; }
 
-                        if (isNaN(pkgSlipId)) { pkgSlipId = parseInt(0); }
+                        if (isNaN(pkgSlipId)) { pkgSlipId = 0; }
 
-                        if (isNaN(goodsReceiptItemId)) { goodsReceiptItemId = parseInt(0); }
+                        if (isNaN(goodsReceiptItemId)) { goodsReceiptItemId = 0; }
+
+                        if (isNaN(inwardGoodsId)) { inwardGoodsId = 0; }
 
                         var pkgSlipItem = {};
 
@@ -1007,6 +1385,7 @@ SharpiTech.PkgSlip = (function () {
                             PkgSlipItemId: pkgSlipItemId,
                             PkgSlipId: pkgSlipId,
                             GoodsReceiptItemId: goodsReceiptItemId,
+                            InwardGoodsId: inwardGoodsId,
                             ItemId: itemId,
                             BaleNo: baleNo,
                             ItemName: itemName,
@@ -1033,7 +1412,7 @@ SharpiTech.PkgSlip = (function () {
             }
         }
     }
-        
+
     function saveAndAddNewPkgSlipItem() {
 
         savePkgSlipItem();
@@ -1060,7 +1439,7 @@ SharpiTech.PkgSlip = (function () {
             DOM.company.focus();
             swal("Error!!!", "Please select the Company Name.", "error");
             isValid = false;
-        }            
+        }
         else if (DOM.fromLocation.selectedIndex === 0) {
             DOM.fromLocation.focus();
             swal("Error!!!", "Please select the Location Name.", "error");
@@ -1095,7 +1474,7 @@ SharpiTech.PkgSlip = (function () {
 
                 var pkgQty = parseFloat(inputs[inp].value);
 
-                if (pkgQty > balanceQty) {                    
+                if (pkgQty > balanceQty) {
                     swal({
                         title: "Warning",
                         text: "Pkg Qty should not be greater than balance qty.",
@@ -1225,13 +1604,13 @@ SharpiTech.PkgSlip = (function () {
 
         });
     }
-        
+
     /* ---- public methods ---- */
     function init() {
         cacheDOM();
         bindEvents();
         applyPlugins();
-        loadData();        
+        loadData();
     }
 
     return {

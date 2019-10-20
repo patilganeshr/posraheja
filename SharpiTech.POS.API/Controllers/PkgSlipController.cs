@@ -54,6 +54,13 @@ namespace SharpiTech.POS.API.Controllers
             return _pkgSlipItem.GetBaleItemsByPurchaseBillIdAndLocationId(purchaseBillId, locationId);
         }
 
+        [HttpPost]
+        [Route("GetPkgSlipItemsByBarcodeOrItemName")]
+        public List<Entities.PkgSlipItem> GetPkgSlipItemsByBarcodeOrItemName(Entities.PkgSlipItem pkgSlipItem)
+        {
+            return _pkgSlipItem.GetPkgSlipItemsByBarcodeOrItemName(pkgSlipItem);
+        }
+
         [Route("GetGoodsReceivedItems")]
         public List<Entities.PkgSlipItem> GetGoodsReceivedItems()
         {

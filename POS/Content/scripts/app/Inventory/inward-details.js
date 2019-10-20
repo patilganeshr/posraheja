@@ -97,12 +97,12 @@ SharpiTech.InwardDetails = (function () {
 
             if (currentFocus === undefined) { currentFocus = -1; }
             //if (e.keyCode === 8 || e.keyCode === 127) {
-            //    DOM.itemName.value = "";                
+            //    DOM.itemName.value = "";
             //}
             //setTimeout(function () {
                 showItemsList(e);
-            //}, 1000);            
-            
+            //}, 1000);
+
         };
 
         DOM.company.onchange = function () {
@@ -150,7 +150,7 @@ SharpiTech.InwardDetails = (function () {
 
     function loadData() {
 
-        
+
         getFinancialYears();
         getCompanyNames();
         getInwardFrom();
@@ -168,7 +168,7 @@ SharpiTech.InwardDetails = (function () {
 
     $('#ItemName').autocomplete({
         minLength: 0,
-        source: items,        
+        source: items,
         select: function (event, ui) {
 
             DOM.itemName.removeAttribute("data-item-id");
@@ -200,13 +200,13 @@ SharpiTech.InwardDetails = (function () {
     //    }
 
     //    var itemsList = items.filter(function (value, index, array) {
-    //        return value.ItemName.toLowerCase().match(DOM.itemName.value.toLowerCase());            
+    //        return value.ItemName.toLowerCase().match(DOM.itemName.value.toLowerCase());
     //    });
 
     //    var itemsCount = itemsList.length;
 
     //    if (itemsCount) {
-                        
+
     //        var data = "";
 
     //        var fragment = document.createDocumentFragment();
@@ -246,7 +246,7 @@ SharpiTech.InwardDetails = (function () {
     //    }
 
     //}
-        
+
     function showItemsList(e) {
 
         if (DOM.itemName.value === "") {
@@ -446,7 +446,7 @@ SharpiTech.InwardDetails = (function () {
     //$('#ItemName').autocomplete({
     //    source: function (request, response) {
     //        //var param = { hsCod: HSCode.value };
-            
+
     //        $.ajax({
     //            //url: SERVICE_PATH + "SearchItem/",
     //            //dataType: "json",
@@ -496,14 +496,14 @@ SharpiTech.InwardDetails = (function () {
     function getItems() {
 
         shared.showLoader(DOM.loader);
-        
+
         shared.sendRequest(SERVICE_PATH + "GetAllItems/", "GET", true, "JSON", null, function (response) {
 
             shared.showLoader(DOM.loader);
 
             if (response.status === 200) {
 
-                items = JSON.parse(response.responseText);                
+                items = JSON.parse(response.responseText);
             }
 
             shared.hideLoader(DOM.loader);
@@ -511,7 +511,7 @@ SharpiTech.InwardDetails = (function () {
         });
 
     }
-    
+
     function getFinancialYears() {
 
         shared.showLoader(DOM.loader);
@@ -876,7 +876,7 @@ SharpiTech.InwardDetails = (function () {
 
         inwardGoodsDetails.length = 0;
 
-        
+
         shared.sendRequest(SERVICE_PATH + "GetInwardGoodsDetailsByOutwardId/" + outwardId, "GET", true, "JSON", null, function (response) {
 
                 shared.showLoader(DOM.loader);
@@ -927,7 +927,7 @@ SharpiTech.InwardDetails = (function () {
 
             });
 
-        
+
     }
 
     function bindInwardDetails() {
@@ -1006,12 +1006,12 @@ SharpiTech.InwardDetails = (function () {
 
                     shared.setSelectValue(DOM.referenceNo, null, parseInt(inwards[0].ReferenceId));
                     shared.setSelect2ControlsText(DOM.referenceNo);
-                    
+
                     DOM.fromLocation.value = inwards[0].FromLocationName;
                     DOM.fromLocation.setAttribute('data-from-location-id', inwards[0].FromLocationId);
                     shared.setSelectValue(DOM.toLocation, null, parseInt(inwards[0].ToLocationId));
                     shared.setSelect2ControlsText(DOM.toLocation);
-                    DOM.typeOfTransfer.value = inwards[0].TypeOfTransfer;                    
+                    DOM.typeOfTransfer.value = inwards[0].TypeOfTransfer;
                     shared.setSelectValue(DOM.transporter, null, parseInt(inwards[0].TransporterId));
                     shared.setSelect2ControlsText(DOM.transporter);
                     DOM.vehicleNo.value = inwards[0].VehicleNo;
@@ -1032,7 +1032,7 @@ SharpiTech.InwardDetails = (function () {
         if (isNaN(referenceId)) { referenceId = parseInt(0); }
 
         var inwardFrom = DOM.inwardFrom.options[DOM.inwardFrom.selectedIndex].text.toUpperCase();
-                
+
         if (inwardGoodsDetails.length > 0) {
 
             var inwardGoods = [];
@@ -1065,11 +1065,13 @@ SharpiTech.InwardDetails = (function () {
                 if (inwardGoods.length) {
 
                     DOM.inwardGoodsList.tBodies[0].innerHTML = "";
-                        
+
                     for (var g = 0; g < inwardGoods.length; g++) {
 
                         if (DOM.inwardId.value !== undefined && parseInt(DOM.inwardId.value) > 0 ) {
-                            bindJobWorkItems(inwardGoods[g].ItemName, inwardGoods[g].ItemId, inwardGoods[g].UnitCode, inwardGoods[g].UnitOfMeasurementId, inwardGoods[0].InwardQty, inwardGoods[0].InwardGoodsId, inwardGoods[0].GoodsReceiptItemId);
+                            bindJobWorkItems(inwardGoods[g].ItemName, inwardGoods[g].ItemId, inwardGoods[g].UnitCode,
+                                inwardGoods[g].UnitOfMeasurementId, inwardGoods[g].InwardQty,
+                                inwardGoods[g].InwardGoodsId, inwardGoods[g].GoodsReceiptItemId);
                         }
                     }
                 }
@@ -1230,7 +1232,7 @@ SharpiTech.InwardDetails = (function () {
         //}, 100);
 
         tableBody.removeChild(tableRow);
-        
+
         // Mark the Item as Deleted if the inward goods id is > 0
         if (inwardGoodsDetails.length) {
 
@@ -1284,7 +1286,7 @@ SharpiTech.InwardDetails = (function () {
 
         shared.showLoader(DOM.loader);
 
-        //clear the modal control inputs        
+        //clear the modal control inputs
         shared.clearInputs(DOM.editMode);
         shared.disableControls(DOM.editMode, false);
 
@@ -1294,7 +1296,7 @@ SharpiTech.InwardDetails = (function () {
         ];
 
         shared.disableSpecificControls(controls, true);
-            
+
         inwardDetails.length = 0;
         inwardGoodsDetails.length = 0;
 
@@ -1303,10 +1305,10 @@ SharpiTech.InwardDetails = (function () {
 
         DOM.inwardNo.disabled = true;
         DOM.inwardId.value = "0";
-        
+
         // Set default values
         var currentDate = new Date();
-        
+
         shared.setSelectOptionByIndex(DOM.financialYear, parseInt(1));
         shared.setSelect2ControlsText(DOM.financialYear);
         DOM.inwardDate.value = moment(currentDate).format("DD/MMM/YYYY");
@@ -1349,7 +1351,7 @@ SharpiTech.InwardDetails = (function () {
 
         return selectedRows;
     };
-    
+
     function viewInwardDetails() {
 
         shared.showLoader(DOM.loader);
@@ -1414,7 +1416,7 @@ SharpiTech.InwardDetails = (function () {
             ];
 
             shared.disableSpecificControls(controls, true);
-            
+
             var selectedRows = getSelectedRows();
 
             if (selectedRows.length > 0) {
@@ -1493,7 +1495,7 @@ SharpiTech.InwardDetails = (function () {
                     function (isConfirm) {
 
                         if (isConfirm) {
-                            
+
                             for (var r = 0; r < selectedRows.length; r++) {
 
                                 var inwards = [];
@@ -1583,7 +1585,7 @@ SharpiTech.InwardDetails = (function () {
 
             shared.hideLoader(DOM.loader);
         }
-        
+
     }
 
     var validateData = function () {
@@ -1646,7 +1648,7 @@ SharpiTech.InwardDetails = (function () {
                 var goodsReceiptItemId = parseInt(tableRows[t].getAttribute("data-goods-receipt-item-id"));
                 var unitOfMeasurementId = parseInt(tableRows[t].getAttribute('data-unit-of-measurement-id'));
                 var inputs = tableRows[t].querySelectorAll('input[type="text"]');
-                
+
                 if (isNaN(goodsReceiptItemId)) { goodsReceiptItemId = 0; }
 
                 for (var i = 0; i < inwardGoodsCount; i++) {
@@ -1687,9 +1689,9 @@ SharpiTech.InwardDetails = (function () {
                 var inwardGoodsId = parseInt(tableRows[t].getAttribute('data-inward-goods-id'));
                 var goodsReceiptItemId = parseInt(tableRows[t].getAttribute("data-goods-receipt-item-id"));
                 var unitOfMeasurementId = parseInt(tableRows[t].getAttribute('data-unit-of-measurement-id'));
-                
+
                 var itemId = parseInt(tableRows[t].getAttribute("data-item-id"));
-                var inwardQty = inputs[0].value;                
+                var inwardQty = inputs[0].value;
 
                 if(isNaN(goodsReceiptItemId)) { goodsReceiptItemId = 0; }
 
@@ -1944,13 +1946,13 @@ SharpiTech.InwardDetails = (function () {
             handleError("Error in application" + e.message);
         }
     }
-    
+
     /* ---- public methods ---- */
     function init() {
         cacheDOM();
         applyPlugins();
         bindEvents();
-        loadData();        
+        loadData();
     }
 
     return {

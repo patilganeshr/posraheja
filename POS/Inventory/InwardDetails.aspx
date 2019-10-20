@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="InwardDetails.aspx.cs" Inherits="POS.Inventory.InwardDetails" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-        <link href="../Content/css/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="../Content/css/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <link href="../Content/css/vendor/jquery-ui/jquery-ui.structure.min.css" rel="stylesheet" />
     <link href="../Content/css/vendor/jquery-ui/jquery-ui.theme.min.css" rel="stylesheet" />
 
@@ -70,117 +70,117 @@
                                 <div class="row">
 
                                     <%--<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">--%>
-                                        
-                                        <input type="hidden" id="InwardId" disabled="disabled" />
 
-                                        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Financial Year</label>
-                                                <select id="FinancialYear" class="form-control"></select>
+                                    <input type="hidden" id="InwardId" disabled="disabled" />
+
+                                    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Financial Year</label>
+                                            <select id="FinancialYear" class="form-control"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Company</label>
+                                            <select id="Company" class="form-control"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Branch</label>
+                                            <select id="Branch" class="form-control"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Inward No.</label>
+                                            <input type="text" id="InwardNo" class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Inward Date</label>
+                                            <div class="input-group date input-group-sm" id="InwardDatePicker">
+                                                <input type="text" id="InwardDate" class="form-control" />
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
                                             </div>
                                         </div>
-
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Company</label>
-                                                <select id="Company" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Branch</label>
-                                                <select id="Branch" class="form-control"></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Inward No.</label>
-                                                <input type="text" id="InwardNo" class="form-control" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Inward Date</label>
-                                                <div class="input-group date input-group-sm" id="InwardDatePicker">
-                                                    <input type="text" id="InwardDate" class="form-control" />
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    </div>
 
                                     <%--</div>
 
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">--%>
 
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Inward From</label>
-                                                <select id="InwardFrom" class="form-control"></select>
-                                            </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Inward From</label>
+                                            <select id="InwardFrom" class="form-control"></select>
                                         </div>
+                                    </div>
 
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>GRN No./Outward No./Job Work No.</label>
-                                                <select id="ReferenceNo" class="form-control"></select>
-                                            </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>GRN No./Outward No./Job Work No.</label>
+                                            <select id="ReferenceNo" class="form-control"></select>
                                         </div>
+                                    </div>
 
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Reference Date</label>
-                                                <input type="text" id="ReferenceDate" class="form-control" />
-                                            </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Reference Date</label>
+                                            <input type="text" id="ReferenceDate" class="form-control" />
                                         </div>
+                                    </div>
 
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Transfer Type</label>
-                                                <input type="text" id="TypeOfTransfer" class="form-control" />
-                                            </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Transfer Type</label>
+                                            <input type="text" id="TypeOfTransfer" class="form-control" />
                                         </div>
+                                    </div>
 
                                     <%--</div>
 
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">--%>
 
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>From Location</label>
-                                                <input type="text" id="FromLocation" class="form-control" />
-                                            </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>From Location</label>
+                                            <input type="text" id="FromLocation" class="form-control" />
                                         </div>
+                                    </div>
 
-                                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>To Location</label>
-                                                <select id="ToLocation" class="form-control"></select>
-                                            </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>To Location</label>
+                                            <select id="ToLocation" class="form-control"></select>
                                         </div>
+                                    </div>
 
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Transporter</label>
-                                                <select id="Transporter" class="form-control"></select>
-                                            </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>Transporter</label>
+                                            <select id="Transporter" class="form-control"></select>
                                         </div>
-                                        <%--</div>
+                                    </div>
+                                    <%--</div>
 
                                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
 
-                                        
+
                                     <%--</div>--%>
                                     <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                                            <div class="form-group form-group-sm">
-                                                <label>Vehicle No.</label>
-                                                <input type="text" id="VehicleNo" class="form-control" />
-                                            </div>
+                                        <div class="form-group form-group-sm">
+                                            <label>Vehicle No.</label>
+                                            <input type="text" id="VehicleNo" class="form-control" />
                                         </div>
+                                    </div>
 
                                 </div>
 
@@ -197,21 +197,21 @@
                     </div>
 
                     <div class="panel-body">
-                    
+
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
 
                             <div id="JobWorkItems">
-                                
-                                <div id="ItemsList" class="autocompleteList"></div>
+
+                                <div id="SearchItemsList" class="autocompleteList"></div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <div class="form-group form-group-sm">
-                                        <label>Item name</label>                                            
+                                        <label>Item name</label>
                                         <div class="input-group input-group-sm">
                                             <input type="text" class="form-control" id="ItemName" placeholder="Search Item Name" />
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-sm btn-success" id="AddNewItem">
-                                                    <i class="fa fa-fw fa-plus"> </i>
+                                                    <i class="fa fa-fw fa-plus"></i>
                                                 </button>
                                             </span>
                                         </div>
@@ -232,7 +232,7 @@
                                             <th>Item Name</th>
                                             <th>Unit Code</th>
                                             <th>Received Qty</th>
-                                            <th>Inward Qty</th>                                          
+                                            <th>Inward Qty</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>

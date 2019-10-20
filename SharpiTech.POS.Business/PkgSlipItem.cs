@@ -29,6 +29,10 @@ namespace SharpiTech.POS.Business
         {
             return _pkgSlipItem.GetBaleItemsByPurchaseBillIdAndLocationId(purchaseBillId, locationId);
         }
+        public List<Entities.PkgSlipItem> GetPkgSlipItemsByBarcodeOrItemName(Entities.PkgSlipItem pkgSlipItem)
+        {
+            return _pkgSlipItem.GetPkgSlipItemsByBarcodeOrItemName(pkgSlipItem);
+        }
 
         /// <summary>
         /// Get pkg slip items by pkg slip id

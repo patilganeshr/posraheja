@@ -1,8 +1,8 @@
 ﻿
 var SharpiTech = SharpiTech || {};
 
-Shared = function() {
-        
+Shared = function () {
+
 };
 
 Shared.prototype = function () {
@@ -58,7 +58,7 @@ Shared.prototype = function () {
         }
 
         if (method === "POST") {
-            //req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');            
+            //req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         }
 
         req.onreadystatechange = function () {
@@ -165,7 +165,7 @@ Shared.prototype = function () {
     }
 
     function fillDropdownWithSingleValue(control, textField, valueField, defaultOption) {
-        
+
         var fragment = document.createDocumentFragment();
 
         defaultOption = defaultOption || "Choose";
@@ -180,7 +180,7 @@ Shared.prototype = function () {
         _option.innerHTML = textField;
         _option.value = valueField;
         fragment.appendChild(_option);
-        
+
         control.appendChild(fragment);
 
         setSelectOptionByIndex(control, 1);
@@ -659,7 +659,7 @@ Shared.prototype = function () {
     var disableSpecificControls = function (listOfControls, isDisabled) {
 
         var controls = listOfControls;
-        
+
         if (controls.length > 0) {
 
             for (i = 0; i < controls.length; i++) {
@@ -1456,7 +1456,7 @@ Shared.prototype = function () {
 
                     tableHeaderRow.appendChild(tableHeaderCaption);
                 }
-                //}         
+                //}
                 //}
             }
         }
@@ -1664,11 +1664,11 @@ Shared.prototype = function () {
 
             if (postParamObject !== undefined) {
 
-                var data = {};
+                //var data = {};
 
-                data[postParamObject] = event.target.value;
+                //data[postParamObject] = event.target.value;
 
-                postData = JSON.stringify(data);
+                postData = JSON.stringify(postParamObject);
 
                 method = "POST";
             }
@@ -1687,7 +1687,7 @@ Shared.prototype = function () {
 
         callback(currentFocus);
 
-    } 
+    }
 
     function addActive(element, currentFocus) {
 
@@ -1707,7 +1707,7 @@ Shared.prototype = function () {
 
         li[currentFocus].classList.add('autocompleteListItem-active');
 
-        element.scrollTop = parseInt(li[currentFocus].offsetHeight * currentFocus ) - currentFocus;
+        element.scrollTop = parseInt(li[currentFocus].offsetHeight * currentFocus) - currentFocus;
 
         return currentFocus;
     }
@@ -1728,8 +1728,8 @@ Shared.prototype = function () {
 
     }
 
-     
-    // Will Implement later 
+
+    // Will Implement later
 
     //function setItem(e, targetElement, elementToBeAppend, dataAttributes, isTargetElementShouldBeBlank, isCallBack, callback) {
 
@@ -1831,7 +1831,7 @@ Shared.prototype = function () {
         createTableHeader: createTableHeader,
         createTableBody: createTableBody,
         showAutoCompleteItemsList: showAutoCompleteItemsList,
-        closeAutoCompleteList: closeAutoCompleteList        
+        closeAutoCompleteList: closeAutoCompleteList
     };
 
 }();

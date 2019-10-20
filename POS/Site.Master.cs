@@ -28,18 +28,18 @@ namespace POS
 
                 Load_Menu();
 
-                //UsageLog();                
+                //UsageLog();
             }
 
         }
 
-       public string Get_Base_Url()
+        public string Get_Base_Url()
         {
             string strUrl = null;
 
             //strUrl = "http://" + HttpContext.Current.Request.Url.Host.ToString() + ":" + HttpContext.Current.Request.Url.Port.ToString() + Request.RawUrl.Substring(0, Request.RawUrl.IndexOf("/", 1));
             //strUrl = "http://" + HttpContext.Current.Request.Url.Host.ToString() + ":" + HttpContext.Current.Request.Url.Port.ToString();
-            strUrl = "http://" + HttpContext.Current.Request.Url.Host.ToString() +  System.Configuration.ConfigurationManager.AppSettings["rootpath"];
+            strUrl = "http://" + HttpContext.Current.Request.Url.Host.ToString() + System.Configuration.ConfigurationManager.AppSettings["rootpath"];
             return strUrl;
         }
 
@@ -51,7 +51,7 @@ namespace POS
             var files = new List<string>
             {
                 vendorPath + "bootstrap/bootstrap.min.css",
-                vendorPath + "bootstrap-touchspin/jquery.bootstrap-touchspin.min.css",                
+                vendorPath + "bootstrap-touchspin/jquery.bootstrap-touchspin.min.css",
                 vendorPath + "font-awesome/font-awesome.min.css",
                 vendorPath + "animate/animate.css",
                 //vendorPath + "pikaday/pikaday.css",
@@ -104,8 +104,8 @@ namespace POS
         private void Load_References()
         {
             //Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic", String.Empty));
-            //Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i|Montserrat:400,500,600|Work+Sans:400,500,600", string.Empty));
-            Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Muli:400,400i,600", string.Empty));
+            Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i|Montserrat:400,500,600|Work+Sans:400,500,600", string.Empty));
+            //Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Muli:400,400i,600", string.Empty));
             //Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Roboto:400,500|Montserrat:400,500,600", string.Empty));
             //Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i", string.Empty));
             //Page.Header.Controls.Add(Create_CSS_Link("https://fonts.googleapis.com/css?family=Raleway:400,500,600", string.Empty));
@@ -174,57 +174,57 @@ namespace POS
             //}
             //else
             //{
-                string strUrl = null;
+            string strUrl = null;
 
-                strUrl = Get_Base_Url();
+            strUrl = Get_Base_Url();
 
-                var menus = new business.Menu();
+            var menus = new business.Menu();
 
-                var _sb = new StringBuilder();
+            var _sb = new StringBuilder();
 
-                var lstMenuItems = new List<string>();
+            var lstMenuItems = new List<string>();
 
-                //var boolBlock = false;
+            //var boolBlock = false;
 
-                try
+            try
+            {
+                var _lstMenu = menus.GetMenusByRoleId(Convert.ToInt32(Session["ROLE_ID"].ToString()));
+
+                if (_lstMenu.Count > 0)
                 {
-                    var _lstMenu = menus.GetMenusByRoleId(Convert.ToInt32(Session["ROLE_ID"].ToString()));
+                    var _lstParent = _lstMenu.GroupBy(i => i.MenuGroupName).Select(group => group.First()).ToList<entities.Menu>();
 
-                    if (_lstMenu.Count > 0)
+                    var _lstMenuGroup = (from m in _lstMenu
+                                         orderby m.MenuGroupName ascending
+                                         select m.MenuGroupName).Distinct();
+
+                    _sb.AppendLine("<ul class='menu'>");
+                    _sb.AppendLine("<li>");
+                    _sb.AppendLine("<a><i class='menu-icon fa fa-dashboard'></i>Dashboard</a>");
+                    _sb.AppendLine("</li>");
+
+                    foreach (string item in _lstMenuGroup)
                     {
-                        var _lstParent = _lstMenu.GroupBy(i => i.MenuGroupName).Select(group => group.First()).ToList<entities.Menu>();
-
-                        var _lstMenuGroup = (from m in _lstMenu
-                                             orderby m.MenuGroupName ascending
-                                             select m.MenuGroupName).Distinct();
-
-                        _sb.AppendLine("<ul class='menu'>");
                         _sb.AppendLine("<li>");
-                        _sb.AppendLine("<a><i class='menu-icon fa fa-dashboard'></i>Dashboard</a>");
+                        _sb.AppendLine("<a>");
+                        _sb.AppendLine("<i class=''></i>" + item.ToString() + "<i class='up-down fa fa-chevron-down'></i>");
+                        _sb.AppendLine("</a>");
+                        _sb.AppendLine(Load_Sub_Menu(_lstMenu, item.ToString()));
                         _sb.AppendLine("</li>");
-
-                        foreach (string item in _lstMenuGroup)
-                        {
-                            _sb.AppendLine("<li>");
-                            _sb.AppendLine("<a>");
-                            _sb.AppendLine("<i class=''></i>" + item.ToString() + "<i class='up-down fa fa-chevron-down'></i>");
-                            _sb.AppendLine("</a>");
-                            _sb.AppendLine(Load_Sub_Menu(_lstMenu, item.ToString()));
-                            _sb.AppendLine("</li>");
-                        }
-
-                        _sb.AppendLine("</ul>");
-                        //_sb.AppendLine("</div>");
                     }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
 
-                Session["MENU"] = _sb;
+                    _sb.AppendLine("</ul>");
+                    //_sb.AppendLine("</div>");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-                litMenuList.Text = _sb.ToString();
+            Session["MENU"] = _sb;
+
+            litMenuList.Text = _sb.ToString();
             //}
         }
 
@@ -279,37 +279,37 @@ namespace POS
 #region SIDEBAR MENU
 
 
- 
-                      //_sb.AppendLine("<ul >");
-                      //  _sb.AppendLine("<li>");
-                      //  _sb.AppendLine("<div class='link'>");
-                      //  _sb.AppendLine("<i class='menu-icon fa fa-dashboard'></i>Dashboard");
-                      //  _sb.AppendLine("</div></li>");
 
-                      //  foreach (string item in _lstMenuGroup)
-                      //  {
-                      //      _sb.AppendLine("<li>");
-                      //      _sb.AppendLine("<div class='link'>");
-                      //      _sb.AppendLine("<i class='menu-icon fa fa-paint-brush'></i>" + item.ToString() + "<i class='up-down fa fa-chevron-down'></i>");
-                      //      _sb.AppendLine("</div>");
-                      //      _sb.AppendLine(Load_Sub_Menu(_lstMenu, item.ToString()));
-                      //      _sb.AppendLine("</li>");
-                      //  }
+//_sb.AppendLine("<ul >");
+//  _sb.AppendLine("<li>");
+//  _sb.AppendLine("<div class='link'>");
+//  _sb.AppendLine("<i class='menu-icon fa fa-dashboard'></i>Dashboard");
+//  _sb.AppendLine("</div></li>");
 
-                      //  _sb.AppendLine("</ul>");
-                      //  //_sb.AppendLine("</div>");
+//  foreach (string item in _lstMenuGroup)
+//  {
+//      _sb.AppendLine("<li>");
+//      _sb.AppendLine("<div class='link'>");
+//      _sb.AppendLine("<i class='menu-icon fa fa-paint-brush'></i>" + item.ToString() + "<i class='up-down fa fa-chevron-down'></i>");
+//      _sb.AppendLine("</div>");
+//      _sb.AppendLine(Load_Sub_Menu(_lstMenu, item.ToString()));
+//      _sb.AppendLine("</li>");
+//  }
+
+//  _sb.AppendLine("</ul>");
+//  //_sb.AppendLine("</div>");
 
 
-    // sub menu
+// sub menu
 
-    //if (_lstChild.Count > 0)
-    //            {
-    //                _sb.AppendLine("<ul class='submenu'>");
+//if (_lstChild.Count > 0)
+//            {
+//                _sb.AppendLine("<ul class='submenu'>");
 
-    //                foreach (entities.Menu item in _lstChild)
-    //                {
-    //                    _sb.AppendLine("<li><a href=\"" + strUrl + item.PageLink + ".aspx?PageID=" + item.MenuId + "" + "\" nowrap>" + item.MenuName + "</a></li>");
-    //                }
-    //                _sb.AppendLine("</ul>");
-    //            }
+//                foreach (entities.Menu item in _lstChild)
+//                {
+//                    _sb.AppendLine("<li><a href=\"" + strUrl + item.PageLink + ".aspx?PageID=" + item.MenuId + "" + "\" nowrap>" + item.MenuName + "</a></li>");
+//                }
+//                _sb.AppendLine("</ul>");
+//            }
 #endregion

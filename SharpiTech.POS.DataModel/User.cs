@@ -62,7 +62,7 @@ namespace SharpiTech.POS.DataModel
         {
             var userId = 0;
 
-            var  user = new Entities.User();
+            var user = new Entities.User();
 
             DbCommand dbCommand = null;
 
@@ -104,7 +104,7 @@ namespace SharpiTech.POS.DataModel
                     user = _user;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }

@@ -40,6 +40,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@pkg_slip_item_id", DbType.Int32, pkgSlipItem.PkgSlipItemId);
                     database.AddInParameter(dbCommand, "@pkg_slip_id", DbType.Int32, pkgSlipItem.PkgSlipId);
                     database.AddInParameter(dbCommand, "@goods_receipt_item_id", DbType.Int32, pkgSlipItem.GoodsReceiptItemId);
+                    database.AddInParameter(dbCommand, "@inward_goods_id", DbType.Int32, pkgSlipItem.InwardGoodsId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, pkgSlipItem.ItemId);
                     database.AddInParameter(dbCommand, "@bale_no", DbType.String, pkgSlipItem.BaleNo);
                     database.AddInParameter(dbCommand, "@pkg_qty", DbType.Decimal, pkgSlipItem.PkgQty);
@@ -88,6 +89,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@pkg_slip_item_id", DbType.Int32, pkgSlipItem.PkgSlipItemId);
                     database.AddInParameter(dbCommand, "@pkg_slip_id", DbType.Int32, pkgSlipItem.PkgSlipId);
                     database.AddInParameter(dbCommand, "@goods_receipt_item_id", DbType.Int32, pkgSlipItem.GoodsReceiptItemId);
+                    database.AddInParameter(dbCommand, "@inward_goods_id", DbType.Int32, pkgSlipItem.InwardGoodsId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, pkgSlipItem.ItemId);
                     database.AddInParameter(dbCommand, "@bale_no", DbType.String, pkgSlipItem.BaleNo);
                     database.AddInParameter(dbCommand, "@pkg_qty", DbType.Decimal, pkgSlipItem.PkgQty);
@@ -200,7 +202,7 @@ namespace SharpiTech.POS.DataModel
             return isDeleted;
         }
 
-        public List<Entities.PkgSlipItem> GetItemsByPurchaseBillIdBaleNoAndLocationId(Int32 purchaseBillId, string baleNo, Int32 locationId) 
+        public List<Entities.PkgSlipItem> GetItemsByPurchaseBillIdBaleNoAndLocationId(Int32 purchaseBillId, string baleNo, Int32 locationId)
         {
             var pkgSlipItems = new List<Entities.PkgSlipItem>();
 
@@ -295,6 +297,56 @@ namespace SharpiTech.POS.DataModel
             return pkgSlipItems;
         }
 
+        public List<Entities.PkgSlipItem> GetPkgSlipItemsByBarcodeOrItemName(Entities.PkgSlipItem pkgSlipItem)
+        {
+            var pkgSlipItems = new List<Entities.PkgSlipItem>();
+
+            DbCommand dbCommand = null;
+
+            try
+            {
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetPkgSlipItemsByBarcodeOrItemName))
+                {
+                    database.AddInParameter(dbCommand, "@goods_receipt_item_id", DbType.Int32, pkgSlipItem.GoodsReceiptItemId);
+                    database.AddInParameter(dbCommand, "@inward_goods_id", DbType.Int32, pkgSlipItem.InwardGoodsId);
+                    database.AddInParameter(dbCommand, "@item_name", DbType.String, pkgSlipItem.ItemName);
+
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+                            var item = new Entities.PkgSlipItem
+                            {
+                                PkgSlipItemId = DRE.GetNullableInt32(reader, "pkg_slip_item_id", null),
+                                GoodsReceiptItemId = DRE.GetNullableInt32(reader, "goods_receipt_item_id", null),
+                                InwardGoodsId = DRE.GetNullableInt32(reader, "inward_goods_id", null),
+                                ItemQualityId = DRE.GetNullableInt32(reader, "item_quality_id", null),
+                                BaleNo = DRE.GetNullableString(reader, "bale_no", null),
+                                //ItemQuality = DRE.GetNullableString(reader, "item_quality", null),
+                                ItemId = DRE.GetNullableInt32(reader, "item_id", null),
+                                ItemName = DRE.GetNullableString(reader, "item_name", null),
+                                PkgQty = DRE.GetNullableDecimal(reader, "pkg_qty", null),
+                                UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
+                                UnitCode = DRE.GetNullableString(reader, "unit_code", null)
+                            };
+
+                            pkgSlipItems.Add(item);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                dbCommand = null;
+            }
+
+            return pkgSlipItems;
+        }
+
         public List<Entities.PkgSlipItem> GetGoodsReceivedItems()
         {
             var pkgSlipItems = new List<Entities.PkgSlipItem>();
@@ -316,7 +368,7 @@ namespace SharpiTech.POS.DataModel
                                 ItemName = DRE.GetNullableString(reader, "item_name", null),
                                 UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
                                 UnitCode = DRE.GetNullableString(reader, "unit_code", null),
-                                PkgQty = DRE.GetNullableDecimal(reader, "received_qty", null)                                
+                                PkgQty = DRE.GetNullableDecimal(reader, "received_qty", null)
                             };
 
                             pkgSlipItems.Add(pkgSlipItem);
@@ -363,6 +415,7 @@ namespace SharpiTech.POS.DataModel
                                 PkgSlipItemId = DRE.GetNullableInt32(reader, "pkg_slip_item_id", 0),
                                 PkgSlipId = DRE.GetNullableInt32(reader, "pkg_slip_id", null),
                                 GoodsReceiptItemId = DRE.GetNullableInt32(reader, "goods_receipt_item_id", null),
+                                InwardGoodsId = DRE.GetNullableInt32(reader, "inward_goods_id", null),
                                 BaleNo = DRE.GetNullableString(reader, "bale_no", null),
                                 ItemId = DRE.GetNullableInt32(reader, "item_id", null),
                                 ItemName = DRE.GetNullableString(reader, "item_name", null),
@@ -389,9 +442,9 @@ namespace SharpiTech.POS.DataModel
 
             return pkgSlipItems;
         }
-        
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="pkgSlipItem"></param>
         /// <returns></returns>
@@ -407,6 +460,7 @@ namespace SharpiTech.POS.DataModel
                 {
                     database.AddInParameter(dbCommand, "@pkg_slip_item_id", DbType.Int32, pkgSlipItem.PkgSlipItemId);
                     database.AddInParameter(dbCommand, "@goods_receipt_item_id", DbType.Int32, pkgSlipItem.GoodsReceiptItemId);
+                    database.AddInParameter(dbCommand, "@inward_goods_id", DbType.Int32, pkgSlipItem.InwardGoodsId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, pkgSlipItem.ItemId);
                     database.AddInParameter(dbCommand, "@bale_no", DbType.String, pkgSlipItem.BaleNo);
                     database.AddInParameter(dbCommand, "@pkg_qty", DbType.Decimal, pkgSlipItem.PkgQty);
@@ -437,7 +491,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="pkgSlipItem"></param>
         /// <param name="transaction"></param>
@@ -454,6 +508,7 @@ namespace SharpiTech.POS.DataModel
                 {
                     database.AddInParameter(dbCommand, "@pkg_slip_item_id", DbType.Int32, pkgSlipItem.PkgSlipItemId);
                     database.AddInParameter(dbCommand, "@goods_receipt_item_id", DbType.Int32, pkgSlipItem.GoodsReceiptItemId);
+                    database.AddInParameter(dbCommand, "@inward_goods_id", DbType.Int32, pkgSlipItem.InwardGoodsId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, pkgSlipItem.ItemId);
                     database.AddInParameter(dbCommand, "@bale_no", DbType.String, pkgSlipItem.BaleNo);
                     database.AddInParameter(dbCommand, "@pkg_qty", DbType.Decimal, pkgSlipItem.PkgQty);
@@ -484,7 +539,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="pkgSlipItem"></param>
         /// <returns></returns>
@@ -494,13 +549,13 @@ namespace SharpiTech.POS.DataModel
 
             if (pkgSlipItem.PkgSlipItemId == null || pkgSlipItem.PkgSlipItemId == 0)
             {
-                pkgSlipItemId =  AddPkgSlipItem(pkgSlipItem);
+                pkgSlipItemId = AddPkgSlipItem(pkgSlipItem);
             }
-            else if (pkgSlipItem.IsDeleted == true) 
+            else if (pkgSlipItem.IsDeleted == true)
             {
-                var result = DeletePkgSlipItem (pkgSlipItem);
+                var result = DeletePkgSlipItem(pkgSlipItem);
             }
-            else if ( pkgSlipItem.ModifiedBy > 0 || pkgSlipItem.ModifiedBy != null)
+            else if (pkgSlipItem.ModifiedBy > 0 || pkgSlipItem.ModifiedBy != null)
             {
                 pkgSlipItemId = UpdatePkgSlipItem(pkgSlipItem);
             }
@@ -509,7 +564,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="pkgSlipItem"></param>
         /// <param name="transaction"></param>
@@ -531,7 +586,7 @@ namespace SharpiTech.POS.DataModel
                     pkgSlipItemId = Convert.ToInt32(pkgSlipItem.PkgSlipItemId);
                 }
             }
-            else if ( pkgSlipItem.ModifiedBy > 0 || pkgSlipItem.ModifiedBy != null)
+            else if (pkgSlipItem.ModifiedBy > 0 || pkgSlipItem.ModifiedBy != null)
             {
                 pkgSlipItemId = UpdatePkgSlipItem(pkgSlipItem, transaction);
             }

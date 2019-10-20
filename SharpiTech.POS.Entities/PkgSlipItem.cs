@@ -18,7 +18,7 @@ namespace SharpiTech.POS.Entities
         public Int32? ItemId { get; set; }
 
         [DatabaseColumn("pkg_qty_in_pcs")]
-        public decimal? PkgQty{ get; set; }
+        public decimal? PkgQty { get; set; }
 
         public string BaleNo { get; set; }
 
@@ -27,6 +27,8 @@ namespace SharpiTech.POS.Entities
         public decimal? TotalPkgQty { get; }
 
         public Int32? GoodsReceiptItemId { get; set; }
+
+        public Int32? InwardGoodsId { get; set; }
 
         public Int32? ItemQualityId { get; set; }
 

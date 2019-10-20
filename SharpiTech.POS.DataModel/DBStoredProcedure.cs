@@ -49,7 +49,7 @@ namespace SharpiTech.POS.DataModel
 
         public static string CheckClientNameIsExists { get { return "usp_clients_check_client_name_is_exists"; } }
 
-        public static  string SearchClients { get { return "usp_clients_search_client"; } }
+        public static string SearchClients { get { return "usp_clients_search_client"; } }
 
         public static string InsertClientType { get { return "usp_client_types_insert_client_type"; } }
         public static string UpdateClientType { get { return "usp_client_types_update_client_type"; } }
@@ -186,7 +186,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetItemById { get { return "usp_items_get_item_by_id"; } }
         public static string GetItemByName { get { return "usp_items_get_item_by_name"; } }
         public static string SearchItemsByItemName { get { return "usp_items_search_items_by_item_name"; } }
-        public static string GetItemsByBrandAndItemCategory {  get { return "usp_items_get_items_by_brand_and_item_category"; } }
+        public static string GetItemsByBrandAndItemCategory { get { return "usp_items_get_items_by_brand_and_item_category"; } }
 
         public static string InsertAddressType { get { return "usp_address_types_insert_address_type"; } }
         public static string UpdateAddressType { get { return "usp_address_types_update_address_type"; } }
@@ -299,7 +299,11 @@ namespace SharpiTech.POS.DataModel
         public static string GetVendorsForPkgSlip { get { return "usp_pkg_slips_get_vendors"; } }
         public static string GetBaleNosByVendorId { get { return "usp_pkg_slips_get_bale_nos_by_vendor_id"; } }
         public static string GetPurchaseBillNosByVendorId { get { return "usp_pkg_slips_get_purchase_bill_nos_by_vendor_id"; } }
+
         public static string GetPkgSlipItemsByPurchaseBillIdBaleNoAndLocationId { get { return "usp_pkg_slips_get_items_by_purchase_bill_id_bale_no_and_location_id"; } }
+
+        public static string GetPkgSlipItemsByBarcodeOrItemName { get { return "usp_pkg_slip_items_get_items_by_barcode_or_item_name"; } }
+
         public static string GetFromLocationByPurchaseBillId { get { return "usp_pkg_slips_get_from_location_by_purchase_bill_id"; } }
         public static string GetBaleItemsByPurchaseBillIdAndLocationId { get { return "usp_pkg_slips_get_bale_items_by_purchase_bill_id"; } }
         public static string GetBaleNosByPurchaseBillId { get { return "usp_pkg_slips_get_bale_nos_by_purchase_bill_id"; } }
@@ -343,8 +347,8 @@ namespace SharpiTech.POS.DataModel
         public static string GetItemRatesForCustomerCategoriesGetCustomerCategories { get { return "usp_item_rates_for_customer_categories_get_customer_categories"; } }
         public static string GetItemRatesForCustomerCategoriesByItemRateId { get { return "usp_item_rates_for_customer_categories_get_item_rates_by_item_rate_id"; } }
         public static string GetWholesaleAndRetailItemRatesByItemId { get { return "usp_item_rates_get_wholesale_and_retail_rates_for_item_by_item_id"; } }
-        public static string GetWholesaleAndRetailItemRateForAllItems{ get { return "usp_item_rates_get_wholesale_and_retail_rates_for_all_items"; } }
-        public static string GetWholesaleAndRetailItemRatesBySalesBillId{ get { return "usp_item_rates_get_wholesale_and_retail_rates_for_sales_bill_item"; } }
+        public static string GetWholesaleAndRetailItemRateForAllItems { get { return "usp_item_rates_get_wholesale_and_retail_rates_for_all_items"; } }
+        public static string GetWholesaleAndRetailItemRatesBySalesBillId { get { return "usp_item_rates_get_wholesale_and_retail_rates_for_sales_bill_item"; } }
         public static string SearchItemRatesByItemNameAndQuality { get { return "usp_item_rates_search_item_rates_by_item_name_and_quality"; } }
 
         public static string InsertSalesOrder { get { return "usp_sales_orders_insert_sales_order"; } }
@@ -371,7 +375,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetSalesBillDetailsByWorkingPeriodSaleTypeAndSalesBillNo { get { return "usp_sales_bills_get_sales_bill_details_by_working_period_sale_type_and_sales_bill_no"; } }
         public static string GetTypeOfSales { get { return "usp_sale_types_get_type_of_sales"; } }
         public static string GetItemsListByGoodsReceiptBarcode { get { return "usp_items_get_item_details_by_goods_receipt_item_id"; } }
-        public static string GetItemsListByGoodsReceiptAndInwardGoodsBarcode {  get { return "usp_items_get_item_details_by_goods_receipt_item_id_and_inward_goods_id"; } }
+        public static string GetItemsListByGoodsReceiptAndInwardGoodsBarcode { get { return "usp_items_get_item_details_by_goods_receipt_item_id_and_inward_goods_id"; } }
         public static string GetItemDetailsByItemId { get { return "usp_items_get_item_details_by_item_id"; } }
         public static string GetSaleRateHistoryByCustomerAndItem { get { return "usp_sales_bills_get_sale_rate_history_by_customer_id_and_item_id"; } }
 
@@ -389,7 +393,7 @@ namespace SharpiTech.POS.DataModel
         public static string UpdateSalesBillChargesDetails { get { return "usp_sales_bills_charges_details_update_charges"; } }
         public static string DeleteSalesBillChargesDetails { get { return "usp_sales_bills_charges_details_delete_charges"; } }
         public static string GetSalesBillChargesDetails { get { return "usp_sales_bills_charges_details_get_bill_charges_details"; } }
-        public static string CheckSalesBillChargeNameIsExists{ get{ return "usp_sales_bills_charges_check_bill_charge_name_is_exists"; } }
+        public static string CheckSalesBillChargeNameIsExists { get { return "usp_sales_bills_charges_check_bill_charge_name_is_exists"; } }
 
         public static string InsertSalesBillsItem { get { return "usp_sales_bills_items_insert_sales_bill_items"; } }
         public static string UpdateSalesBillsItem { get { return "usp_sales_bills_items_update_sales_bill_items"; } }
@@ -410,9 +414,9 @@ namespace SharpiTech.POS.DataModel
         public static string CheckSalesReturnBillNoIsExists { get { return "usp_sales_return_bills_check_sales_return_bill_no_is_exists"; } }
         public static string GetSalesReturnBillBySalesBillId { get { return "usp_sales_return_bills_get_sales_return_by_sales_bill_id"; } }
         public static string GetAllSalesReturnBills { get { return "usp_sales_return_bills_get_all_sales_return_bills"; } }
-        public static string GetSalesReturnBillsBySalesType { get { return "usp_sales_return_bills_get_bills_by_sales_type"; }}
+        public static string GetSalesReturnBillsBySalesType { get { return "usp_sales_return_bills_get_bills_by_sales_type"; } }
         public static string GetSalesReturnBillsByBranchWorkingPeriodAndSalesType { get { return "usp_sales_return_bills_get_bills_by_branch_working_period_and_sales_type"; } }
-        public static string GetConsigneeFromSalesBills{ get { return "usp_sales_return_bills_get_consignee_from_sales_bills"; } }
+        public static string GetConsigneeFromSalesBills { get { return "usp_sales_return_bills_get_consignee_from_sales_bills"; } }
 
         public static string InsertSalesReturnBillItem { get { return "usp_sales_return_bill_items_insert"; } }
         public static string UpdateSalesReturnBillItem { get { return "usp_sales_return_bill_items_update"; } }
@@ -484,7 +488,7 @@ namespace SharpiTech.POS.DataModel
         public static string DeleteInwardDetails { get { return "usp_inwards_delete_inward_details"; } }
         public static string GetAllInwardDetails { get { return "usp_inwards_get_all_inward_details"; } }
         public static string GetInwardReferenceNosFromGoodsReceipts { get { return "usp_inwards_get_inward_reference_nos_from_goods_receipts"; } }
-        public static string GetInwardReferenceNosFromOutwards   { get { return "usp_inwards_get_inward_reference_nos_from_outwards"; } }
+        public static string GetInwardReferenceNosFromOutwards { get { return "usp_inwards_get_inward_reference_nos_from_outwards"; } }
         public static string GetInwardReferenceNosFromJobWorks { get { return "usp_inwards_get_inward_reference_nos_from_job_works"; } }
         public static string GetInwardReferenceNoFromInward { get { return "usp_inwards_get_inward_reference_no_from_inward"; } }
         public static string GetInwardReferenceNoDetailsByGoodsReceiptId { get { return "usp_inwards_get_reference_no_details_by_goods_receipt_id"; } }
@@ -505,13 +509,13 @@ namespace SharpiTech.POS.DataModel
         public static string GetStockByItemName { get { return "usp_stock_report_get_stock_by_item_name"; } }
         public static string GetStockItemCategoryWise { get { return "usp_stock_report_get_stock_item_category_wise"; } }
         public static string GetStockItemCategoryWiseByItemCategoryId { get { return "usp_stock_report_get_stock_item_category_wise_by_item_category_id"; } }
-        public static string GetStockItemCategorWiseAndItemQualityWise{ get { return "usp_stock_report_get_stock_item_category_wise_and_item_quality_wise"; } }
-        public static string GetStockLocationWiseAndItemWiseByLocationId{ get { return "usp_stock_report_get_stock_location_wise_and_item_wise_by_location_id"; } }
-        public static string GetStockLocationWiseItemWiseByItemId{ get { return "usp_stock_report_get_stock_location_wise_item_wise_by_item_id"; } }
+        public static string GetStockItemCategorWiseAndItemQualityWise { get { return "usp_stock_report_get_stock_item_category_wise_and_item_quality_wise"; } }
+        public static string GetStockLocationWiseAndItemWiseByLocationId { get { return "usp_stock_report_get_stock_location_wise_and_item_wise_by_location_id"; } }
+        public static string GetStockLocationWiseItemWiseByItemId { get { return "usp_stock_report_get_stock_location_wise_item_wise_by_item_id"; } }
         public static string GetStockLocationWiseItemQualityWiseAndItemWise { get { return "usp_stock_report_get_stock_location_wise_item_quality_wise_and_item_wise"; } }
 
         public static string GetPurchaseBillRegisterComplete { get { return "usp_purchase_bills_print_purchase_bill_register_complete"; } }
-        public static string GetPurchaseBillRegisterByWorkingPeriod{ get { return "usp_purchase_bills_print_purchase_bill_register_by_working_period"; } }
+        public static string GetPurchaseBillRegisterByWorkingPeriod { get { return "usp_purchase_bills_print_purchase_bill_register_by_working_period"; } }
         public static string GetPurchaseBillRegisterByVendor { get { return "usp_purchase_bills_print_purchase_bill_register_by_vendor"; } }
         public static string GetPurchaseBillRegisterByPeriod { get { return "usp_purchase_bills_print_purchase_bill_register_by_period"; } }
         public static string GetPurchaseBillRegisterByWorkingPeriodAndVendor { get { return "usp_purchase_bills_print_purchase_bill_register_by_working_period_and_vendor"; } }
@@ -527,7 +531,7 @@ namespace SharpiTech.POS.DataModel
         public static string GetSalesBillRegisterByWorkingPeriod { get { return "usp_sales_bills_print_sales_bill_register_by_working_period_id"; } }
         public static string GetSalesBillRegisterByCustomer { get { return "usp_sales_bills_print_sales_bill_register_by_customer"; } }
         public static string GetSalesBillRegisterByCustomerAndFromToDate { get { return "usp_sales_bills_print_sales_bill_register_by_customer_id_and_from_to_date"; } }
-        public static string GetSalesBillRegisterByCustomerAndWorkingPeriod{ get { return "usp_sales_bills_print_sales_bill_register_by_customer_id_and_working_period_id"; } }
+        public static string GetSalesBillRegisterByCustomerAndWorkingPeriod { get { return "usp_sales_bills_print_sales_bill_register_by_customer_id_and_working_period_id"; } }
         public static string GetSalesBillRegisterByFromToDate { get { return "usp_sales_bills_print_sales_bill_register_by_from_to_date"; } }
         public static string GetSalesBillRegisterBySalesTypeId { get { return "usp_sales_bills_print_sales_bill_register_by_sale_type_id"; } }
 
@@ -581,7 +585,7 @@ namespace SharpiTech.POS.DataModel
         public static string DeleteDailyReceivablePayable { get { return "usp_daily_receivable_payable_delete"; } }
         public static string GetBranchwiseSalesTypeWiseModeOfPaymentwiseDailySalesBiillValueDatewise { get { return "usp_daily_receivable_payable_get_data_by_entry_date"; } }
 
-        public static string VoucherTallyTransfer { get { return "usp_voucher_tally_transfer"; }}
+        public static string VoucherTallyTransfer { get { return "usp_voucher_tally_transfer"; } }
 
         public static string GetVoucherType { get { return "usp_voucher_types_get_all_voucher_type"; } }
 
@@ -615,7 +619,7 @@ namespace SharpiTech.POS.DataModel
         public static string DeleteSalesScheme { get { return "usp_sales_schemes_delete_sales_scheme"; } }
         public static string GetAllSalesSchemes { get { return "usp_sales_schemes_get_all_sales_schemes"; } }
         public static string GetSalesSchemeDetailsByItem { get { return "usp_sales_schemes_get_scheme_details_by_item"; } }
-        public static string GetSalesBillItemsSalesSchemeDetails{ get { return "usp_sales_bill_items_get_sales_schemes"; } }
+        public static string GetSalesBillItemsSalesSchemeDetails { get { return "usp_sales_bill_items_get_sales_schemes"; } }
 
         public static string GetSalesSchemesRegister { get { return "usp_sales_schemes_get_register"; } }
 

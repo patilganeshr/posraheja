@@ -50,7 +50,7 @@ namespace SharpiTech.POS.Business
         {
             return _salesBill.SaveSalesBill(salesBill);
         }
-                
+
         public List<Entities.TypeOfSale> GetTypeOfSales()
         {
             return _salesBill.GetTypeOfSales();
@@ -98,39 +98,47 @@ namespace SharpiTech.POS.Business
             var reportName = string.Empty;
             var folderName = string.Empty;
             //var serverPath = HttpContext.Current.Server.MapPath("../POS/");
-            
-            var parameters = new ArrayList();
 
-            parameters.Add(salesBill.SalesBillId);
+            try
+            {
+                var parameters = new ArrayList();
 
-            if (salesBill.SaleTypeId == 1) {
+                parameters.Add(salesBill.SalesBillId);
 
-                folderName = "CashSalesBills";
-
-                if (salesBill.BranchId == 1)
+                if (salesBill.SaleTypeId == 1)
                 {
-                    reportName = "CashSaleInvoice.rpt";
-                    //reportName = "CashSaleInvoice_A5.rpt";
+
+                    folderName = "CashSalesBills";
+
+                    if (salesBill.BranchId == 1)
+                    {
+                        reportName = "CashSaleInvoice.rpt";
+                        //reportName = "CashSaleInvoice_A5.rpt";
+                    }
+                    else
+                    {
+                        reportName = "CashSaleInvoice_A5.rpt";
+                    }
                 }
                 else
                 {
-                    reportName = "CashSaleInvoice_A5.rpt";
+                    folderName = "CreditSalesBills";
+                    reportName = "CreditSalesInvoice.rpt";
                 }
+
+                var serverPath = HttpContext.Current.Server.MapPath("/POS/");
+                reportEntity.DirectoryPath = serverPath + "ApplicationFiles/Sales/Bills/" + Convert.ToString(salesBill.BranchId) + "/" + folderName + "/";
+
+                reportEntity.ReportPath = serverPath + "Reports/" + reportName;
+                reportEntity.Parameters = parameters;
+                reportEntity.FileStoragePath = reportEntity.DirectoryPath + "BillNo_" + Convert.ToString(salesBill.SalesBillNo) + ".pdf";
+
+                return report.GenerateReport(reportEntity, CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
             }
-            else
+            catch (Exception ex)
             {
-                folderName = "CreditSalesBills";
-                reportName = "CreditSalesInvoice.rpt";
+                throw ex;
             }
-
-            var serverPath = HttpContext.Current.Server.MapPath("/POS/");
-            reportEntity.DirectoryPath = serverPath + "ApplicationFiles/Sales/Bills/" + Convert.ToString(salesBill.BranchId) + "/" + folderName + "/";
-
-            reportEntity.ReportPath = serverPath + "Reports/" + reportName;
-            reportEntity.Parameters = parameters;
-            reportEntity.FileStoragePath = reportEntity.DirectoryPath + "BillNo_" + Convert.ToString(salesBill.SalesBillNo) + ".pdf";
-            
-            return report.GenerateReport(reportEntity, CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
         }
 
         //public string generateReport(Int32 salesBillId)
