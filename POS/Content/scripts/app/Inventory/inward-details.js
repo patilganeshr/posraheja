@@ -46,6 +46,7 @@ SharpiTech.InwardDetails = (function () {
         DOM.toLocation = document.getElementById('ToLocation');
         DOM.transporter = document.getElementById('Transporter');
         DOM.vehicleNo = document.getElementById('VehicleNo');
+        DOM.lrNo = document.getElementById('LRNo');
         DOM.inwardGoodsList = document.getElementById('InwardGoodsList');
         DOM.jobWorkItems = document.getElementById('JobWorkItems');
         DOM.itemName = document.getElementById('ItemName');
@@ -100,7 +101,7 @@ SharpiTech.InwardDetails = (function () {
             //    DOM.itemName.value = "";
             //}
             //setTimeout(function () {
-                showItemsList(e);
+            showItemsList(e);
             //}, 1000);
 
         };
@@ -138,9 +139,9 @@ SharpiTech.InwardDetails = (function () {
 
     });
 
-    document.addEventListener('click', function (e){
-        closeAutoCompleteList();
-    });
+    //document.addEventListener('click', function (e) {
+    //    closeAutoCompleteList();
+    //});
 
     function setFocusOnSelect(e) {
         setTimeout(function () {
@@ -162,7 +163,7 @@ SharpiTech.InwardDetails = (function () {
 
     function redirectToItemMaster() {
 
-        window.open(location.origin + '/POS/Masters/item?flag=New','_blank');
+        window.open(location.origin + '/POS/Masters/item?flag=New', '_blank');
 
     }
 
@@ -249,7 +250,7 @@ SharpiTech.InwardDetails = (function () {
 
     function showItemsList(e) {
 
-        if (DOM.itemName.value === "") {
+        if (DOM.itemName.value === "" || e.keyCode === 9) {
             currentFocus = -1;
             closeAutoCompleteList();
             return;
@@ -428,6 +429,7 @@ SharpiTech.InwardDetails = (function () {
     }
 
     function closeAutoCompleteList() {
+
 
         DOM.itemsList.classList.remove('autocompleteList-active');
 
@@ -879,53 +881,53 @@ SharpiTech.InwardDetails = (function () {
 
         shared.sendRequest(SERVICE_PATH + "GetInwardGoodsDetailsByOutwardId/" + outwardId, "GET", true, "JSON", null, function (response) {
 
-                shared.showLoader(DOM.loader);
+            shared.showLoader(DOM.loader);
 
-                if (response.status === 200) {
+            if (response.status === 200) {
 
-                    if (response.responseText !== undefined) {
+                if (response.responseText !== undefined) {
 
-                        var _response = JSON.parse(response.responseText);
+                    var _response = JSON.parse(response.responseText);
 
-                        if (_response !== undefined) {
+                    if (_response !== undefined) {
 
-                            if (_response.length > 0) {
+                        if (_response.length > 0) {
 
-                                for (var r = 0; r < _response.length; r++) {
+                            for (var r = 0; r < _response.length; r++) {
 
-                                    var inwardGoods = {};
+                                var inwardGoods = {};
 
-                                    inwardGoods = {
-                                        InwardGoodsId: _response[r].InwardGoodsId,
-                                        InwardId: _response[r].InwardId,
-                                        OutwardId: _response[r].OutwardId,
-                                        GoodsReceiptItemId: _response[r].GoodsReceiptItemId,
-                                        ItemId: _response[r].ItemId,
-                                        ItemName: _response[r].ItemName,
-                                        UnitOfMeasurementId: _response[r].UnitOfMeasurementId,
-                                        UnitCode: _response[r].UnitCode,
-                                        ReceivedQty: _response[r].PkgQty,
-                                        InwardQty: _response[r].InwardQty,
-                                        InwardStatus: 'P',
-                                        CreatedBy: parseInt(LOGGED_USER),
-                                        CreatedByIP: IP_ADDRESS
-                                    };
+                                inwardGoods = {
+                                    InwardGoodsId: _response[r].InwardGoodsId,
+                                    InwardId: _response[r].InwardId,
+                                    OutwardId: _response[r].OutwardId,
+                                    GoodsReceiptItemId: _response[r].GoodsReceiptItemId,
+                                    ItemId: _response[r].ItemId,
+                                    ItemName: _response[r].ItemName,
+                                    UnitOfMeasurementId: _response[r].UnitOfMeasurementId,
+                                    UnitCode: _response[r].UnitCode,
+                                    ReceivedQty: _response[r].PkgQty,
+                                    InwardQty: _response[r].InwardQty,
+                                    InwardStatus: 'P',
+                                    CreatedBy: parseInt(LOGGED_USER),
+                                    CreatedByIP: IP_ADDRESS
+                                };
 
-                                    inwardGoodsDetails.push(inwardGoods);
+                                inwardGoodsDetails.push(inwardGoods);
 
 
-                                }
-
-                                // Bind inward goods details
-                                getInwardGoodsDetails(outwardId);
                             }
+
+                            // Bind inward goods details
+                            getInwardGoodsDetails(outwardId);
                         }
                     }
                 }
+            }
 
-                shared.hideLoader(DOM.loader);
+            shared.hideLoader(DOM.loader);
 
-            });
+        });
 
 
     }
@@ -1015,6 +1017,7 @@ SharpiTech.InwardDetails = (function () {
                     shared.setSelectValue(DOM.transporter, null, parseInt(inwards[0].TransporterId));
                     shared.setSelect2ControlsText(DOM.transporter);
                     DOM.vehicleNo.value = inwards[0].VehicleNo;
+                    DOM.lrNo.value = inwards[0].LRNo;
                 }
 
                 // Show panels
@@ -1068,7 +1071,7 @@ SharpiTech.InwardDetails = (function () {
 
                     for (var g = 0; g < inwardGoods.length; g++) {
 
-                        if (DOM.inwardId.value !== undefined && parseInt(DOM.inwardId.value) > 0 ) {
+                        if (DOM.inwardId.value !== undefined && parseInt(DOM.inwardId.value) > 0) {
                             bindJobWorkItems(inwardGoods[g].ItemName, inwardGoods[g].ItemId, inwardGoods[g].UnitCode,
                                 inwardGoods[g].UnitOfMeasurementId, inwardGoods[g].InwardQty,
                                 inwardGoods[g].InwardGoodsId, inwardGoods[g].GoodsReceiptItemId);
@@ -1328,7 +1331,7 @@ SharpiTech.InwardDetails = (function () {
 
     }
 
-    var getSelectedRows = function() {
+    var getSelectedRows = function () {
 
         var selectedRows = [];
 
@@ -1693,7 +1696,7 @@ SharpiTech.InwardDetails = (function () {
                 var itemId = parseInt(tableRows[t].getAttribute("data-item-id"));
                 var inwardQty = inputs[0].value;
 
-                if(isNaN(goodsReceiptItemId)) { goodsReceiptItemId = 0; }
+                if (isNaN(goodsReceiptItemId)) { goodsReceiptItemId = 0; }
 
                 var inwardGoods = {};
 
@@ -1749,6 +1752,7 @@ SharpiTech.InwardDetails = (function () {
                 var workingPeriodId = parseInt(0);
                 var transporterId = parseInt(0);
                 var vehicleNo = null;
+                var lrNo = null;
 
                 companyId = parseInt(DOM.company.options[DOM.company.selectedIndex].value);
                 branchId = parseInt(DOM.branch.options[DOM.branch.selectedIndex].value);
@@ -1761,16 +1765,17 @@ SharpiTech.InwardDetails = (function () {
                 toLocationId = parseInt(DOM.toLocation.options[DOM.toLocation.selectedIndex].value);
                 transporterId = parseInt(DOM.transporter.options[DOM.transporter.selectedIndex].value);
                 vehicleNo = DOM.vehicleNo.value;
+                lrNo = DOM.lrNo.value;
                 workingPeriodId = parseInt(DOM.financialYear.options[DOM.financialYear.selectedIndex].value);
 
                 if (isNaN(companyId)) { companyId = parseInt(0); }
-                if (isNaN(branchId)) { branchId = parseInt(0);}
+                if (isNaN(branchId)) { branchId = parseInt(0); }
                 if (isNaN(inwardId)) { inwardId = parseInt(0); }
                 if (isNaN(inwardNo)) { inwardNo = parseInt(0); }
                 if (isNaN(referenceId)) { referenceId = parseInt(0); }
                 if (isNaN(fromLocationId)) { fromLocationId = parseInt(0); }
                 if (isNaN(toLocationId)) { toLocationId = parseInt(0); }
-                if (isNaN(transporterId)) { transporterId = parseInt(0);}
+                if (isNaN(transporterId)) { transporterId = parseInt(0); }
 
                 if (referenceType.toLowerCase() === "outward" && DOM.typeOfTransfer.value.toLowerCase() === "stock transfer") {
                     saveInwardGoodsDetails();
@@ -1792,6 +1797,7 @@ SharpiTech.InwardDetails = (function () {
                     Remarks: remarks,
                     TransporterId: transporterId,
                     VehicleNo: vehicleNo,
+                    LRNo: lrNo,
                     BranchId: branchId,
                     WorkingPeriodId: workingPeriodId,
                     InwardGoodsDetails: inwardGoodsDetails
@@ -1886,6 +1892,7 @@ SharpiTech.InwardDetails = (function () {
                                         TypeOfTransferId: _response[r].TypeOfTransferId,
                                         TransporterId: _response[r].TransporterId,
                                         VehicleNo: _response[r].VehicleNo,
+                                        LRNo: _response[r].LRNo,
                                         Remarks: _response[r].Remarks,
                                         CompanyId: _response[r].CompanyId,
                                         BranchId: _response[r].BranchId,

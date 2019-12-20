@@ -19,6 +19,7 @@ SharpiTech.SalesBill = (function () {
     var currentFocus;
     var FLAG;
     var elementName;
+    var CurrentFocus = -1;
 
     var gstApplicable = "SGST";
 
@@ -65,6 +66,7 @@ SharpiTech.SalesBill = (function () {
         DOM.taxExclusive = document.getElementById('TaxExclusive');
 
         DOM.scanBarcode = document.getElementById('ScanBarcode');
+        DOM.SearchItemNameOrBarcode = document.getElementById('SearchItemNameOrBarcode');
         DOM.totalBillAmount = document.getElementById('TotalBillAmount');
         DOM.salesBillItemsList = document.getElementById('SalesBillItemsList');
         DOM.gstBreakup = document.getElementById('GSTBreakup');
@@ -216,7 +218,7 @@ SharpiTech.SalesBill = (function () {
         DOM.editSalesBill.addEventListener('click', editSalesBill);
         DOM.saveSalesBill.addEventListener('click', saveSalesBill);
         DOM.deleteSaleBill.addEventListener('click', deleteSaleBill);
-        DOM.printSalesBill.addEventListener('click', printSalesBill);
+        DOM.printSalesBill.addEventListener('click', printBills);
         DOM.cancelSalesBill.addEventListener('click', cancelSalesBill);
         DOM.showItemRate.addEventListener('click', showItemRateModal);
 
@@ -294,7 +296,7 @@ SharpiTech.SalesBill = (function () {
 
             e = e || window.event;
 
-            var keyCode = (e.which || e.keyCode);
+            var keyCode = e.which || e.keyCode;
 
             if (keyCode === 13 || keyCode === 8) {
                 getSalesBillDetailsBySearch();
@@ -309,6 +311,15 @@ SharpiTech.SalesBill = (function () {
             showItemsList(e, DOM.searchItemForItemRate);
 
         };
+
+        //DOM.searchItemNameOrBarcode.onkeyup = function (e) {
+
+        //    if (CurrentFocus === undefined) { CurrentFocus = -1; }
+
+        //    if (e.target.value.length > 2) {
+        //        showItemList(e);
+        //    }
+        //};
 
     }
 
@@ -953,6 +964,242 @@ SharpiTech.SalesBill = (function () {
         }
     }
 
+    function showItemList(e) {
+
+        if (e.keyCode === 13) {
+            CurrentFocus = -1;
+            showItemNameOnEnterKey(e);
+            return;
+        }
+        else if (e.keyCode === 9) {
+            CurrentFocus = -1;
+            shared.closeAutoCompleteList(DOM.searchItemList);
+            return;
+        }
+        else if (e.keyCode === 8 || e.keyCode === 32 || e.keyCode >= 37 && e.keyCode <= 40 || e.keyCode >= 48 && e.keyCode <= 57 || e.keyCode >= 65 && e.keyCode <= 90 ||
+            e.keyCode >= 97 && e.keyCode <= 105) {
+
+            var dataAttributes = ['Pkg-Slip-Item-Id', 'Goods-Receipt-Item-Id', 'Inward-Goods-Id', 'Item-Id', 'Unit-Of-Measurement-Id'];
+
+            var searchKey = e.target.value;
+
+            if (e.keyCode === 8) {
+                searchKey = e.target.value.substring(0, e.target.value.length - 1);
+            }
+
+            var goodsReceiptItemId = null;
+            var inwardGoodsId = null;
+            var itemName = null;
+
+            var inputValue = searchKey; //DOM.itemNameOrBarcode.value;
+
+            if (Number(DOM.itemNameOrBarcode.value)) {
+                goodsReceiptItemId = parseInt(inputValue);
+            }
+            else if (DOM.itemNameOrBarcode.value.includes('-')) {
+                var lastIndex = inputValue.lastIndexOf('-');
+
+                goodsReceiptItemId = parseInt(inputValue.substring(0, lastIndex));
+                inwardGoodsId = parseInt(inputValue.substring(lastIndex + 1));
+            }
+            else {
+                itemName = inputValue;
+            }
+
+            var parameters = {
+                GoodsReceiptItemId: goodsReceiptItemId,
+                InwardGoodsId: inwardGoodsId,
+                ItemName: itemName
+            };
+
+            //var postData = JSON.stringify(parameters);
+
+            parameters = {
+
+                Event: e,
+                CurrentFocus: CurrentFocus,
+                PostDataKeyValue: postMessage,
+                ElementToBeAppend: DOM.searchItemList,
+                DataAttributes: dataAttributes,
+                PostParamObject: parameters,
+                URL: SERVICE_PATH + "GetPkgSlipItemsByBarcodeOrItemName/",//SERVICE_PATH + "SearchSaleItemByItemName/" + DOM.scanBarcode.value + "",
+                DisplayName: "ItemName"
+            };
+
+            shared.showAutoCompleteItemsList(parameters, function (response) {
+
+                if (response !== undefined) {
+
+                    if (response >= 0) {
+
+                        CurrentFocus = response;
+                    }
+                    else {
+
+                        CurrentFocus = -1;
+
+                        var autoCompleteList = response;
+
+                        SearchListItems.length = 0;
+
+                        SearchListItems = response;
+
+                        var listCount = autoCompleteList.length;
+
+                        if (listCount) {
+
+                            var data = "";
+
+                            var fragment = document.createDocumentFragment();
+
+                            var ul = document.createElement('ul');
+
+                            ul.classList.add('list-group');
+
+                            for (var s = 0; s < listCount; s++) {
+
+                                var li = document.createElement('li');
+                                var spanBarcode = document.createElement('span');
+                                var spanPkgQty = document.createElement('span');
+                                var p = document.createElement('p');
+
+                                p.style.marginTop = "10px";
+                                p.style.fontWeight = "600";
+
+                                spanBarcode.style.cssFloat = "left";
+                                spanPkgQty.style.cssFloat = "right";
+
+                                li.classList.add('list-group-item');
+                                li.classList.add('clearfix');
+
+                                li.setAttribute('id', autoCompleteList[s].PkgSlipItemId);
+                                li.setAttribute('data-goods-receipt-item-id', autoCompleteList[s].GoodsReceiptItemId);
+                                li.setAttribute('data-inward-goods-id', autoCompleteList[s].InwardGoodsId);
+                                li.setAttribute('data-item-id', autoCompleteList[s].ItemId);
+                                //li.setAttribute('data-unit-of-measurement-id', autoCompleteList[s].UnitOfMeasurementId);
+                                //li.setAttribute('data-bale-no', autoCompleteList[s].BaleNo);
+                                //li.setAttribute('data-pkg-qty', autoCompleteList[s].PkgQty);
+
+                                li.style.cursor = "pointer";
+                                li.onclick = showItemNameOnSelection;
+                                li.textContent = autoCompleteList[s].ItemName;
+
+                                spanBarcode.textContent = 'Barcode: ' + autoCompleteList[s].GoodsReceiptItemId;
+                                spanPkgQty.textContent = 'Pkg Qty: ' + autoCompleteList[s].PkgQty + ' ' + autoCompleteList[s].UnitCode;
+
+                                p.appendChild(spanBarcode);
+                                p.appendChild(spanPkgQty);
+
+                                li.appendChild(p);
+
+                                fragment.appendChild(li);
+                            }
+
+                            ul.appendChild(fragment);
+
+                            DOM.searchItemList.appendChild(ul);
+
+                            DOM.searchItemList.style.width = e.target.offsetWidth + 'px';
+                            DOM.searchItemList.style.left = 0;//e.target.offsetParent.offsetLeft + 15 + 'px';
+
+                            DOM.searchItemList.classList.add('autocompleteList-active');
+
+                        }
+                    }
+                }
+
+            });
+        }
+
+    }
+
+    var getSelectedItemDetails = function (targetElement) {
+
+        var itemDetails = null;
+
+        var p = targetElement.children[0];
+        var spans = p.children;
+
+        var pkgSlipItemId = 0;
+        var goodsReceiptItemId = 0;
+        var inwardGoodsId = 0;
+        var itemId = 0;
+
+        pkgSlipItemId = parseInt(targetElement.id);
+        goodsReceiptItemId = parseInt(targetElement.getAttribute('data-goods-receipt-item-id'));
+        inwardGoodsId = parseInt(targetElement.getAttribute('data-inward-goods-id'));
+        itemId = parseInt(targetElement.getAttribute('data-item-id'));
+
+        if (isNaN(pkgSlipItemId)) { pkgSlipItemId = 0; }
+
+        if (SearchListItems.length) {
+
+            var itemsList = SearchListItems.filter(function (value, index, arr) {
+                return value.PkgSlipItemId === pkgSlipItemId
+                    && value.GoodsReceiptItemId === goodsReceiptItemId
+                    && value.InwardGoodsId === inwardGoodsId
+                    && value.ItemId === itemId;
+            });
+
+            if (itemsList.length) {
+                itemDetails = itemsList[0];
+            }
+        }
+
+        return itemDetails;
+
+    };
+
+    function showItemNameOnSelection(e) {
+
+        FLAG = "NEW ITEM";
+
+        var itemDetails = getSelectedItemDetails(e.currentTarget);
+
+        if (itemDetails !== null) {
+
+            if (e.target.nodeName.toLowerCase() === "li") {
+                setItemName(itemDetails);
+            }
+        }
+
+    }
+
+    function showItemNameOnEnterKey(e) {
+
+        FLAG = "NEW ITEM";
+
+        var li = DOM.searchItemList.querySelectorAll('.autocompleteListItem-active');
+
+        var count = li.length;
+
+        if (count) {
+
+            var itemDetails = getSelectedItemDetails(li[0]);
+
+            if (itemDetails !== null) {
+
+                setItemName(itemDetails);
+            }
+            //setItemName(li[0].textContent, parseInt(li[0].id));
+        }
+
+    }
+
+    function setItemName(itemDetails) {
+
+        DOM.itemNameOrBarcode.value = "";
+
+        shared.closeAutoCompleteList(DOM.searchItemList);
+
+        DOM.itemNameOrBarcode.focus();
+
+        // Fill the data to pkg slip items
+        pkgSlipItems.push(itemDetails);
+
+        bindPkgSlipItemByBaleNo();
+    }
+
     function getMaxSrNo(data, maxSrNo) {
 
         var _maxSrNo = maxSrNo;
@@ -1494,7 +1741,7 @@ SharpiTech.SalesBill = (function () {
 
         bindSalesSchemeDetails(salesSchemeList, DOM_salesScheme);
 
-        DOM_removeButton.onclick = function(e) {
+        DOM_removeButton.onclick = function (e) {
             removeBillItem(e);
         };
 
@@ -1754,9 +2001,9 @@ SharpiTech.SalesBill = (function () {
 
     function setSchemeDetails(tableRow) {
 
-            var inputs;
+        var inputs;
 
-            var select;
+        var select;
 
         var selectedIndex = 0;
 
@@ -1826,10 +2073,10 @@ SharpiTech.SalesBill = (function () {
 
         //if (e.hasAttributes('option')) {
 
-          //  tableRow = e.parentElement.parentElement;
+        //  tableRow = e.parentElement.parentElement;
         //}
         //else {
-            //tableRow = e.currentTarget.parentElement.parentElement;
+        //tableRow = e.currentTarget.parentElement.parentElement;
         //}
 
         var inputs = tableRow.querySelectorAll("input[type='text']");
@@ -1937,9 +2184,9 @@ SharpiTech.SalesBill = (function () {
 
             //if (rateAfterSchemeDiscount === 0) {
 
-                rateAfterCDRD = parseFloat(saleRate);
+            rateAfterCDRD = parseFloat(saleRate);
 
-                amount = parseFloat(saleQty * parseFloat(rateAfterCDRD));
+            amount = parseFloat(saleQty * parseFloat(rateAfterCDRD));
             //}
         }
 
@@ -1977,7 +2224,7 @@ SharpiTech.SalesBill = (function () {
 
                         taxableValue = amount;
 
-                        GSTAmount =  parseFloat(parseFloat(parseFloat(amount) * (GSTRate / 100)).toFixed(2));
+                        GSTAmount = parseFloat(parseFloat(parseFloat(amount) * (GSTRate / 100)).toFixed(2));
                     }
 
                     tableRow.setAttribute('data-taxable-value', taxableValue);
@@ -1986,7 +2233,7 @@ SharpiTech.SalesBill = (function () {
 
                     inputs[4].value = taxableValue;
                     inputs[5].value = GSTRate,
-                    inputs[6].value = GSTAmount;
+                        inputs[6].value = GSTAmount;
                     inputs[7].value = totalItemAmount;
 
                     showGSTBreakup();
@@ -2269,7 +2516,7 @@ SharpiTech.SalesBill = (function () {
         salesBillPaymentDetails.length = 0;
         salesBillChargesDetails.length = 0;
         salesBillItems.length = 0;
-        salesBillItemsChargesDetails.length =0;
+        salesBillItemsChargesDetails.length = 0;
         GSTDetails.length = 0;
 
         shared.disableControls(DOM.editMode, false);
@@ -2391,7 +2638,7 @@ SharpiTech.SalesBill = (function () {
         salesBillPaymentDetails.length = 0;
         salesBillChargesDetails.length = 0;
         salesBillItems.length = 0;
-        salesBillItemsChargesDetails.length =0;
+        salesBillItemsChargesDetails.length = 0;
         GSTDetails.length = 0;
 
         shared.showPanel(DOM.searchPanel);
@@ -3086,7 +3333,7 @@ SharpiTech.SalesBill = (function () {
 
         shared.showLoader(DOM.loader);
 
-         var isSalesBillDeleted = checkIsSalesBillDeleted();
+        var isSalesBillDeleted = checkIsSalesBillDeleted();
 
         if (isSalesBillDeleted) {
 
@@ -3339,14 +3586,15 @@ SharpiTech.SalesBill = (function () {
 
                     if (response.status === 200) {
 
-                        if (parseInt(response.responseText) > parseInt(0)) {
+                        if (parseInt(response.responseText) > 0) {
                             swal({
                                 title: "Success",
                                 text: "Sales Bill saved successfully.",
                                 type: "success"
                             }, function () {
                                 //addNewSalesBill();
-                                    printSalesBill(parseInt(response.responseText));
+                                printSalesBill(parseInt(response.responseText), false);
+                                printSalesBill(parseInt(response.responseText), true);
                                 //getSalesBills();
                             });
                         }
@@ -3372,70 +3620,76 @@ SharpiTech.SalesBill = (function () {
 
         var selectedRows = getSelectedRows(DOM.salesBillList);
 
-            if (selectedRows.length > 0) {
+        if (selectedRows.length > 0) {
 
-                if (selectedRows.length > 1) {
-                    swal('Warning', "Please select only one record to View or Edit the Records.", "warning");
-                    return false;
-                }
-                else {
-
-                    var currentTableRow = selectedRows[0];
-
-                    var salesBillId = parseInt(currentTableRow.getAttribute('data-sales-bill-id'));
-
-                    if (isNaN(salesBillId)) { salesBillId = 0; }
-
-                    DOM.salesBillId.value = salesBillId;
-
-                    var cancelSalesBill = [];
-
-                    var salesBill = {};
-
-                    salesBill = {
-                        SalesBillId: salesBillId,
-                        CancelledBy: LOGGED_USER
-                    };
-
-                    cancelSalesBill.push(salesBill);
-
-                    var postData = JSON.stringify(cancelSalesBill);
-
-                    shared.sendRequest(SERVICE_PATH + "CancelSalesBill", "POST", true, "JSON", postData, function (response) {
-
-                        shared.showLoader(DOM.loader);
-
-                        var res = JSON.parse(response.responseText);
-
-                        if (res.status === 200) {
-
-                            if (parseInt(res.responseText) > parseInt(0)) {
-                                swal({
-                                    title: "Success",
-                                    text: "Sales Bill cancelled successfully.",
-                                    type: "success"
-                                }, function () {
-                                    //getSalesBills();
-                                });
-                            }
-                        }
-                        else {
-                            swal("error", "Unable to cancel the Sales Bill due to some error.", "error");
-                            handleError(res.Message + " " + res.ExceptionMessage);
-                        }
-
-                        shared.hideLoader(DOM.loader);
-                    });
-
-                }
+            if (selectedRows.length > 1) {
+                swal('Warning', "Please select only one record to View or Edit the Records.", "warning");
+                return false;
             }
             else {
-                swal("error", "No row selected.", "error");
+
+                var currentTableRow = selectedRows[0];
+
+                var salesBillId = parseInt(currentTableRow.getAttribute('data-sales-bill-id'));
+
+                if (isNaN(salesBillId)) { salesBillId = 0; }
+
+                DOM.salesBillId.value = salesBillId;
+
+                var cancelSalesBill = [];
+
+                var salesBill = {};
+
+                salesBill = {
+                    SalesBillId: salesBillId,
+                    CancelledBy: LOGGED_USER
+                };
+
+                cancelSalesBill.push(salesBill);
+
+                var postData = JSON.stringify(cancelSalesBill);
+
+                shared.sendRequest(SERVICE_PATH + "CancelSalesBill", "POST", true, "JSON", postData, function (response) {
+
+                    shared.showLoader(DOM.loader);
+
+                    var res = JSON.parse(response.responseText);
+
+                    if (res.status === 200) {
+
+                        if (parseInt(res.responseText) > parseInt(0)) {
+                            swal({
+                                title: "Success",
+                                text: "Sales Bill cancelled successfully.",
+                                type: "success"
+                            }, function () {
+                                //getSalesBills();
+                            });
+                        }
+                    }
+                    else {
+                        swal("error", "Unable to cancel the Sales Bill due to some error.", "error");
+                        handleError(res.Message + " " + res.ExceptionMessage);
+                    }
+
+                    shared.hideLoader(DOM.loader);
+                });
+
             }
+        }
+        else {
+            swal("error", "No row selected.", "error");
+        }
 
     }
 
-    function printSalesBill(salesBillIdAfterSave) {
+    function printBills() {
+
+        printSalesBill(0, false);
+        printSalesBill(0, true);
+    }
+
+    function printSalesBill(salesBillIdAfterSave, isCustomerCopy) {
 
         shared.showLoader(DOM.loader);
 
@@ -3446,23 +3700,62 @@ SharpiTech.SalesBill = (function () {
         var branchId = parseInt(DOM.branch.options[DOM.branch.selectedIndex].value);
         var saleTypeId = parseInt(DOM.typeOfSale.options[DOM.typeOfSale.selectedIndex].value);
         var folderName = 'CashSalesBills';
+        var reportName = "";
 
         if (salesBillIdAfterSave > 0) {
             salesBillId = salesBillIdAfterSave;
         }
 
         if (saleTypeId === 1) {
-            folderName = 'CashSalesBills';
+
+            if (isCustomerCopy) {
+                folderName = 'CashSalesBills/CustomerCopy';
+            }
+            else {
+                folderName = 'CashSalesBills';
+            }
+
+            if (branchId === 1) {
+
+                if (isCustomerCopy) {
+                    reportName = 'CashSaleInvoice.rpt';
+                }
+                else {
+                    reportName = 'CashSaleInvoiceForShop.rpt';
+                }
+            }
+            else {
+                if (isCustomerCopy) {
+                    reportName = 'CashSaleInvoice_A5.rpt';
+                }
+                else {
+                    reportName = 'CashSaleInvoiceForShop_A5.rpt';
+                }
+            }
         }
         else {
-            folderName = 'CreditSalesBills';
+            if (isCustomerCopy) {
+                folderName = 'CreditSalesBills/CustomerCopy';
+            }
+            else {
+                folderName = 'CreditSalesBills';
+            }
+
+            if (isCustomerCopy) {
+                reportName = 'CreditSalesInvoiceForShop.rpt';
+            }
+            else {
+                reportName = 'CreditSalesInvoice.rpt';
+            }
         }
 
         print = {
             SalesBillId: salesBillId,
             SalesBillNo: salesBillNo,
             BranchId: branchId,
-            SaleTypeId: saleTypeId
+            SaleTypeId: saleTypeId,
+            DirectoryNameToStore: folderName,
+            ReportName: reportName
         };
 
         var postData = JSON.stringify(print);
@@ -3481,7 +3774,8 @@ SharpiTech.SalesBill = (function () {
 
                         if (_response.length > 0) {
 
-                            window.open(location.origin + "/POS/ApplicationFiles/Sales/Bills/" + branchId + '/' + folderName + "/BillNo_" + salesBillNo + ".pdf", "_blank");
+                            //window.open(location.origin + "/POS/ApplicationFiles/Sales/Bills/" + branchId + '/' + folderName + "/BillNo_" + salesBillNo + ".pdf", "_blank");
+                            window.open(location.origin + '/POS/' + _response.substring(_response.lastIndexOf("POS\\") + 4), "_blank");
 
                         }
                     }
@@ -3709,109 +4003,109 @@ SharpiTech.SalesBill = (function () {
 
                     //if (tableRows[tr].classList.contains('removed-item') === false) {
 
-                        salesBillItemId = parseInt(tableRows[tr].getAttribute('data-sales-bill-item-id'));
+                    salesBillItemId = parseInt(tableRows[tr].getAttribute('data-sales-bill-item-id'));
 
-                        var inputs = tableRows[tr].querySelectorAll('input[type="text"]');
-                        var select = tableRows[tr].querySelectorAll('select');
+                    var inputs = tableRows[tr].querySelectorAll('input[type="text"]');
+                    var select = tableRows[tr].querySelectorAll('select');
 
-                        if (inputs.length) {
+                    if (inputs.length) {
 
-                            if (parseFloat(inputs[7].value) > parseFloat(0)) {
-                                goodsReceiptItemId = parseInt(inputs[0].value);
-                                itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
-                                saleQty = parseFloat(parseFloat(inputs[1].value).toFixed(2));
-                                saleRate = parseFloat(parseFloat(inputs[2].value).toFixed(2));
-                                cashDiscountPercent = parseFloat(parseFloat(inputs[3].value).toFixed(2));
-                                salesSchemeId = parseInt(select[0].options[select[0].selectedIndex].value);
-                                schemeDiscountPercent = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountpercent'));
-                                schemeDiscountAmount = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountamount'));
+                        if (parseFloat(inputs[7].value) > parseFloat(0)) {
+                            goodsReceiptItemId = parseInt(inputs[0].value);
+                            itemId = parseInt(tableRows[tr].getAttribute('data-item-id'));
+                            saleQty = parseFloat(parseFloat(inputs[1].value).toFixed(2));
+                            saleRate = parseFloat(parseFloat(inputs[2].value).toFixed(2));
+                            cashDiscountPercent = parseFloat(parseFloat(inputs[3].value).toFixed(2));
+                            salesSchemeId = parseInt(select[0].options[select[0].selectedIndex].value);
+                            schemeDiscountPercent = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountpercent'));
+                            schemeDiscountAmount = parseFloat(select[0].options[select[0].selectedIndex].getAttribute('data-discountamount'));
 
-                                if (salesSchemeId > 0) {
+                            if (salesSchemeId > 0) {
 
-                                    if (schemeDiscountPercent > 0) {
+                                if (schemeDiscountPercent > 0) {
 
-                                        typeOfDiscount = "CASH DISCOUNT";
-                                    }
-                                    else if (schemeDiscountAmount > 0) {
-                                        typeOfDiscount = "RATE DIFF";
-                                    }
-                                    else {
-                                        typeOfDiscount = null;
-                                    }
+                                    typeOfDiscount = "CASH DISCOUNT";
                                 }
-
-                                if (select[1].selectedIndex > 0) {
-                                    typeOfDiscount = select[1].options[select[1].selectedIndex].text.toUpperCase();
-                                }
-
-                                if (typeOfDiscount === null) {
-                                    discountAmount = parseFloat(0);
-                                }
-                                else if (typeOfDiscount === "CASH DISCOUNT") {
-                                    discountAmount = (saleQty * (saleRate * (cashDiscountPercent / 100)));
+                                else if (schemeDiscountAmount > 0) {
+                                    typeOfDiscount = "RATE DIFF";
                                 }
                                 else {
-                                    discountAmount = (saleQty * cashDiscountPercent);
+                                    typeOfDiscount = null;
                                 }
-
-                                taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
-                                gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
-                                unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
-                                //salesSchemeId = parseInt(inputs[3].getAttribute('data-sales-scheme-id'));
-
-                                if (isNaN(salesBillItemId)) { salesBillItemId = parseInt(0); }
-                                if (isNaN(salesBillId)) { salesBillId = parseInt(0); }
-                                if (isNaN(itemId)) { itemId = parseInt(0); }
-                                if (isNaN(srNo)) { srNo = parseInt(0); }
-                                if (isNaN(unitOfMeasurementId)) { unitOfMeasurementId = parseInt(0); }
-                                if (isNaN(salesSchemeId)) { salesSchemeId = 0; }
-
-
-                                var billItem = {};
-
-                                billItem = {
-                                    SalesBillItemId: salesBillItemId,
-                                    SalesBillId: salesBillId,
-                                    GoodsReceiptItemId: goodsReceiptItemId,
-                                    ItemId: itemId,
-                                    ItemName: itemName,
-                                    UnitOfMeasurementId: unitOfMeasurementId,
-                                    UnitCode: unitCode,
-                                    SaleQty: saleQty,
-                                    SaleRate: saleRate,
-                                    SalesSchemeId: salesSchemeId,
-                                    TypeOfDiscount: typeOfDiscount,
-                                    CashDiscountPercent: cashDiscountPercent,
-                                    DiscountAmount: discountAmount,
-                                    GSTRateId: gstRateId,
-                                    TaxId: taxId,
-                                    SrNo: srNo,
-                                    IsDeleted: false,
-                                    SalesBillItemsCharges: salesBillItemsChargesDetails
-                                };
-
-                                if (tableRows[tr].style.display === "none") {
-                                    billItem.IsDeleted = true;
-                                    billItem.DeletedBy = parseInt(LOGGED_USER);
-                                    billItem.DeletedByIP = IP_ADDRESS;
-                                }
-                                else {
-                                    if (salesBillItemId === parseInt(0)) {
-
-                                        billItem.CreatedBy = parseInt(LOGGED_USER);
-                                        billItem.CreatedByIP = IP_ADDRESS;
-                                        //addSalesBillItem(billItem);
-                                    }
-                                    else {
-                                        billItem.ModifiedBy = parseInt(LOGGED_USER);
-                                        billItem.ModifiedByIP = IP_ADDRESS;
-                                        //updateSalesBillItem(billItem);
-                                    }
-                                }
-
-                                salesBillItems.push(billItem);
                             }
+
+                            if (select[1].selectedIndex > 0) {
+                                typeOfDiscount = select[1].options[select[1].selectedIndex].text.toUpperCase();
+                            }
+
+                            if (typeOfDiscount === null) {
+                                discountAmount = parseFloat(0);
+                            }
+                            else if (typeOfDiscount === "CASH DISCOUNT") {
+                                discountAmount = (saleQty * (saleRate * (cashDiscountPercent / 100)));
+                            }
+                            else {
+                                discountAmount = (saleQty * cashDiscountPercent);
+                            }
+
+                            taxId = parseInt(tableRows[tr].getAttribute('data-tax-id'));
+                            gstRateId = parseInt(tableRows[tr].getAttribute('data-gst-rate-id'));
+                            unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
+                            //salesSchemeId = parseInt(inputs[3].getAttribute('data-sales-scheme-id'));
+
+                            if (isNaN(salesBillItemId)) { salesBillItemId = parseInt(0); }
+                            if (isNaN(salesBillId)) { salesBillId = parseInt(0); }
+                            if (isNaN(itemId)) { itemId = parseInt(0); }
+                            if (isNaN(srNo)) { srNo = parseInt(0); }
+                            if (isNaN(unitOfMeasurementId)) { unitOfMeasurementId = parseInt(0); }
+                            if (isNaN(salesSchemeId)) { salesSchemeId = 0; }
+
+
+                            var billItem = {};
+
+                            billItem = {
+                                SalesBillItemId: salesBillItemId,
+                                SalesBillId: salesBillId,
+                                GoodsReceiptItemId: goodsReceiptItemId,
+                                ItemId: itemId,
+                                ItemName: itemName,
+                                UnitOfMeasurementId: unitOfMeasurementId,
+                                UnitCode: unitCode,
+                                SaleQty: saleQty,
+                                SaleRate: saleRate,
+                                SalesSchemeId: salesSchemeId,
+                                TypeOfDiscount: typeOfDiscount,
+                                CashDiscountPercent: cashDiscountPercent,
+                                DiscountAmount: discountAmount,
+                                GSTRateId: gstRateId,
+                                TaxId: taxId,
+                                SrNo: srNo,
+                                IsDeleted: false,
+                                SalesBillItemsCharges: salesBillItemsChargesDetails
+                            };
+
+                            if (tableRows[tr].style.display === "none") {
+                                billItem.IsDeleted = true;
+                                billItem.DeletedBy = parseInt(LOGGED_USER);
+                                billItem.DeletedByIP = IP_ADDRESS;
+                            }
+                            else {
+                                if (salesBillItemId === parseInt(0)) {
+
+                                    billItem.CreatedBy = parseInt(LOGGED_USER);
+                                    billItem.CreatedByIP = IP_ADDRESS;
+                                    //addSalesBillItem(billItem);
+                                }
+                                else {
+                                    billItem.ModifiedBy = parseInt(LOGGED_USER);
+                                    billItem.ModifiedByIP = IP_ADDRESS;
+                                    //updateSalesBillItem(billItem);
+                                }
+                            }
+
+                            salesBillItems.push(billItem);
                         }
+                    }
                     //}
                 }
             }
@@ -3846,12 +4140,12 @@ SharpiTech.SalesBill = (function () {
             swal("Error!!!", "Please select the Branch Name.", "error");
             isValid = false;
         }
-            else if (DOM.salesman.selectedIndex === 0) {
+        else if (DOM.salesman.selectedIndex === 0) {
             DOM.salesman.focus();
             swal("Error!!!", "Please select the Saleman Name.", "error");
             isValid = false;
         }
-            else if (DOM.billNoAuto.checked === false && DOM.billNoManual.checked === false) {
+        else if (DOM.billNoAuto.checked === false && DOM.billNoManual.checked === false) {
             DOM.billNoAuto.focus();
             swal("Error!!!", "Please select the Bill No. Auto or Manual option.", "error");
             isValid = false;
@@ -4407,7 +4701,7 @@ SharpiTech.SalesBill = (function () {
                 DOM.billChargeGSTRate.setAttribute('data-gst-rate-id', response.GSTRateId);
 
                 if (DOM.billChargeTaxInclusive.checked) {
-                    taxableValue = shared.roundOff(billChargeAmount * (100 / (response.Rate + 100)),2);
+                    taxableValue = shared.roundOff(billChargeAmount * (100 / (response.Rate + 100)), 2);
                 }
                 else {
                     taxableValue = billChargeAmount;

@@ -66,7 +66,7 @@ namespace SharpiTech.POS.Business
             return _salesBill.GetItemsListByGoodsReceiptBarcode(goodsReceiptItemId);
         }
 
-        public Entities.SalesBillItem GetItemsListByGoodsReceiptAndInwardGoodsBarcode (Int32 goodsReceiptItemId, Int32 inwardGoodsId)
+        public Entities.SalesBillItem GetItemsListByGoodsReceiptAndInwardGoodsBarcode(Int32 goodsReceiptItemId, Int32 inwardGoodsId)
         {
             return _salesBill.GetItemsListByGoodsReceiptAndInwardGoodsBarcode(goodsReceiptItemId, inwardGoodsId);
         }
@@ -101,30 +101,38 @@ namespace SharpiTech.POS.Business
 
             try
             {
+                if (salesBill.SalesBillNo == 0)
+                {
+                    salesBill.SalesBillNo = _salesBill.GetSalesBillNo((int)salesBill.SalesBillId);
+                }
+
+                reportName = salesBill.ReportName;
+                folderName = salesBill.DirectoryNameToStore;
+
                 var parameters = new ArrayList();
 
                 parameters.Add(salesBill.SalesBillId);
 
-                if (salesBill.SaleTypeId == 1)
-                {
+                //if (salesBill.SaleTypeId == 1)
+                //{
 
-                    folderName = "CashSalesBills";
+                //    folderName = "CashSalesBills";
 
-                    if (salesBill.BranchId == 1)
-                    {
-                        reportName = "CashSaleInvoice.rpt";
-                        //reportName = "CashSaleInvoice_A5.rpt";
-                    }
-                    else
-                    {
-                        reportName = "CashSaleInvoice_A5.rpt";
-                    }
-                }
-                else
-                {
-                    folderName = "CreditSalesBills";
-                    reportName = "CreditSalesInvoice.rpt";
-                }
+                //    if (salesBill.BranchId == 1)
+                //    {
+                //        reportName = "CashSaleInvoice.rpt";
+                //        //reportName = "CashSaleInvoice_A5.rpt";
+                //    }
+                //    else
+                //    {
+                //        reportName = "CashSaleInvoice_A5.rpt";
+                //    }
+                //}
+                //else
+                //{
+                //    folderName = "CreditSalesBills";
+                //    reportName = "CreditSalesInvoice.rpt";
+                //}
 
                 var serverPath = HttpContext.Current.Server.MapPath("/POS/");
                 reportEntity.DirectoryPath = serverPath + "ApplicationFiles/Sales/Bills/" + Convert.ToString(salesBill.BranchId) + "/" + folderName + "/";

@@ -22,7 +22,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="inward"></param>
         /// <returns></returns>
@@ -44,6 +44,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@to_location_id", DbType.Int32, inward.ToLocationId);
                     database.AddInParameter(dbCommand, "@transporter_id", DbType.Int32, inward.TransporterId);
                     database.AddInParameter(dbCommand, "@vehicle_no", DbType.String, inward.VehicleNo);
+                    database.AddInParameter(dbCommand, "@lr_no", DbType.String, inward.LRNo);
                     database.AddInParameter(dbCommand, "@reference_type", DbType.String, inward.ReferenceType);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, inward.Remarks);
                     database.AddInParameter(dbCommand, "@branch_id", DbType.Int32, inward.BranchId);
@@ -74,7 +75,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="inward"></param>
         /// <param name="dbTransaction"></param>
@@ -97,6 +98,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@to_location_id", DbType.Int32, inward.ToLocationId);
                     database.AddInParameter(dbCommand, "@transporter_id", DbType.Int32, inward.TransporterId);
                     database.AddInParameter(dbCommand, "@vehicle_no", DbType.String, inward.VehicleNo);
+                    database.AddInParameter(dbCommand, "@lr_no", DbType.String, inward.LRNo);
                     database.AddInParameter(dbCommand, "@reference_type", DbType.String, inward.ReferenceType);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, inward.Remarks);
                     database.AddInParameter(dbCommand, "@branch_id", DbType.Int32, inward.BranchId);
@@ -127,7 +129,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="inward"></param>
         /// <returns></returns>
@@ -168,7 +170,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="inward"></param>
         /// <param name="dbTransaction"></param>
@@ -210,7 +212,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns></returns>
         public List<Entities.InwardDetails> GetAllInwardDetails()
@@ -242,11 +244,12 @@ namespace SharpiTech.POS.DataModel
                                 FromLocationName = DRE.GetNullableString(reader, "from_location_name", null),
                                 ToLocationId = DRE.GetNullableInt32(reader, "to_location_id", null),
                                 ToLocationName = DRE.GetNullableString(reader, "to_location_name", null),
-                                TypeOfTransfer = DRE.GetNullableString(reader,"transfer_type", null),
+                                TypeOfTransfer = DRE.GetNullableString(reader, "transfer_type", null),
                                 TypeOfTransferId = DRE.GetNullableInt32(reader, "type_of_transfer_id", null),
                                 TransporterId = DRE.GetNullableInt32(reader, "transporter_id", null),
                                 TransporterName = DRE.GetNullableString(reader, "transporter_name", null),
                                 VehicleNo = DRE.GetNullableString(reader, "vehicle_no", null),
+                                LRNo = DRE.GetNullableString(reader, "lr_no", null),
                                 Remarks = DRE.GetNullableString(reader, "remarks", null),
                                 BranchId = DRE.GetNullableInt32(reader, "branch_id", null),
                                 BranchName = DRE.GetNullableString(reader, "branch_name", null),
@@ -611,7 +614,7 @@ namespace SharpiTech.POS.DataModel
                                 ItemName = DRE.GetNullableString(reader, "item_name", null),
                                 UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
                                 UnitCode = DRE.GetNullableString(reader, "unit_code", null),
-                                PkgQty = DRE.GetNullableDecimal(reader, "pkg_qty", null),                                
+                                PkgQty = DRE.GetNullableDecimal(reader, "pkg_qty", null),
                                 InwardQty = DRE.GetNullableDecimal(reader, "inward_qty", null),
                                 InwardStatus = DRE.GetNullableString(reader, "inward_status", null)
                             };
@@ -709,6 +712,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@to_location_id", DbType.Int32, inward.ToLocationId);
                     database.AddInParameter(dbCommand, "@transporter_id", DbType.Int32, inward.TransporterId);
                     database.AddInParameter(dbCommand, "@vehicle_no", DbType.String, inward.VehicleNo);
+                    database.AddInParameter(dbCommand, "@lr_no", DbType.String, inward.LRNo);
                     database.AddInParameter(dbCommand, "@reference_type", DbType.String, inward.ReferenceType);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, inward.Remarks);
                     database.AddInParameter(dbCommand, "@branch_id", DbType.Int32, inward.BranchId);
@@ -739,7 +743,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="inward"></param>
         /// <param name="dbTransaction"></param>
@@ -762,6 +766,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@to_location_id", DbType.Int32, inward.ToLocationId);
                     database.AddInParameter(dbCommand, "@transporter_id", DbType.Int32, inward.TransporterId);
                     database.AddInParameter(dbCommand, "@vehicle_no", DbType.String, inward.VehicleNo);
+                    database.AddInParameter(dbCommand, "@lr_no", DbType.String, inward.LRNo);
                     database.AddInParameter(dbCommand, "@reference_type", DbType.String, inward.ReferenceType);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, inward.Remarks);
                     database.AddInParameter(dbCommand, "@branch_id", DbType.Int32, inward.BranchId);
@@ -825,7 +830,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="inwards"></param>
         /// <returns></returns>

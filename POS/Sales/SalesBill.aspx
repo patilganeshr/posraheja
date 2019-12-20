@@ -214,6 +214,7 @@
                                         <div class="form-group form-group-md">
                                             <label>Scan Barcode Or Search Item</label>
                                             <input type="text" id="ScanBarcode" class="form-control input-md" />
+                                            <input type="text" id="SearchItemNameOrBarcode" class="form-control input-md" style="display: none;" />
                                         </div>
                                     </div>
                                     <div class="pull-right">
@@ -221,8 +222,8 @@
                                     </div>
                                 </div>
 
-                                <%--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">                                    
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">                                                
+                                <%--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                             <div class="form-group form-group-md">
                                                 <button type="button" id="DeleteBillItem" class="btn btn-sm btn-danger">Remove Item</button>
                                             </div>
@@ -263,300 +264,60 @@
 
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="display: none;">
 
-                        <div class="panel panel-carmine" style="display: none;">
-                            <div class="panel-heading panel-heading-carmine">
-                                <h4 class="panel-title">GST Breakup</h4>
-                            </div>
-
-                            <div class="panel-body">
-
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="table-responsive">
-                                        <table id="GSTBreakup" class="table table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <%--<th class="text-center">Item Name</th>--%>
-                                                    <th class="text-center">HSN Code</th>
-                                                    <th class="text-center">Taxable Value</th>
-                                                    <th class="text-center">GST Rate</th>
-                                                    <th class="text-center">SGST</th>
-                                                    <th class="text-center">CGST</th>
-                                                    <th class="text-center">IGST</th>
-                                                    <th class="text-center">Total GST Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                            <tfoot></tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                        <!-- CUSTOMER AND CONSIGNEE DETAILS -->
-
-                    <div class="row">
-                        
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <div class="panel panel-carmine">
+                            <div class="panel panel-carmine" style="display: none;">
                                 <div class="panel-heading panel-heading-carmine">
-                                    <h4 class="panel-title">Customer Details</h4>
+                                    <h4 class="panel-title">GST Breakup</h4>
                                 </div>
+
                                 <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-md">
-                                                <label>Customer</label>
-                                                <div class="input-group input-group-md">
-                                                    <input type="text" class="form-control input-md" id="CustomerName" />
-                                                    <span class="input-group-btn">
-                                                        <button type="button" id="AddNewCustomer" name="NewCustomer" class="btn btn-info btn-carmine">
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                        <button type="button" id="RefreshCustomerList" name="RefreshCustomer" class="btn btn-default">
-                                                            <i class="fa fa-refresh"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="table-responsive">
+                                            <table id="GSTBreakup" class="table table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <%--<th class="text-center">Item Name</th>--%>
+                                                        <th class="text-center">HSN Code</th>
+                                                        <th class="text-center">Taxable Value</th>
+                                                        <th class="text-center">GST Rate</th>
+                                                        <th class="text-center">SGST</th>
+                                                        <th class="text-center">CGST</th>
+                                                        <th class="text-center">IGST</th>
+                                                        <th class="text-center">Total GST Amount</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot></tfoot>
+                                            </table>
                                         </div>
-
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <div class="form-group form-group-md">
-                                                <label>Consignee</label>
-                                                <div class="input-group input-group-md">
-                                                    <input type="text" class="form-control input-md" id="ConsigneeName" />
-                                                    <span class="input-group-btn">
-                                                        <button type="button" id="AddNewConsignee" name="NewConsignee" class="btn btn-info">
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                        <button type="button" id="RefreshConsigneeList" name="RefreshConsignee" class="btn btn-default">
-                                                            <i class="fa fa-refresh"></i>
-                                                        </button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
                                     </div>
+
                                 </div>
                             </div>
                         </div>
 
                         <!-- CUSTOMER AND CONSIGNEE DETAILS -->
 
-                        <!-- Payment Details Start -->
+                        <div class="row">
 
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-                            <div class="panel panel-carmine">
-                                <div class="panel-heading panel-heading-carmine">
-                                    <h4 class="panel-title">Payment Details</h4>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                                            <input type="hidden" id="SalesBillPaymentId" />
-
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>Payment Settlement</label>
-                                                    <select id="PaymentSettlement" class="form-control"></select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>Mode of Payment</label>
-                                                    <select id="ModeOfPayment" class="form-control"></select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="row">
-                                                    <div id="CashMode" class="panel hide-panel">
-                                                        <div class="panel-body">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Cash Amount</label>
-                                                                    <input type="text" id="CashAmount" class="form-control" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="row">
-                                                    <div id="CreditCardMode" class="panel hide-panel">
-                                                        <div class="panel-body">
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Credit Card No.</label>
-                                                                    <input type="text" id="CreditCardNo" class="form-control" />
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Credit Card Amount</label>
-                                                                    <input type="text" id="CreditCardAmount" class="form-control" />
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="row">
-                                                    <div id="ChequeMode" class="panel hide-panel">
-                                                        <div class="panel-body">
-
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Cheque No.</label>
-                                                                    <input type="text" id="ChequeNo" class="form-control" />
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Cheque Date</label>
-                                                                    <input type="text" id="ChequeDate" class="form-control" />
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Bank Name</label>
-                                                                    <input type="text" id="ChequeDrawnOn" class="form-control" />
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Cheque Amount</label>
-                                                                    <input type="text" id="ChequeAmount" class="form-control" />
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="row">
-                                                    <div id="NetBankingMode" class="panel hide-panel">
-                                                        <div class="panel-body">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Net Banking Reference No.</label>
-                                                                    <input type="text" id="NetBankingReferenceNo" class="form-control" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                                <div class="form-group form-group-md">
-                                                                    <label>Net Banking Amount</label>
-                                                                    <input type="text" id="NetBankingAmount" class="form-control" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>Payment Remarks</label>
-                                                    <textarea id="PaymentRemarks" class="form-control" rows="3"></textarea>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                <div class="panel panel-carmine">
+                                    <div class="panel-heading panel-heading-carmine">
+                                        <h4 class="panel-title">Customer Details</h4>
                                     </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <!-- Payment Details End -->
-
-                        <!-- Delivery Details Start -->
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-
-                            <div class="panel panel-carmine">
-                                <div class="panel-heading panel-heading-carmine">
-                                    <h4 class="panel-title">Delivery Details</h4>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                                            <input type="hidden" id="SalesBillDeliveryId" />
-
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <label for="IsDeliveryPending">Is Delivery Pending</label>
-                                                <div class="form-group form-group-md">
-                                                    <label class="lable-tick">
-                                                        <input type="radio" id="DeliveryPendingYes" class="label-radio" name="IsDeliveryPending" value="Yes" />
-                                                        <span class="label-text">Yes</span>
-                                                    </label>
-                                                    <label class="lable-tick">
-                                                        <input type="radio" id="DeliveryPendingNo" class="label-radio" name="IsDeliveryPending" checked="checked" value="No" />
-                                                        <span class="label-text">No</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>Delivery Date</label>
-                                                    <div class="input-group date input-group-md" id="DeliveryDatePicker">
-                                                        <input type="text" id="DeliveryDate" class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                    <div class="panel-body">
+                                        <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-group form-group-md">
-                                                    <label>Delivery To</label>
-                                                    <input type="text" id="DeliveryTo" class="form-control" />
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>Delivery Address</label>
-                                                    <textarea id="DeliveryAddress" class="form-control" rows="2"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>Transporter</label>
+                                                    <label>Customer</label>
                                                     <div class="input-group input-group-md">
-                                                        <select id="Transporter" class="form-control"></select>
+                                                        <input type="text" class="form-control input-md" id="CustomerName" />
                                                         <span class="input-group-btn">
-                                                            <button type="button" id="AddNewTransporter" name="NEW_TRANSPORTER" class="btn btn-info">
+                                                            <button type="button" id="AddNewCustomer" name="NewCustomer" class="btn btn-info btn-carmine">
                                                                 <i class="fa fa-plus"></i>
                                                             </button>
-                                                            <button type="button" id="RefreshTransporterList" name="REFRESH_TRANSPORTER" class="btn btn-default">
+                                                            <button type="button" id="RefreshCustomerList" name="RefreshCustomer" class="btn btn-default">
                                                                 <i class="fa fa-refresh"></i>
                                                             </button>
                                                         </span>
@@ -564,84 +325,324 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-group form-group-md">
-                                                    <label>LR No.</label>
-                                                    <input type="text" id="LRNo" class="form-control" />
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>LR Date</label>
-                                                    <div class="input-group date input-group-md" id="LRDatePicker">
-                                                        <input type="text" id="LRDate" class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <i class="fa fa-calendar"></i>
+                                                    <label>Consignee</label>
+                                                    <div class="input-group input-group-md">
+                                                        <input type="text" class="form-control input-md" id="ConsigneeName" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="AddNewConsignee" name="NewConsignee" class="btn btn-info">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                            <button type="button" id="RefreshConsigneeList" name="RefreshConsignee" class="btn btn-default">
+                                                                <i class="fa fa-refresh"></i>
+                                                            </button>
                                                         </span>
                                                     </div>
                                                 </div>
                                             </div>
 
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CUSTOMER AND CONSIGNEE DETAILS -->
+
+                            <!-- Payment Details Start -->
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                                <div class="panel panel-carmine">
+                                    <div class="panel-heading panel-heading-carmine">
+                                        <h4 class="panel-title">Payment Details</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <div class="form-group form-group-md">
-                                                    <label>Remarks</label>
-                                                    <textarea id="DeliveryRemarks" class="form-control" rows="2"></textarea>
+
+                                                <input type="hidden" id="SalesBillPaymentId" />
+
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Payment Settlement</label>
+                                                        <select id="PaymentSettlement" class="form-control"></select>
+                                                    </div>
                                                 </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Mode of Payment</label>
+                                                        <select id="ModeOfPayment" class="form-control"></select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="row">
+                                                        <div id="CashMode" class="panel hide-panel">
+                                                            <div class="panel-body">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Cash Amount</label>
+                                                                        <input type="text" id="CashAmount" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="row">
+                                                        <div id="CreditCardMode" class="panel hide-panel">
+                                                            <div class="panel-body">
+                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Credit Card No.</label>
+                                                                        <input type="text" id="CreditCardNo" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Credit Card Amount</label>
+                                                                        <input type="text" id="CreditCardAmount" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="row">
+                                                        <div id="ChequeMode" class="panel hide-panel">
+                                                            <div class="panel-body">
+
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Cheque No.</label>
+                                                                        <input type="text" id="ChequeNo" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Cheque Date</label>
+                                                                        <input type="text" id="ChequeDate" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Bank Name</label>
+                                                                        <input type="text" id="ChequeDrawnOn" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Cheque Amount</label>
+                                                                        <input type="text" id="ChequeAmount" class="form-control" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="row">
+                                                        <div id="NetBankingMode" class="panel hide-panel">
+                                                            <div class="panel-body">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Net Banking Reference No.</label>
+                                                                        <input type="text" id="NetBankingReferenceNo" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                                    <div class="form-group form-group-md">
+                                                                        <label>Net Banking Amount</label>
+                                                                        <input type="text" id="NetBankingAmount" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Payment Remarks</label>
+                                                        <textarea id="PaymentRemarks" class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+
                                             </div>
 
                                         </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Payment Details End -->
+
+                            <!-- Delivery Details Start -->
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+
+                                <div class="panel panel-carmine">
+                                    <div class="panel-heading panel-heading-carmine">
+                                        <h4 class="panel-title">Delivery Details</h4>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                                <input type="hidden" id="SalesBillDeliveryId" />
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <label for="IsDeliveryPending">Is Delivery Pending</label>
+                                                    <div class="form-group form-group-md">
+                                                        <label class="lable-tick">
+                                                            <input type="radio" id="DeliveryPendingYes" class="label-radio" name="IsDeliveryPending" value="Yes" />
+                                                            <span class="label-text">Yes</span>
+                                                        </label>
+                                                        <label class="lable-tick">
+                                                            <input type="radio" id="DeliveryPendingNo" class="label-radio" name="IsDeliveryPending" checked="checked" value="No" />
+                                                            <span class="label-text">No</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Delivery Date</label>
+                                                        <div class="input-group date input-group-md" id="DeliveryDatePicker">
+                                                            <input type="text" id="DeliveryDate" class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Delivery To</label>
+                                                        <input type="text" id="DeliveryTo" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Delivery Address</label>
+                                                        <textarea id="DeliveryAddress" class="form-control" rows="2"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Transporter</label>
+                                                        <div class="input-group input-group-md">
+                                                            <select id="Transporter" class="form-control"></select>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" id="AddNewTransporter" name="NEW_TRANSPORTER" class="btn btn-info">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </button>
+                                                                <button type="button" id="RefreshTransporterList" name="REFRESH_TRANSPORTER" class="btn btn-default">
+                                                                    <i class="fa fa-refresh"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>LR No.</label>
+                                                        <input type="text" id="LRNo" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>LR Date</label>
+                                                        <div class="input-group date input-group-md" id="LRDatePicker">
+                                                            <input type="text" id="LRDate" class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-group form-group-md">
+                                                        <label>Remarks</label>
+                                                        <textarea id="DeliveryRemarks" class="form-control" rows="2"></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
+
+                            <!-- Delivery Details End -->
 
                         </div>
 
-                        <!-- Delivery Details End -->
+                        <!-- MODAL OPEN -->
 
-                    </div>
+                        <div id="ClientModal" class="modal fade">
 
-                    <!-- MODAL OPEN -->
+                            <div class="modal-dialog modal-medium">
 
-                    <div id="ClientModal" class="modal fade">
+                                <div class="modal-content">
 
-                        <div class="modal-dialog modal-medium">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">Client Details</h4>
+                                    </div>
 
-                            <div class="modal-content">
+                                    <div class="modal-body modal-body-scroll">
 
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Client Details</h4>
-                                </div>
+                                        <div class="row">
 
-                                <div class="modal-body modal-body-scroll">
+                                            <div class="panel-body">
 
-                                    <div class="row">
+                                                <iframe id="ClientDetails"></iframe>
 
-                                        <div class="panel-body">
-
-                                            <iframe id="ClientDetails"></iframe>
+                                            </div>
 
                                         </div>
 
                                     </div>
 
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="CloseClientModal" class="btn btn-default btn-sm btn-rounded" data-dismiss="modal">Close</button>
+                                    </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" id="CloseClientModal" class="btn btn-default btn-sm btn-rounded" data-dismiss="modal">Close</button>
                                 </div>
 
                             </div>
 
                         </div>
 
-                    </div>
+                        <!-- MODAL CLOSE -->
 
-                    <!-- MODAL CLOSE -->
+                        <!-- Additional Bill Charges Section Start -->
 
-                    <!-- Additional Bill Charges Section Start -->
-                    
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                             <div class="panel panel-carmine">
@@ -746,17 +747,17 @@
 
                         </div>
 
-                    
-                    <!-- Additional Bill Charges Section End -->
 
-                    <!-- Search Item Rates Modal Start -->
+                        <!-- Additional Bill Charges Section End -->
+
+                        <!-- Search Item Rates Modal Start -->
 
                         <div id="SearchItemRate" class="modal fade in" tabindex="-1" role="dialog">
 
                             <div class="modal-dialog">
-                            
+
                                 <div class="modal-content">
-                                
+
                                     <div class="modal-header">
                                         <h4 class="modal-title">Search Item Rate</h4>
                                     </div>
@@ -798,7 +799,7 @@
                                         </div>
 
                                     </div>
-                             
+
                                     <div class="modal-footer">
                                         <button class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true" id="CloseSearchItemRate" type="button">Close</button>
                                     </div>
@@ -807,16 +808,16 @@
                             </div>
                         </div>
 
-                    <!-- Search Item Rates Modal End-->
+                        <!-- Search Item Rates Modal End-->
 
-                    <!-- Show Item Rates History Modal Start -->
+                        <!-- Show Item Rates History Modal Start -->
 
                         <div id="ItemRateHistoryModal" class="modal fade in" tabindex="-1" role="dialog">
 
                             <div class="modal-dialog">
-                            
+
                                 <div class="modal-content">
-                                
+
                                     <div class="modal-header">
                                         <h4 class="modal-title">Item Rate History</h4>
                                     </div>
@@ -824,28 +825,28 @@
                                     <div class="modal-body modal-body-scroll">
 
                                         <div class="row">
-                                        
+
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            
+
                                                 <div class="table-responsive">
-                                                        <table id="ItemRateHistoryList" class="table table-condensed">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Customer Name</th>
-                                                                    <th>Sales Bill No.</th>
-                                                                    <th>Sales Bill Date</th>
-                                                                    <th>Sale Rate</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody></tbody>
-                                                        </table>
-                                                    </div>
-                                                
+                                                    <table id="ItemRateHistoryList" class="table table-condensed">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Customer Name</th>
+                                                                <th>Sales Bill No.</th>
+                                                                <th>Sales Bill Date</th>
+                                                                <th>Sale Rate</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+
                                             </div>
                                         </div>
 
                                     </div>
-                             
+
                                     <div class="modal-footer">
                                         <button class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true" id="CloseItemRateHistoryModal" type="button">Close</button>
                                     </div>
@@ -854,9 +855,9 @@
                             </div>
                         </div>
 
-                    <!-- Show Item Rate History Modal End-->
+                        <!-- Show Item Rate History Modal End-->
 
-                </div>
+                    </div>
 
                 </div>
 
@@ -864,57 +865,57 @@
 
                 <div id="ViewMode">
 
-                <div class="row">
+                    <div class="row">
 
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                        <!-- START OF CASH SALES DETAILS -->
+                            <!-- START OF CASH SALES DETAILS -->
 
-                        <div class="panel panel-carmine">
+                            <div class="panel panel-carmine">
 
-                            <div class="panel-heading panel-heading-carmine">
-                                <h4 class="panel-title">Cash Sales</h4>
-                            </div>
+                                <div class="panel-heading panel-heading-carmine">
+                                    <h4 class="panel-title">Cash Sales</h4>
+                                </div>
 
-                            <div class="panel-body">
+                                <div class="panel-body">
 
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                    <div class="table-responsive">
-                                        <table id="SalesBillList" class="table table-condensed">
-                                            <thead>
-                                                <tr>
-                                                    <th>Action</th>
-                                                    <th>Company Name</th>
-                                                    <th>Branch Name</th>
-                                                    <th>Bill No.</th>
-                                                    <th>Bill Date</th>
-                                                    <th>Customer</th>
-                                                    <th>Consignee</th>
-                                                    <th>Total Qty</th>
-                                                    <th>Total Amount</th>
-                                                    <th>Year</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table id="SalesBillList" class="table table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Action</th>
+                                                        <th>Company Name</th>
+                                                        <th>Branch Name</th>
+                                                        <th>Bill No.</th>
+                                                        <th>Bill Date</th>
+                                                        <th>Customer</th>
+                                                        <th>Consignee</th>
+                                                        <th>Total Qty</th>
+                                                        <th>Total Amount</th>
+                                                        <th>Year</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
 
                                 </div>
 
                             </div>
 
-                        </div>
+                            <!-- END OF SALES ORDER DETAILS -->
 
-                        <!-- END OF SALES ORDER DETAILS -->
+                        </div>
 
                     </div>
 
+                    <!-- ViewMode -->
+
                 </div>
-
-                <!-- ViewMode -->
-
-            </div>
 
             </div>
 

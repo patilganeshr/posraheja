@@ -144,6 +144,8 @@ SharpiTech.PkgSlip = (function () {
         getKaragir();
         //getPkgSlip();
 
+        addNewPkgSlip();
+
     }
 
     function getFinancialYears() {
@@ -726,7 +728,7 @@ SharpiTech.PkgSlip = (function () {
 
     function setItemName(itemDetails) {
 
-        DOM.itemNameOrBarcode.value = itemDetails.ItemName;
+        DOM.itemNameOrBarcode.value = "";
 
         shared.closeAutoCompleteList(DOM.searchItemList);
 
@@ -822,6 +824,16 @@ SharpiTech.PkgSlip = (function () {
         // Mark the Item as Deleted if the pkg slip item id is 0
         if (pkgSlipItemId === 0) {
             tableBody.removeChild(tableRow);
+
+            if (pkgSlipItems.length) {
+                for (var i = 0; i < pkgSlipItems.length; i++) {
+                    if (pkgSlipItems[i].PkgSlipItemId === pkgSlipItemId
+                        && pkgSlipItems[i].GoodsReceiptItemId === goodsReceiptItemId
+                        && pkgSlipItems[i].InwardGoodsId === inwardGoodsId) {
+                        pkgSlipItems.splice(i, 1);
+                    }
+                }
+            }
         }
         else {
             if (pkgSlipItems.length) {
@@ -926,6 +938,7 @@ SharpiTech.PkgSlip = (function () {
         shared.showLoader(DOM.loader);
 
         shared.clearInputs(DOM.editMode);
+        shared.clearTables(DOM.editMode);
         shared.clearSelect(DOM.editMode);
         shared.disableControls(DOM.editMode, false);
 
@@ -948,7 +961,7 @@ SharpiTech.PkgSlip = (function () {
 
         shared.hideLoader(DOM.loader);
 
-        DOM.vendor.focus();
+        DOM.typeOfTransfer.focus();
     }
 
     function showPkgSlipList() {
@@ -1168,8 +1181,8 @@ SharpiTech.PkgSlip = (function () {
         pkgSlipId = DOM.pkgSlipNo.getAttribute('data-pkg-slip-id');
         pkgSlipNo = parseInt(DOM.pkgSlipNo.value);
         pkgSlipDate = DOM.pkgSlipDate.value;
-        purchaseBillId = parseInt(DOM.purchaseBillNo.options[DOM.purchaseBillNo.selectedIndex].value);
-        purchaseBillNo = DOM.purchaseBillNo.options[DOM.purchaseBillNo.selectedIndex].text;
+        //purchaseBillId = parseInt(DOM.purchaseBillNo.options[DOM.purchaseBillNo.selectedIndex].value);
+        //purchaseBillNo = DOM.purchaseBillNo.options[DOM.purchaseBillNo.selectedIndex].text;
         fromLocation = DOM.fromLocation.options[DOM.fromLocation.selectedIndex].text;
         fromLocationId = parseInt(DOM.fromLocation.options[DOM.fromLocation.selectedIndex].value);
         toLocation = DOM.toLocation.options[DOM.toLocation.selectedIndex].text;
@@ -1284,22 +1297,22 @@ SharpiTech.PkgSlip = (function () {
                     DOM.pkgSlipDate.value = pkgSlip[0].PkgSlipDate;
                     shared.setSelectValue(DOM.typeOfTransfer, null, pkgSlip[0].TypeOfTransferId);
                     shared.setSelect2ControlsText(DOM.typeOfTransfer);
-                    shared.setSelectValue(DOM.vendor, null, pkgSlip[0].VendorId);
-                    shared.setSelect2ControlsText(DOM.vendor);
+                    //    shared.setSelectValue(DOM.vendor, null, pkgSlip[0].VendorId);
+                    //    shared.setSelect2ControlsText(DOM.vendor);
                     //shared.setSelectValue(DOM.purchaseBillNo, null, pkgSlip[0].PurchaseBillId);
                     //shared.setSelect2ControlsText(DOM.purchaseBillNo);
 
                     DOM.referenceNo.value = pkgSlip[0].ReferenceNo;
 
-                    DOM.purchaseBillNo.options.length = 0;
+                    //DOM.purchaseBillNo.options.length = 0;
 
-                    var option = document.createElement('option');
+                    //var option = document.createElement('option');
 
-                    option.value = pkgSlip[0].PurchaseBillId;
-                    option.text = pkgSlip[0].PurchaseBillNo;
+                    //option.value = pkgSlip[0].PurchaseBillId;
+                    //option.text = pkgSlip[0].PurchaseBillNo;
 
-                    DOM.purchaseBillNo.appendChild(option);
-                    DOM.purchaseBillNo.options.selectedIndex = 0;
+                    //DOM.purchaseBillNo.appendChild(option);
+                    //DOM.purchaseBillNo.options.selectedIndex = 0;
 
                     getFromLocations(pkgSlip[0].FromLocationId);
 
@@ -1508,7 +1521,7 @@ SharpiTech.PkgSlip = (function () {
 
                 for (var r = 0; r < pkgSlipItems.length; r++) {
 
-                    data = data + "<tr data-pkg-slip-item-id=" + pkgSlipItems[r].PkgSlipItemId + " data-item-id=" + pkgSlipItems[r].ItemId + " data-unit-of-measurement-id=" + pkgSlipItems[r].UnitOfMeasurementId + " data-goods-receipt-item-id=" + pkgSlipItems[r].GoodsReceiptItemId + ">";
+                    data = data + "<tr data-pkg-slip-item-id=" + pkgSlipItems[r].PkgSlipItemId + " data-item-id=" + pkgSlipItems[r].ItemId + " data-unit-of-measurement-id=" + pkgSlipItems[r].UnitOfMeasurementId + " data-goods-receipt-item-id=" + pkgSlipItems[r].GoodsReceiptItemId + " data-inward-goods-id=" + pkgSlipItems[r].InwardGoodsId + ">";
                     data = data + "<td>" + pkgSlipItems[r].BaleNo + "</td>";
                     data = data + "<td>" + pkgSlipItems[r].ItemName + "</td>";
                     data = data + "<td>" + pkgSlipItems[r].PkgQty + "</td>";

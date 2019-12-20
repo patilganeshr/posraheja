@@ -126,7 +126,7 @@ SharpiTech.PurchaseOrder = (function () {
             getBranchName(1);
         };
 
-                DOM.vendor.onkeyup = function (e) {
+        DOM.vendor.onkeyup = function (e) {
             //getKey(e.keyCode);
 
             if (CURRENT_FOCUS === undefined) { CURRENT_FOCUS = -1; }
@@ -147,9 +147,9 @@ SharpiTech.PurchaseOrder = (function () {
             //    DOM.itemName.value = "";                
             //}
             //setTimeout(function () {
-                showItemsList(e);
+            showItemsList(e);
             //}, 1000);            
-            
+
         };
 
     }
@@ -244,7 +244,7 @@ SharpiTech.PurchaseOrder = (function () {
         shared.hideLoader(DOM.loader);
     }
 
-   function getPaymentTerms() {
+    function getPaymentTerms() {
 
         shared.showLoader(DOM.loader);
 
@@ -278,7 +278,7 @@ SharpiTech.PurchaseOrder = (function () {
                 var res = JSON.parse(response.responseText);
 
                 UNIT_OF_MEASUREMENTS = res;
-                
+
             }
         });
 
@@ -357,7 +357,7 @@ SharpiTech.PurchaseOrder = (function () {
                     CURRENT_FOCUS = response;
                 }
                 else {
-                                        
+
                     CURRENT_FOCUS = -1;
 
                     var autoCompleteList = response;
@@ -418,7 +418,7 @@ SharpiTech.PurchaseOrder = (function () {
     function showVendorNameOnEnterKey() {
 
         FLAG = "NEW ITEM";
-       
+
         var li = DOM.vendorList.querySelectorAll('.autocompleteListItem-active');
 
         var count = li.length;
@@ -452,7 +452,7 @@ SharpiTech.PurchaseOrder = (function () {
         var dataAttributes = ['Item-Id', 'Item-Name'];
 
         var parameters = {};
-            
+
         parameters = {
 
             Event: e,
@@ -563,7 +563,7 @@ SharpiTech.PurchaseOrder = (function () {
 
         DOM.itemsList.scrollTop = liHeight * CURRENT_FOCUS - diff;
 
-        
+
     }
 
     function removeActive() {
@@ -655,7 +655,7 @@ SharpiTech.PurchaseOrder = (function () {
     function showItemNameOnEnterKey() {
 
         FLAG = "NEW ITEM";
-       
+
         var li = DOM.itemsList.querySelectorAll('.autocompleteListItem-active');
 
         var count = li.length;
@@ -671,7 +671,7 @@ SharpiTech.PurchaseOrder = (function () {
     function setItemName(e) {
 
         DOM.searchItemName.value = name;
-        
+
         shared.closeAutoCompleteList(DOM.itemsList);
 
         DOM.searchItemName.focus();
@@ -728,7 +728,7 @@ SharpiTech.PurchaseOrder = (function () {
         var rowsCount = tableRows.length;
 
         var rowIndex = rowsCount;
-                
+
         if (rowsCount === 0) {
             tableBody.innerHTML = "";
         }
@@ -787,7 +787,7 @@ SharpiTech.PurchaseOrder = (function () {
             addEvents();
         }
     }
-       
+
     function addEvents() {
 
         var tableBody = DOM.purchaseOrderItemsList.tBodies[0];
@@ -883,7 +883,7 @@ SharpiTech.PurchaseOrder = (function () {
         //}, 100);
 
         tableBody.removeChild(tableRow);
-        
+
         // Mark the Item as Deleted if the inward goods id is > 0
         if (PURCHASE_ORDER_ITEMS.length) {
 
@@ -910,9 +910,9 @@ SharpiTech.PurchaseOrder = (function () {
         var orderRateInput = tableRow.querySelectorAll('input[id*=OrderRate]');
 
         var discountInput = tableRow.querySelectorAll('input[id*=Discount]');
-        
+
         var orderQty = parseFloat(orderQtyInput[0].value);
-        var orderRate = parseFloat( orderRateInput[0].value);
+        var orderRate = parseFloat(orderRateInput[0].value);
         var discount = parseFloat(discountInput[0].value);
         var itemTotal = 0;
 
@@ -921,13 +921,13 @@ SharpiTech.PurchaseOrder = (function () {
         if (isNaN(orderRate)) { orderRate = 0; }
         if (isNaN(discount)) { discount = 0; }
 
-        
+
         itemTotal = orderQty * orderRate;
 
         tableRow.children[8].textContent = itemTotal;
 
         calculateItemSummary();
-        
+
     }
 
     function calculateItemSummary() {
@@ -1070,7 +1070,7 @@ SharpiTech.PurchaseOrder = (function () {
                         if (res.length > 0) {
 
                             PURCHASE_ORDERS = res;
-                        
+
                             bindPurchaseOrders();
                         }
                     }
@@ -1138,7 +1138,7 @@ SharpiTech.PurchaseOrder = (function () {
                 shared.setSelectValue(DOM.financialYear, null, parseInt(orders[0].WorkingPeriodId));
                 shared.setSelect2ControlsText(DOM.financialYear);
                 shared.setSelectValue(DOM.companyName, null, parseInt(orders[0].CompanyId));
-                shared.setSelect2ControlsText(DOM.companyName);                
+                shared.setSelect2ControlsText(DOM.companyName);
                 getBranchName(parseInt(orders[0].BranchId));
                 DOM.purchaseOrderNo.value = orders[0].PurchaseOrderNo;
                 DOM.purchaseOrderNo.setAttribute('data-purchase-order-id', parseInt(purchaseOrderId));
@@ -1151,8 +1151,8 @@ SharpiTech.PurchaseOrder = (function () {
                 shared.setSelectValue(DOM.paymentTerms, null, parseInt(orders[0].PaymentTermId));
                 shared.setSelect2ControlsText(DOM.paymentTerms);
                 DOM.discountRate.value = orders[0].DiscountRateForPayment;
-                DOM.paymentDays = orders[0].DiscountApplicableBeforePaymentDays;
-                DOM.noOfDaysForPayment = orders[0].NoOfDaysForPayment;
+                DOM.paymentDays.value = orders[0].DiscountApplicableBeforePaymentDays;
+                DOM.noOfDaysForPayment.value = orders[0].NoOfDaysForPayment;
                 DOM.orderRemarks.value = orders[0].Remarks;
 
                 getItemDetails(orders[0], purchaseOrderId);
@@ -1167,7 +1167,7 @@ SharpiTech.PurchaseOrder = (function () {
 
     function getItemDetails(orders, purchaseOrderId) {
 
-        if ( orders.PurchaseOrderItems.length) {
+        if (orders.PurchaseOrderItems.length) {
 
             var orderItems = orders.PurchaseOrderItems.filter(function (value, index, array) {
                 return value.PurchaseOrderId === parseInt(purchaseOrderId);
@@ -1288,7 +1288,7 @@ SharpiTech.PurchaseOrder = (function () {
 
         PURCHASE_ORDERS.length = 0;
         PURCHASE_ORDER_ITEMS.length = 0;
-        
+
         DOM.purchaseOrderNo.setAttribute('data-purchase-order-id', parseInt(0));
         //DOM.totalBillAmount.innerHTML = "";
 
@@ -1579,7 +1579,7 @@ SharpiTech.PurchaseOrder = (function () {
                         orderQty = parseFloat(inputs[2].value);
                         unitOfMeasurementId = parseInt(tableRows[tr].getAttribute('data-unit-of-measurement-id'));
                         orderRate = parseFloat(inputs[3].value);
-                        
+
 
                         if (isNaN(purchaseOrderItemid)) { purchaseOrderItemid = 0; }
                         if (isNaN(purchaseOrderId)) { purchaseOrderId = 0; }
@@ -1784,19 +1784,19 @@ SharpiTech.PurchaseOrder = (function () {
                     });
                 }
             });
- 
+
         }
 
     }
 
 
-    
+
     /* ---- public methods ---- */
     function init() {
         cacheDOM();
         applyPlugins();
         bindEvents();
-        loadData();        
+        loadData();
     }
 
     return {

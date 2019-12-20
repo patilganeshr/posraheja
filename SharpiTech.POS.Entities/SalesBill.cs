@@ -66,6 +66,12 @@ namespace SharpiTech.POS.Entities
 
         public decimal? SaleRate { get; set; }
 
+        public bool? IsCustomerCopy { get; set; }
+
+        public string ReportName { get; set; }
+
+        public string DirectoryNameToStore { get; set; }
+
         public List<SalesBillItem> SalesBillItems { get; set; }
 
         public List<Entities.SalesBillDeliveryDetails> SalesBillDeliveryDetails { get; set; }

@@ -208,7 +208,7 @@ namespace SharpiTech.POS.DataModel
                             SalesBillDeliveryDetails deliveryDetails = new SalesBillDeliveryDetails();
                             SalesBillPaymentDetails paymentDetails = new SalesBillPaymentDetails();
                             SalesBillChargesDetails billChargesDetails = new SalesBillChargesDetails();
-                            
+
                             var salesBill = new Entities.SalesBill
                             {
                                 SalesBillId = DRE.GetNullableInt32(reader, "sales_bill_id", 0),
@@ -262,7 +262,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@working_period_id", DbType.Int32, salesBill.WorkingPeriodId);
                     database.AddInParameter(dbCommand, "@sale_type_id", DbType.Int32, salesBill.SaleTypeId);
                     database.AddInParameter(dbCommand, "@sales_bill_no", DbType.Int32, salesBill.SalesBillNo);
-                    
+
                     using (IDataReader reader = database.ExecuteReader(dbCommand))
                     {
                         while (reader.Read())
@@ -272,7 +272,7 @@ namespace SharpiTech.POS.DataModel
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -317,14 +317,14 @@ namespace SharpiTech.POS.DataModel
                                 ConsigneeName = DRE.GetNullableString(reader, "consignee_name", null),
                                 SaleTypeId = DRE.GetNullableInt32(reader, "sale_type_id", null),
                                 SaleType = DRE.GetNullableString(reader, "sale_type", null),
-                                TotalSaleQty  = DRE.GetNullableDecimal(reader,"total_sale_qty", null),
+                                TotalSaleQty = DRE.GetNullableDecimal(reader, "total_sale_qty", null),
                                 TotalSaleAmount = DRE.GetNullableDecimal(reader, "total_sale_amount", null),
                                 WorkingPeriodId = DRE.GetNullableInt32(reader, "working_period_id", null),
-                                FinancialYear =DRE.GetNullableString(reader,"financial_year", null),
+                                FinancialYear = DRE.GetNullableString(reader, "financial_year", null),
                                 BranchId = DRE.GetNullableInt32(reader, "branch_id", null),
                                 BranchName = DRE.GetNullableString(reader, "branch_name", null),
                                 CompanyId = DRE.GetNullableInt32(reader, "company_id", null),
-                                CompanyName = DRE.GetNullableString(reader,"company_name", null),
+                                CompanyName = DRE.GetNullableString(reader, "company_name", null),
                                 SalesmanId = DRE.GetNullableInt32(reader, "salesman_id", null),
                                 SalesmanName = DRE.GetNullableString(reader, "salesman_name", null),
                                 Remarks = DRE.GetNullableString(reader, "remarks", null),
@@ -412,17 +412,17 @@ namespace SharpiTech.POS.DataModel
 
             try
             {
-                using(dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSalesBillDetailsById))
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSalesBillDetailsById))
                 {
                     database.AddInParameter(dbCommand, "@sales_bill_id", DbType.Int32, salesBillId);
 
-                    using(IDataReader reader = database.ExecuteReader(dbCommand))
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
                     {
                         while (reader.Read())
                         {
                             var salesBill = new Entities.SalesBill()
                             {
-                                SalesBillNo=  DRE.GetNullableInt32(reader, "sales_bill_no", 0),
+                                SalesBillNo = DRE.GetNullableInt32(reader, "sales_bill_no", 0),
                                 SalesBillDate = DRE.GetNullableString(reader, "sales_bill_date", null),
                                 CustomerId = DRE.GetNullableInt32(reader, "customer_id", null),
                                 SaleTypeId = DRE.GetNullableInt32(reader, "sale_type_id", null),
@@ -473,7 +473,7 @@ namespace SharpiTech.POS.DataModel
                             var salesBillItem = new SalesBillItem();
                             var salesBillPayment = new SalesBillPaymentDetails();
                             var salesBillDelivery = new SalesBillDeliveryDetails();
-                            
+
                             var salesBill = new Entities.SalesBill()
                             {
                                 SalesBillId = DRE.GetNullableInt32(reader, "sales_bill_id", 0),
@@ -486,13 +486,13 @@ namespace SharpiTech.POS.DataModel
                                 SaleTypeId = DRE.GetNullableInt32(reader, "sale_type_id", null),
                                 SaleType = DRE.GetNullableString(reader, "sale_type", null),
                                 CompanyId = DRE.GetNullableInt32(reader, "company_id", null),
-                                CompanyName = DRE.GetNullableString(reader,"company_name", null),
+                                CompanyName = DRE.GetNullableString(reader, "company_name", null),
                                 BranchId = DRE.GetNullableInt32(reader, "branch_id", null),
                                 BranchName = DRE.GetNullableString(reader, "branch_name", null),
                                 IsTaxInclusive = DRE.GetNullableBoolean(reader, "is_tax_inclusive", false),
                                 GSTApplicable = DRE.GetNullableString(reader, "gst_applicable", null),
-                                SalesmanId =DRE.GetNullableInt32(reader, "salesman_id", null),
-                                SalesmanName = DRE.GetNullableString(reader,"salesman_name", null),
+                                SalesmanId = DRE.GetNullableInt32(reader, "salesman_id", null),
+                                SalesmanName = DRE.GetNullableString(reader, "salesman_name", null),
                                 FinancialYear = DRE.GetNullableString(reader, "financial_year", null),
                                 WorkingPeriodId = DRE.GetNullableInt32(reader, "working_period_id", null),
                                 Remarks = DRE.GetNullableString(reader, "remarks", null),
@@ -537,7 +537,7 @@ namespace SharpiTech.POS.DataModel
                             var typeOfSale = new Entities.TypeOfSale()
                             {
                                 SaleTypeId = DRE.GetNullableInt32(reader, "sale_type_id", 0),
-                                SaleType = DRE.GetNullableString(reader, "sale_type", null)                                
+                                SaleType = DRE.GetNullableString(reader, "sale_type", null)
                             };
 
                             typeOfSales.Add(typeOfSale);
@@ -584,7 +584,7 @@ namespace SharpiTech.POS.DataModel
                                 UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
                                 IsSet = DRE.GetNullableBoolean(reader, "is_set", null),
                                 IsSellAtNetRate = DRE.GetNullableBoolean(reader, "is_sell_at_net_rate", null),
-                                SaleRate = DRE.GetNullableDecimal(reader, "flat_rate", null)                                
+                                SaleRate = DRE.GetNullableDecimal(reader, "flat_rate", null)
                             };
 
                             itemDetails = salesBillItem;
@@ -604,7 +604,7 @@ namespace SharpiTech.POS.DataModel
             return itemDetails;
         }
 
-        public Entities.SalesBillItem GetItemsListByGoodsReceiptAndInwardGoodsBarcode (Int32 goodsReceiptItemId, Int32 inwardGoodsId)
+        public Entities.SalesBillItem GetItemsListByGoodsReceiptAndInwardGoodsBarcode(Int32 goodsReceiptItemId, Int32 inwardGoodsId)
         {
             var itemDetails = new Entities.SalesBillItem();
 
@@ -630,8 +630,8 @@ namespace SharpiTech.POS.DataModel
                                 HSNCode = DRE.GetNullableString(reader, "hsn_code", null),
                                 UnitCode = DRE.GetNullableString(reader, "unit_code", null),
                                 UnitOfMeasurementId = DRE.GetNullableInt32(reader, "unit_of_measurement_id", null),
-                                IsSet = DRE.GetNullableBoolean(reader,"is_set", null),
-                                IsSellAtNetRate = DRE.GetNullableBoolean(reader,"is_sell_at_net_rate", null),
+                                IsSet = DRE.GetNullableBoolean(reader, "is_set", null),
+                                IsSellAtNetRate = DRE.GetNullableBoolean(reader, "is_sell_at_net_rate", null),
                                 SaleRate = DRE.GetNullableDecimal(reader, "flat_rate", null)
                             };
 
@@ -749,22 +749,25 @@ namespace SharpiTech.POS.DataModel
 
             try
             {
-                using(dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSaleRateHistoryByCustomerAndItem))
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetSaleRateHistoryByCustomerAndItem))
                 {
                     database.AddInParameter(dbCommand, "@customer_id", DbType.Int32, customerId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, itemId);
 
                     using (IDataReader reader = database.ExecuteReader(dbCommand))
                     {
-                        var rateHistory = new Entities.SalesBill()
+                        while (reader.Read())
                         {
-                            SalesBillId= DRE.GetNullableInt32(reader, "sales_bill_id", null),
-                            SalesBillNo = DRE.GetNullableInt32(reader, "sales_bill_no", null),
-                            SalesBillDate = DRE.GetNullableString(reader, "sales_bill_date", null),
-                            SaleRate = DRE.GetNullableDecimal(reader, "sale_rate", null)
-                        };
+                            var rateHistory = new Entities.SalesBill()
+                            {
+                                SalesBillId = DRE.GetNullableInt32(reader, "sales_bill_id", null),
+                                SalesBillNo = DRE.GetNullableInt32(reader, "sales_bill_no", null),
+                                SalesBillDate = DRE.GetNullableString(reader, "sales_bill_date", null),
+                                SaleRate = DRE.GetNullableDecimal(reader, "sale_rate", null)
+                            };
 
-                        saleRateHistory.Add(rateHistory);
+                            saleRateHistory.Add(rateHistory);
+                        }
                     }
                 }
             }
@@ -792,7 +795,7 @@ namespace SharpiTech.POS.DataModel
                 {
                     database.AddInParameter(dbCommand, "@sales_bill_id", DbType.Int32, salesBill.SalesBillId);
                     database.AddInParameter(dbCommand, "@cancelled_by", DbType.Int32, salesBill.CancelledBy);
-                    
+
                     database.AddOutParameter(dbCommand, "@return_value", DbType.Int32, 0);
 
                     var result = database.ExecuteNonQuery(dbCommand);
@@ -826,7 +829,7 @@ namespace SharpiTech.POS.DataModel
                 using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.UpdateSalesBill))
                 {
                     database.AddInParameter(dbCommand, "@sales_bill_id", DbType.Int32, salesBill.SalesBillId);
-                    database.AddInParameter(dbCommand, "@sales_order_id", DbType.Int32, salesBill.SalesOrderId);                    
+                    database.AddInParameter(dbCommand, "@sales_order_id", DbType.Int32, salesBill.SalesOrderId);
                     database.AddInParameter(dbCommand, "@sales_bill_date", DbType.String, salesBill.SalesBillDate);
                     database.AddInParameter(dbCommand, "@customer_id", DbType.Int32, salesBill.CustomerId);
                     database.AddInParameter(dbCommand, "@consignee_id", DbType.Int32, salesBill.ConsigneeId);
@@ -870,7 +873,7 @@ namespace SharpiTech.POS.DataModel
                 using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.UpdateSalesBill))
                 {
                     database.AddInParameter(dbCommand, "@sales_bill_id", DbType.Int32, salesBill.SalesBillId);
-                    database.AddInParameter(dbCommand, "@sales_order_id", DbType.Int32, salesBill.SalesOrderId);                    
+                    database.AddInParameter(dbCommand, "@sales_order_id", DbType.Int32, salesBill.SalesOrderId);
                     database.AddInParameter(dbCommand, "@sales_bill_date", DbType.String, salesBill.SalesBillDate);
                     database.AddInParameter(dbCommand, "@customer_id", DbType.Int32, salesBill.CustomerId);
                     database.AddInParameter(dbCommand, "@consignee_id", DbType.Int32, salesBill.ConsigneeId);
@@ -901,6 +904,40 @@ namespace SharpiTech.POS.DataModel
             }
 
             return salesBillId;
+        }
+
+        public Int32? GetSalesBillNo(Int32 salesBillId)
+        {
+            var salesBillNo = 0;
+
+            DbCommand dbCommand = null;
+
+            try
+            {
+                var query = "select sb.sales_bill_no from dbo.sales_bills sb where sb.sales_bill_id = " + salesBillId + "";
+
+                using (dbCommand = database.GetSqlStringCommand(query))
+                {
+                    using (IDataReader reader = database.ExecuteReader(dbCommand))
+                    {
+                        while (reader.Read())
+                        {
+                            salesBillNo = reader.GetInt32(reader.GetOrdinal("sales_bill_no"));
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                dbCommand = null;
+            }
+
+            return salesBillNo;
+
         }
 
         public Int32 SaveSalesBill(Entities.SalesBill salesBill)

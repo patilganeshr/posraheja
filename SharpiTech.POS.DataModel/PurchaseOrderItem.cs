@@ -21,8 +21,8 @@ namespace SharpiTech.POS.DataModel
             database = DBConnect.getDBConnection();
         }
 
-                /// <summary>
-        /// 
+        /// <summary>
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <returns></returns>
@@ -39,6 +39,8 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_item_id", DbType.Int32, purchaseOrderItem.PurchaseOrderItemId);
                     database.AddInParameter(dbCommand, "@purchase_order_id", DbType.Int32, purchaseOrderItem.PurchaseOrderId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, purchaseOrderItem.ItemId);
+                    database.AddInParameter(dbCommand, "@design_id", DbType.Int32, purchaseOrderItem.DesignId);
+                    database.AddInParameter(dbCommand, "@color_id", DbType.Int32, purchaseOrderItem.ColorId);
                     database.AddInParameter(dbCommand, "@no_of_bales", DbType.Int32, purchaseOrderItem.NoOfBales);
                     database.AddInParameter(dbCommand, "@order_qty", DbType.Decimal, purchaseOrderItem.OrderQty);
                     database.AddInParameter(dbCommand, "@unit_of_measurement_id", DbType.Int32, purchaseOrderItem.UnitOfMeasurementId);
@@ -70,7 +72,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <param name="transaction"></param>
@@ -120,7 +122,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <returns></returns>
@@ -161,7 +163,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <param name="transaction"></param>
@@ -203,7 +205,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderId"></param>
         /// <returns></returns>
@@ -228,7 +230,7 @@ namespace SharpiTech.POS.DataModel
                             PurchaseOrderId = DRE.GetNullableInt32(reader, "purchase_order_id", null),
                             ItemId = DRE.GetNullableInt32(reader, "item_id", null),
                             ItemName = DRE.GetNullableString(reader, "item_name", null),
-                            HSNCode = DRE.GetNullableString(reader,"hsn_code", null),
+                            HSNCode = DRE.GetNullableString(reader, "hsn_code", null),
                             NoOfBales = DRE.GetNullableInt32(reader, "no_of_bales", null),
                             FabricCutOutLenght = DRE.GetNullableInt32(reader, "fabric_cutout_length", null),
                             OrderQty = DRE.GetNullableDecimal(reader, "order_qty", null),
@@ -249,7 +251,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <returns></returns>
@@ -266,6 +268,8 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_item_id", DbType.Int32, purchaseOrderItem.PurchaseOrderItemId);
                     database.AddInParameter(dbCommand, "@purchase_order_id", DbType.Int32, purchaseOrderItem.PurchaseOrderId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, purchaseOrderItem.ItemId);
+                    database.AddInParameter(dbCommand, "@design_id", DbType.Int32, purchaseOrderItem.DesignId);
+                    database.AddInParameter(dbCommand, "@color_id", DbType.Int32, purchaseOrderItem.ColorId);
                     database.AddInParameter(dbCommand, "@no_of_bales", DbType.Int32, purchaseOrderItem.NoOfBales);
                     database.AddInParameter(dbCommand, "@order_qty", DbType.Decimal, purchaseOrderItem.OrderQty);
                     database.AddInParameter(dbCommand, "@unit_of_measurement_id", DbType.Int32, purchaseOrderItem.UnitOfMeasurementId);
@@ -297,7 +301,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <param name="transaction"></param>
@@ -315,11 +319,13 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_item_id", DbType.Int32, purchaseOrderItem.PurchaseOrderItemId);
                     database.AddInParameter(dbCommand, "@purchase_order_id", DbType.Int32, purchaseOrderItem.PurchaseOrderId);
                     database.AddInParameter(dbCommand, "@item_id", DbType.Int32, purchaseOrderItem.ItemId);
+                    database.AddInParameter(dbCommand, "@design_id", DbType.Int32, purchaseOrderItem.DesignId);
+                    database.AddInParameter(dbCommand, "@color_id", DbType.Int32, purchaseOrderItem.ColorId);
                     database.AddInParameter(dbCommand, "@no_of_bales", DbType.Int32, purchaseOrderItem.NoOfBales);
                     database.AddInParameter(dbCommand, "@order_qty", DbType.Decimal, purchaseOrderItem.OrderQty);
                     database.AddInParameter(dbCommand, "@unit_of_measurement_id", DbType.Int32, purchaseOrderItem.UnitOfMeasurementId);
                     database.AddInParameter(dbCommand, "@order_rate", DbType.Decimal, purchaseOrderItem.OrderRate);
-                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Int32, purchaseOrderItem.FabricCutOutLenght); database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, purchaseOrderItem.ModifiedBy);
+                    database.AddInParameter(dbCommand, "@fabric_cutout_length", DbType.Int32, purchaseOrderItem.FabricCutOutLenght);
                     database.AddInParameter(dbCommand, "@modified_by", DbType.Int32, purchaseOrderItem.ModifiedBy);
                     database.AddInParameter(dbCommand, "@modified_by_ip", DbType.String, purchaseOrderItem.ModifiedByIP);
 
@@ -346,7 +352,7 @@ namespace SharpiTech.POS.DataModel
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <returns></returns>
@@ -360,20 +366,20 @@ namespace SharpiTech.POS.DataModel
             }
             else
             {
-                if (purchaseOrderItem.IsDeleted==true)
+                if (purchaseOrderItem.IsDeleted == true)
                 {
-                    purchaseOrderItemId =  Convert.ToInt32(DeletePurchaseOrderItem(purchaseOrderItem));
+                    purchaseOrderItemId = Convert.ToInt32(DeletePurchaseOrderItem(purchaseOrderItem));
                 }
                 else if (purchaseOrderItem.ModifiedBy != null || purchaseOrderItem.ModifiedBy > 0)
                 {
-                    purchaseOrderItemId =  UpdatePurchaseOrderItem(purchaseOrderItem);
+                    purchaseOrderItemId = UpdatePurchaseOrderItem(purchaseOrderItem);
                 }
             }
             return purchaseOrderItemId;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderItem"></param>
         /// <param name="transaction"></param>

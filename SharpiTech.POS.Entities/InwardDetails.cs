@@ -52,6 +52,8 @@ namespace SharpiTech.POS.Entities
         [DatabaseColumn("vehicle_no")]
         public string VehicleNo { get; set; }
 
+        public string LRNo { get; set; }
+
         public Int32? BranchId { get; set; }
 
         public string BranchName { get; set; }

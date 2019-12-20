@@ -182,6 +182,13 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                                        <div class="form-group form-group-sm">
+                                            <label>LR No.</label>
+                                            <input type="text" id="LRNo" class="form-control" />
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </div>

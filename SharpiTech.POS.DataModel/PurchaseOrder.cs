@@ -43,7 +43,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_date", DbType.String, purchaseOrder.PurchaseOrderDate);
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
-                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Decimal, purchaseOrder.DiscountApplicableBeforePaymentDays);
                     database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
@@ -98,7 +98,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_date", DbType.String, purchaseOrder.PurchaseOrderDate);
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
-                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Decimal, purchaseOrder.DiscountApplicableBeforePaymentDays);
                     database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
@@ -317,7 +317,7 @@ namespace SharpiTech.POS.DataModel
                                 TotalOrderQty = DRE.GetNullableDecimal(reader, "total_order_qty", null),
                                 UnitCode = DRE.GetNullableString(reader, "unit_code", null),
                                 TotalOrderAmount = DRE.GetNullableDecimal(reader, "total_order_amount", null),
-                                NoOfDaysForPayment = DRE.GetNullableInt32(reader,"no_of_days_for_payment", null),
+                                NoOfDaysForPayment = DRE.GetNullableInt32(reader, "no_of_days_for_payment", null),
                                 PaymentTermId = DRE.GetNullableInt32(reader, "payment_term_id", null),
                                 DiscountApplicableBeforePaymentDays = DRE.GetNullableDecimal(reader, "discount_applicable_before_payment_days", null),
                                 DiscountRateForPayment = DRE.GetNullableDecimal(reader, "discount_rate_for_payment", null),
@@ -328,7 +328,7 @@ namespace SharpiTech.POS.DataModel
                                 BranchName = DRE.GetNullableString(reader, "branch_name", null),
                                 FinancialYear = DRE.GetNullableString(reader, "financial_year", null),
                                 WorkingPeriodId = DRE.GetNullableInt32(reader, "working_period_id", null),
-                                PurchaseOrderItems = purchaseOrderItem.GetPurchaseOrderItemsByPuchaseOrderId(DRE.GetInt32(reader, "purchase_order_id"))                                
+                                PurchaseOrderItems = purchaseOrderItem.GetPurchaseOrderItemsByPuchaseOrderId(DRE.GetInt32(reader, "purchase_order_id"))
                             };
 
                             purchaseOrders.Add(purchaseOrder);
@@ -426,11 +426,11 @@ namespace SharpiTech.POS.DataModel
                                 PurchaseOrderDate = DRE.GetNullableString(reader, "purchase_order_date", null),
                                 PaymentTermId = DRE.GetNullableInt32(reader, "payment_term_id", null),
                                 DiscountRateForPayment = DRE.GetNullableDecimal(reader, "discount_rate_for_payment", null),
-                                DiscountApplicableBeforePaymentDays = DRE.GetNullableInt32(reader, "discount_applicable_before_payment_days", null),
+                                DiscountApplicableBeforePaymentDays = DRE.GetNullableDecimal(reader, "discount_applicable_before_payment_days", null),
                                 NoOfDaysForPayment = DRE.GetNullableInt32(reader, "no_of_days_for_payment", null),
                                 Remarks = DRE.GetNullableString(reader, "remarks", null),
                                 TermShortCode = DRE.GetNullableString(reader, "term_short_code", null),
-                                OrderStatus = DRE.GetNullableString(reader,"order_status", null),
+                                OrderStatus = DRE.GetNullableString(reader, "order_status", null),
                                 CompanyId = DRE.GetNullableInt32(reader, "company_id", null),
                                 CompanyName = DRE.GetNullableString(reader, "company_name", null),
                                 BranchId = DRE.GetNullableInt32(reader, "branch_id", null),
@@ -466,7 +466,7 @@ namespace SharpiTech.POS.DataModel
 
             try
             {
-                using(dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetVendorsByPurchaseOrderNo))
+                using (dbCommand = database.GetStoredProcCommand(DBStoredProcedure.GetVendorsByPurchaseOrderNo))
                 {
                     database.AddInParameter(dbCommand, "@working_period_id", DbType.Int32, purchaseOrder.WorkingPeriodId);
                     database.AddInParameter(dbCommand, "@purchase_order_no", DbType.String, purchaseOrder.PurchaseOrderNo);
@@ -486,7 +486,7 @@ namespace SharpiTech.POS.DataModel
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -494,7 +494,7 @@ namespace SharpiTech.POS.DataModel
             {
                 dbCommand = null;
             }
-           
+
             return vendors;
         }
 
@@ -587,7 +587,7 @@ namespace SharpiTech.POS.DataModel
                                 PurchaseOrderDate = DRE.GetNullableString(reader, "purchase_order_date", null),
                                 PaymentTermId = DRE.GetNullableInt32(reader, "payment_term_id", null),
                                 DiscountRateForPayment = DRE.GetNullableDecimal(reader, "discount_rate_for_payment", null),
-                                DiscountApplicableBeforePaymentDays = DRE.GetNullableInt32(reader, "discount_applicable_before_payment_days", null),
+                                DiscountApplicableBeforePaymentDays = DRE.GetNullableDecimal(reader, "discount_applicable_before_payment_days", null),
                                 NoOfDaysForPayment = DRE.GetNullableInt32(reader, "no_of_days_for_payment", null),
                                 Remarks = DRE.GetNullableString(reader, "remarks", null),
                                 CompanyId = DRE.GetNullableInt32(reader, "company_id", null),
@@ -684,7 +684,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_date", DbType.String, purchaseOrder.PurchaseOrderDate);
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
-                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Decimal, purchaseOrder.DiscountApplicableBeforePaymentDays);
                     database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
@@ -739,7 +739,7 @@ namespace SharpiTech.POS.DataModel
                     database.AddInParameter(dbCommand, "@purchase_order_date", DbType.String, purchaseOrder.PurchaseOrderDate);
                     database.AddInParameter(dbCommand, "@payment_term_id", DbType.Int32, purchaseOrder.PaymentTermId);
                     database.AddInParameter(dbCommand, "@discount_rate_for_payment", DbType.Decimal, purchaseOrder.DiscountRateForPayment);
-                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Int32, purchaseOrder.DiscountApplicableBeforePaymentDays);
+                    database.AddInParameter(dbCommand, "@discount_applicable_before_payment_days", DbType.Decimal, purchaseOrder.DiscountApplicableBeforePaymentDays);
                     database.AddInParameter(dbCommand, "@expected_delivery_date", DbType.String, purchaseOrder.ExpectedDeliveryDate);
                     database.AddInParameter(dbCommand, "@no_of_days_for_payment", DbType.Int32, purchaseOrder.NoOfDaysForPayment);
                     database.AddInParameter(dbCommand, "@remarks", DbType.String, purchaseOrder.Remarks);
@@ -770,9 +770,9 @@ namespace SharpiTech.POS.DataModel
 
             return purchaseOrderId;
         }
-        
+
         ///// <summary>
-        ///// 
+        /////
         ///// </summary>
         ///// <param name="purchaseOrderId"></param>
         ///// <returns></returns>
@@ -811,7 +811,7 @@ namespace SharpiTech.POS.DataModel
         //}
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="purchaseOrderId"></param>
         /// <returns></returns>
@@ -911,7 +911,8 @@ namespace SharpiTech.POS.DataModel
 
                             if (purchaseOrderId > 0)
                             {
-                                if (purchaseOrder.PurchaseOrderItems != null) {
+                                if (purchaseOrder.PurchaseOrderItems != null)
+                                {
 
                                     foreach (Entities.PurchaseOrderItem purchaseOrderItem in purchaseOrder.PurchaseOrderItems)
                                     {
